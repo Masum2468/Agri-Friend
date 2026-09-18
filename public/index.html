@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriSphere - Smart Agriculture Portal & Management</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Premium Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriSphere</span>
+    </a>
+    <nav>
+      <a href="#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather Advisory</a>
+      <a href="knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Ag-Guides</a>
+      <a href="marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
+      </button>
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In / Register</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1><span data-i18n="hero_title_1">Empowering Farmers with</span> <br><span data-i18n="hero_title_2">Smart Digital Agriculture</span></h1>
+      <div class="hero-actions">
+        <a href="#weather" class="btn btn-primary" data-i18n="hero_weather_btn"><i class="fa-solid fa-cloud-showers-water"></i> Check Weather Advice</a>
+        <a href="/login" class="btn btn-outline" id="hero-dashboard-btn" data-i18n="hero_dashboard_btn"><i class="fa-solid fa-chalkboard-user"></i> Go to My Farm Dashboard</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weather & Advisory Section -->
+  <section id="weather" class="module">
+    <div class="section-header">
+      <h2 data-i18n="weather_section_title">Weather-Driven Farm Advisory</h2>
+      <p data-i18n="weather_section_desc">Enter your location below. Our engine analyzes meteorological parameters to deliver customized farming actions, spray safety advisories, and irrigation plans.</p>
+    </div>
+
+    <div class="weather-module">
+      <div class="weather-container">
+        <!-- Left Panel: Search & Visual Weather Status -->
+        <!-- <div style="display: flex; flex-direction: column; gap: 20px;"> -->
+          <div class="weather-search">
+            <h3><i class="fa-solid fa-cloud-sun"></i> <span data-i18n="weather_report_title">Location Weather</span></h3>
+            <div class="search-bar-group">
+              <input type="text" id="weather-city-input" list="bd-districts" placeholder="Search District (e.g. Dhaka, Bogura)..." data-i18n-placeholder="weather_search_placeholder" value="Dhaka">
+              <datalist id="bd-districts">
+                <!-- All 64 Districts of Bangladesh -->
+                <option value="Dhaka">Dhaka / ঢাকা</option>
+                <option value="Gazipur">Gazipur / গাজীপুর</option>
+                <option value="Narayanganj">Narayanganj / নারায়ণগঞ্জ</option>
+                <option value="Tangail">Tangail / টাঙ্গাইল</option>
+                <option value="Narsingdi">Narsingdi / নরসিংদী</option>
+                <option value="Manikganj">Manikganj / মানিকগঞ্জ</option>
+                <option value="Munshiganj">Munshiganj / মুন্সীগঞ্জ</option>
+                <option value="Faridpur">Faridpur / ফরিদপুর</option>
+                <option value="Gopalganj">Gopalganj / গোপালগঞ্জ</option>
+                <option value="Madaripur">Madaripur / মাদারীপুর</option>
+                <option value="Rajbari">Rajbari / রাজবাড়ী</option>
+                <option value="Shariatpur">Shariatpur / শরীয়তপুর</option>
+                <option value="Kishoreganj">Kishoreganj / কিশোরগঞ্জ</option>
+                <option value="Chattogram">Chattogram / চট্টগ্রাম</option>
+                <option value="Cox's Bazar">Cox's Bazar / কক্সবাজার</option>
+                <option value="Cumilla">Cumilla / কুমিল্লা</option>
+                <option value="Feni">Feni / ফেনী</option>
+                <option value="Brahmanbaria">Brahmanbaria / ব্রাহ্মণবাড়িয়া</option>
+                <option value="Noakhali">Noakhali / নোয়াখালী</option>
+                <option value="Chandpur">Chandpur / চাঁদপুর</option>
+                <option value="Lakshmipur">Lakshmipur / লক্ষ্মীপুর</option>
+                <option value="Rangamati">Rangamati / রাঙ্গামাটি</option>
+                <option value="Bandarban">Bandarban / বান্দরবান</option>
+                <option value="Khagrachhari">Khagrachhari / খাগড়াছড়ি</option>
+                <option value="Rajshahi">Rajshahi / রাজশাহী</option>
+                <option value="Bogura">Bogura / বগুড়া</option>
+                <option value="Pabna">Pabna / পাবনা</option>
+                <option value="Sirajganj">Sirajganj / সিরাজগঞ্জ</option>
+                <option value="Naogaon">Naogaon / নওগাঁ</option>
+                <option value="Natore">Natore / নাটোর</option>
+                <option value="Chapainawabganj">Chapainawabganj / চাঁপাইনবাবগঞ্জ</option>
+                <option value="Joypurhat">Joypurhat / জয়পুরহাট</option>
+                <option value="Khulna">Khulna / খুলনা</option>
+                <option value="Jashore">Jashore / যশোর</option>
+                <option value="Satkhira">Satkhira / সাতক্ষীরা</option>
+                <option value="Bagerhat">Bagerhat / বাগেরহাট</option>
+                <option value="Kushtia">Kushtia / কুষ্টিয়া</option>
+                <option value="Chuadanga">Chuadanga / চুয়াডাঙ্গা</option>
+                <option value="Meherpur">Meherpur / মেহেরপুর</option>
+                <option value="Jhenaidah">Jhenaidah / ঝিনাইদহ</option>
+                <option value="Magura">Magura / মাগুরা</option>
+                <option value="Narail">Narail / নড়াইল</option>
+                <option value="Barishal">Barishal / বরিশাল</option>
+                <option value="Patuakhali">Patuakhali / পটুয়াখালী</option>
+                <option value="Bhola">Bhola / ভোলা</option>
+                <option value="Pirojpur">Pirojpur / পিরোজপুর</option>
+                <option value="Barguna">Barguna / বরগুনা</option>
+                <option value="Jhalokathi">Jhalokathi / ঝালকাঠি</option>
+                <option value="Sylhet">Sylhet / সিলেট</option>
+                <option value="Moulvibazar">Moulvibazar / মৌলভীবাজার</option>
+                <option value="Habiganj">Habiganj / হবিগঞ্জ</option>
+                <option value="Sunamganj">Sunamganj / সুনামগঞ্জ</option>
+                <option value="Rangpur">Rangpur / রংপুর</option>
+                <option value="Dinajpur">Dinajpur / দিনাজপুর</option>
+                <option value="Gaibandha">Gaibandha / গাইবান্ধা</option>
+                <option value="Kurigram">Kurigram / কুড়িগ্রাম</option>
+                <option value="Lalmonirhat">Lalmonirhat / লালমনিরহাট</option>
+                <option value="Nilphamari">Nilphamari / নীলফামারী</option>
+                <option value="Panchagarh">Panchagarh / পঞ্চগড়</option>
+                <option value="Thakurgaon">Thakurgaon / ঠাকুরগাঁও</option>
+                <option value="Mymensingh">Mymensingh / ময়মনসিংহ</option>
+                <option value="Jamalpur">Jamalpur / জামালপুর</option>
+                <option value="Netrokona">Netrokona / নেত্রকোণা</option>
+                <option value="Sherpur">Sherpur / শেরপুর</option>
+              </datalist>
+              <button id="weather-search-btn" data-i18n="weather_search_btn"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+            </div>
+            
+            <!-- Quick District Selector Chips -->
+            <div class="district-chips" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
+              <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-light); align-self: center;" data-i18n="quick_districts_label">Popular Districts:</span>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Dhaka')">Dhaka</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Naogaon')">Naogaon</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Chattogram')">Chattogram</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Rajshahi')">Rajshahi</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Khulna')">Khulna</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Barishal')">Barishal</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Sylhet')">Sylhet</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Rangpur')">Rangpur</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Mymensingh')">Mymensingh</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Bogura')">Bogura</button>
+              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Pirojpur')">Pirojpur</button>
+            </div>
+
+            <div id="weather-status-label" style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;"></div>
+          </div>
+
+          <div class="weather-info" id="weather-display">
+            <!-- Dynamically populated by JS (stunning layout) -->
+            <div class="weather-main-info">
+              <div class="weather-temp-container">
+                <span class="weather-temp-num">28</span>
+                <span class="weather-temp-deg">°C</span>
+                <i class="fa-solid fa-cloud-sun weather-main-icon"></i>
+              </div>
+              <div class="weather-meta">
+                <div class="weather-location-badge"><i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh</div>
+                <div class="weather-condition-text"id="weather-condition">Partly Cloudy</div>
+              </div>
+            </div>
+            <div class="weather-stats-grid">
+              <div class="weather-stat-card">
+                <div class="stat-icon-wrapper humidity-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div class="stat-detail">
+                  <span class="stat-label" data-i18n="weather_humidity_label">Humidity</span>
+                  <span class="stat-val" id="weather-humidity">65%</span>
+                </div>
+              </div>
+              <div class="weather-stat-card">
+                <div class="stat-icon-wrapper wind-icon"><i class="fa-solid fa-wind"></i></div>
+                <div class="stat-detail">
+                  <span class="stat-label" data-i18n="weather_wind_label">Wind Speed</span>
+                  <span class="stat-val" id="weather-wind">12 km/h</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Panel: Smart Advisory Alerts -->
+        <div class="weather-right-panel">
+          <h3><i class="fa-solid fa-seedling"></i> <span data-i18n="weather_advice_title">Farming Recommendations</span></h3>
+          <div class="weather-advice-box" id="weather-advice-list">
+            <!-- Dynamically populated with beautiful colored alert cards by JS -->
+            <div class="advice-card advice-success">
+              <div class="advice-icon-box"><i class="fa-solid fa-faucet-drip"></i></div>
+              <div class="advice-content-text">Standard irrigation schedule recommended.</div>
+            </div>
+            <div class="advice-card advice-success">
+              <div class="advice-icon-box"><i class="fa-solid fa-wind"></i></div>
+              <div class="advice-content-text">Calm winds. Perfect time for spraying organic pesticides or foliar feeds.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marketplace Section -->
+  <section id="marketplace" class="module" style="background-color: #ecf3ee;">
+    <div class="section-header">
+      <h2 data-i18n="marketplace_section_title">Equipment & Seed Marketplace</h2>
+      <p data-i18n="marketplace_section_desc">Rent tractors, exchange seeds, or buy tools directly from verified farmers in your community.</p>
+    </div>
+
+    <div class="market-header">
+      <h3 style="color: var(--primary); font-weight: 700;" data-i18n="marketplace_community_title">Community Listings</h3>
+      <button class="btn btn-primary" id="post-listing-btn" style="display: inline-flex;" onclick="openListingModal()" data-i18n="marketplace_post_btn">
+        <i class="fa-solid fa-circle-plus"></i> Post a Listing
+      </button>
+    </div>
+
+    <div class="cards-grid" id="market-grid">
+      <!-- Dynamically populated by JS -->
+    </div>
+  </section>
+
+  <!-- Create Listing Modal -->
+  <div class="modal" id="listing-modal">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_title">Create Marketplace Listing</h3>
+        <button class="close-btn" onclick="closeListingModal()">&times;</button>
+      </div>
+      <form id="create-listing-form" onsubmit="handleCreateListing(event)">
+        <div class="form-group">
+          <label for="list-title" data-i18n="form_title_label">Listing Title</label>
+          <input type="text" id="list-title" required placeholder="e.g. Hand Seeder for Sale, Power Tiller for Rent" data-i18n-placeholder="form_title_placeholder">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label for="list-itemtype" data-i18n="form_itemtype_label">Item Type</label>
+            <select id="list-itemtype" required>
+              <option value="Equipment" data-i18n="opt_equipment">Equipment</option>
+              <option value="Seed" data-i18n="opt_seed">Seeds / Plants</option>
+              <option value="Crop" data-i18n="opt_crop">Crops</option>
+              <option value="Service" data-i18n="opt_service">Labor / Service</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="list-dealtype" data-i18n="form_dealtype_label">Listing Category</label>
+            <select id="list-dealtype" required>
+              <option value="Sale" data-i18n="opt_sale">For Sale</option>
+              <option value="Rent" data-i18n="opt_rent">For Rent</option>
+              <option value="Share" data-i18n="opt_share">Free Share</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label for="list-price" data-i18n="form_price_label">Price (TK)</label>
+            <input type="number" id="list-price" required min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label for="list-contact" data-i18n="form_contact_label">Contact Info</label>
+            <input type="text" id="list-contact" required placeholder="e.g. Phone number, Email" data-i18n-placeholder="form_contact_placeholder">
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_image_label">Upload Picture (Optional)</label>
+          <div class="file-upload-wrapper">
+            <input type="file" id="list-image-file" accept="image/*" onchange="previewUploadImage(this)" style="display: none;">
+            <label for="list-image-file" class="file-upload-box">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span id="upload-label-text" data-i18n="choose_file_btn">Click to browse & upload item photo</span>
+              <small data-i18n="upload_auto_hint">(Leave blank for automatic smart picture)</small>
+            </label>
+          </div>
+          <div id="image-preview-container" style="display: none; margin-top: 6px; position: relative; width: fit-content;">
+            <img id="image-preview-img" src="" alt="Preview" style="max-height: 85px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border-color); display: block;">
+            <button type="button" onclick="clearImagePreview()" style="position: absolute; top: 4px; right: 4px; background: rgba(220,38,38,0.9); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;" title="Remove image">&times;</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="list-desc" data-i18n="form_desc_label">Item Description</label>
+          <textarea id="list-desc" rows="2" placeholder="Mention item age, condition, delivery availability, etc." data-i18n-placeholder="form_desc_placeholder"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 6px; padding: 10px;" data-i18n="form_submit_btn">Submit Post</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Premium Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-brand">
+        <h3>AgriSphere</h3>
+        <p data-i18n="footer_brand_desc">A smart, digital hub designed for local farmers. Access guides, manage crop records, optimize inventory stock levels, and coordinate local marketplaces in a single application.</p>
+      </div>
+      <div class="footer-links">
+        <h4 data-i18n="footer_section_title">Sections</h4>
+        <ul>
+          <li><a href="#weather" data-i18n="nav_weather">Weather Advisory</a></li>
+          <li><a href="knowledgehub.html" data-i18n="nav_guides">Knowledge Database</a></li>
+          <li><a href="#marketplace" data-i18n="nav_marketplace">Marketplace Hub</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4 data-i18n="footer_user_console">User Console</h4>
+        <ul>
+          <li><a href="/login" data-i18n="footer_farmer_signin">Farmer Sign In</a></li>
+          <li><a href="/login?tab=register" data-i18n="footer_register_farm">Register Farm</a></li>
+          <li><a href="/admin" data-i18n="footer_admin_panel">Administrative Panel</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright" data-i18n="footer_copyright">
+      &copy; 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+    </div>
+  </footer>
+
+  <script src="/js/lang.js?v=10"></script>
+  <script src="/js/main.js?v=10"></script>
+</body>
+</html>
+

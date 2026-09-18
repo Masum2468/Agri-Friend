@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSphere - Ag-Guides</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/knowledge.css">
+</head>
+<body>
+  <!-- Premium Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriSphere</span>
+    </a>
+    <nav>
+      <a href="/#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather Advisory</a>
+      <a href="knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Ag-Guides</a>
+      <a href="marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
+      </button>
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In / Register</a>
+      </div>
+    </nav>
+  </header>
+
+    <!-- Reference Libraries (Tabs Layout) -->
+  <section id="guides" class="module">
+    <div class="section-header">
+      <h2 data-i18n="guides_title">Agricultural Knowledge Hub</h2>
+      <p data-i18n="guides_desc">Search through crop catalogs, plant diagnostic charts, fertilization guides, and safe chemical pesticide usage policies.</p>
+    </div>
+
+    <div class="tabs-container">
+      <div class="tabs-header glass">
+        <button class="tab-btn active" onclick="switchTab('crops')" data-i18n="tab_crops"><i class="fa-solid fa-seedling"></i> Crop & Seed Catalog</button>
+        <button class="tab-btn" onclick="switchTab('diseases')" data-i18n="tab_diseases"><i class="fa-solid fa-bug"></i> Disease Library</button>
+        <button class="tab-btn" onclick="switchTab('fertilizers')" data-i18n="tab_fertilizers"><i class="fa-solid fa-flask"></i> Fertilizer Advisor</button>
+        <button class="tab-btn" onclick="switchTab('pesticides')" data-i18n="tab_pesticides"><i class="fa-solid fa-shield-virus"></i> Pesticide Guide</button>
+      </div>
+
+      <div class="search-box-guide">
+        <input type="text" id="guide-search-input" placeholder="Search guides (e.g. Wheat, Rust, Organic)..." data-i18n-placeholder="search_guides_placeholder" oninput="searchGuides()">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </div>
+
+      <div class="cards-grid" id="guides-grid">
+        <!-- Dynamically populated by JS -->
+      </div>
+    </div>
+  </section>
+    <!-- Footer -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+      © 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+    </div>
+  </footer>
+   <script src="/js/lang.js"></script>
+   <script src="/js/main.js"></script>
+</body>
+</html>

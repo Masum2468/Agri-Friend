@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriSphere - Sign In & Registration</title>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+  <style>
+    
+      body{
+        background-image: url('pic3.jpg');
+        background-size: cover;
+      }
+    .auth-wrapper {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      background: radial-gradient(circle at 10% 20%, rgba(82, 183, 136, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 90% 80%, rgba(45, 106, 79, 0.15) 0%, transparent 60%);
+    }
+
+    .auth-card {
+      width:600px;
+      max-width: 580px;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 30px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 8px;
+    }
+    .auth-tab {
+      background: transparent;
+      border: none;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--text-light);
+      cursor: pointer;
+      padding-bottom: 8px;
+      text-align: center;
+      transition: var(--transition);
+    }
+
+    .auth-tab.active {
+      color: var(--primary);
+      border-bottom: 3px solid var(--primary-light);
+    }
+
+    .form-container {
+      display: none;
+    }
+
+    .form-container.active {
+      display: block;
+      animation: tabFade 0.3s ease-out;
+    }
+
+    @keyframes tabFade {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .form-header {
+      margin-bottom: 25px;
+      text-align: center;
+    }
+
+    .form-header h2 {
+      font-size: 1.8rem;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .form-header p {
+      color: var(--text-light);
+      font-size: 0.95rem;
+    }
+
+    .alert-box {
+      background-color: #ffe3e3;
+      border-left: 4px solid #c92a2a;
+      color: #c92a2a;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      font-size: 0.9rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriSphere</span>
+    </a>
+    <nav style="display: flex; align-items: center; gap: 10px;">
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
+      </button>
+      <a href="/" data-i18n="nav_back"><i class="fa-solid fa-circle-arrow-left"></i> Back to Portal</a>
+    </nav>
+  </header>
+
+  <!-- Auth Card Module -->
+  <div class="auth-wrapper">
+    <div class="auth-card glass">
+      
+      <!-- Toggle Tabs -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="toggleAuthTab('login')" data-i18n="auth_tab_login">Sign In</button>
+        <button class="auth-tab" id="tab-register" onclick="toggleAuthTab('register')" data-i18n="auth_tab_register">Register Farm</button>
+      </div>
+
+      <!-- General Error Box -->
+      <div id="error-alert" class="alert-box">
+        <i class="fa-solid fa-triangle-exclamation"></i> <span id="error-message">Error message goes here</span>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="login-container" class="form-container active">
+        <div class="form-header">
+          <h2 data-i18n="login_title">Welcome Back</h2>
+          <p data-i18n="login_subtitle">Access your crop scheduler and inventories logs</p>
+        </div>
+        <form id="login-form" onsubmit="handleLoginSubmit(event)">
+          <div class="form-group">
+            <label for="login-username" data-i18n="login_username_label">Username</label>
+            <input type="text" id="login-username" required placeholder="farmer">
+          </div>
+          <div class="form-group">
+            <label for="login-password" data-i18n="login_password_label">Password</label>
+            <input type="password" id="login-password" required placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" data-i18n="login_submit_btn">
+            <i class="fa-solid fa-right-to-bracket"></i> Sign In
+          </button>
+        </form>
+        <div style="text-align: center; margin-top: 20px; font-size: 0.9rem; color: var(--text-light);">
+        </div>
+      </div>
+
+      <!-- REGISTRATION FORM -->
+      <div id="register-container" class="form-container">
+        <div class="form-header">
+          <h2 data-i18n="register_title">Create Account</h2>
+          <p data-i18n="register_subtitle">Join the AgriSphere community network</p>
+        </div>
+        <form id="register-form" onsubmit="handleRegisterSubmit(event)">
+          <div class="form-group">
+            <label for="reg-username" data-i18n="register_username_label">Username</label>
+            <input type="text" id="reg-username" required placeholder="e.g. greenfarmer">
+          </div>
+          <div class="form-group">
+            <label for="reg-password" data-i18n="register_password_label">Password</label>
+            <input type="password" id="reg-password" required placeholder="••••••••">
+          </div>
+          <div class="form-group">
+            <label for="reg-contact" data-i18n="register_contact_label">Contact Phone</label>
+            <input type="text" id="reg-contact" required placeholder="e.g. 01844776321">
+          </div>
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" data-i18n="register_submit_btn">
+            <i class="fa-solid fa-user-plus"></i> Initialize Account
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+      © 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+    </div>
+  </footer>
+
+  <script src="/js/lang.js"></script>
+
+
+  <script>
+    // Extract query tabs on load
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const activeTab = params.get('tab');
+      if (activeTab === 'register') {
+        toggleAuthTab('register');
+      }
+    });
+    function toggleAuthTab(tabName) {
+      // Clear alert box
+      document.getElementById('error-alert').style.display = 'none';
+      
+      // Toggle tab classes
+      const tabs = document.querySelectorAll('.auth-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+
+      // Toggle container visibility
+      const containers = document.querySelectorAll('.form-container');
+      containers.forEach(c => c.classList.remove('active'));
+      document.getElementById(`${tabName}-container`).classList.add('active');
+    }
+    
+    function showError(msg) {
+      const box = document.getElementById('error-alert');
+      const text = document.getElementById('error-message');
+      text.innerText = msg;
+      box.style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      document.getElementById('error-alert').style.display = 'none';
+
+      const username = document.getElementById('login-username').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      try {
+        const res = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          if (data.role === 'admin') {
+            window.location.href = '/admin';
+          } else {
+            window.location.href = '/dashboard';
+          }
+        } else {
+          showError(data.message || 'Authentication failed. Please verify credentials.');
+        }
+      } catch (err) {
+        showError('Network connectivity error. Please try again.');
+      }
+    }
+
+    async function handleRegisterSubmit(e) {
+      e.preventDefault();
+      document.getElementById('error-alert').style.display = 'none';
+      const username = document.getElementById('reg-username').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const contact = document.getElementById('reg-contact').value.trim();
+      try {
+        const res = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password, contact })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          window.location.href = '/dashboard';
+        } else {
+          showError(data.message || 'Registration failed. Try a different username.');
+        }
+      } catch (err) {
+        showError('Network connectivity error. Please try again.');
+      }
+    }
+  </script>
+</body>
+</html>

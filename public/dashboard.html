@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriSphere - Farmer Console</title>
+  <!-- FontAwesome Icons & Chart.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+  <div class="dashboard-layout">
+    <!-- Collapsible Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="/" class="logo">
+          <i class="fa-solid fa-seedling"></i>
+          <span>AgriSphere</span>
+        </a>
+      </div>
+      <div class="sidebar-menu">
+        <a class="sidebar-item active" onclick="switchSection('overview')">
+          <i class="fa-solid fa-chart-line"></i>
+          <span data-i18n="dash_menu_overview">Overview</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('farms')">
+          <i class="fa-solid fa-map"></i>
+          <span data-i18n="dash_menu_farms">Farm Fields</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('crops')">
+          <i class="fa-solid fa-wheat-awn"></i>
+          <span data-i18n="dash_menu_crops">Crops Track</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('inventory')">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <span data-i18n="dash_menu_inventory">Inventory Logs</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('equipment')">
+          <i class="fa-solid fa-tractor"></i>
+          <span data-i18n="dash_menu_equipment">Equipment Logs</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('finance')">
+          <i class="fa-solid fa-wallet"></i>
+          <span data-i18n="dash_menu_finance">Financials</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('harvest')">
+          <i class="fa-solid fa-basket-shopping"></i>
+          <span data-i18n="dash_menu_harvest">Harvests & Sales</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('reports')">
+          <i class="fa-solid fa-square-poll-vertical"></i>
+          <span data-i18n="dash_menu_reports">Charts & Reports</span>
+        </a>
+        <a class="sidebar-item" onclick="switchSection('notifications')">
+          <i class="fa-solid fa-bell"></i>
+          <span data-i18n="dash_menu_notifications">Alert Center</span>
+        </a>
+        <a href="/marketpalce.html" class="sidebar-item">
+          <i class="fa-solid fa-store"></i>
+          <span data-i18n="nav_marketplace">Marketplace</span>
+        </a>
+      </div>
+      <div class="sidebar-footer">
+        <a href="#" onclick="handleLogout()" class="sidebar-item" style="color: #ff8787;">
+          <i class="fa-solid fa-power-off"></i>
+          <span data-i18n="dash_signout">Sign Out</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Dashboard Section -->
+    <main class="main-panel">
+      
+      <!-- Top Dashboard Header -->
+      <header class="dash-header">
+        <div>
+          <h1 id="dash-title" data-i18n="dash_header_title">Farmer Console</h1>
+          <p style="color: var(--text-light); font-size: 0.95rem;" id="dash-subtitle" data-i18n="dash_header_subtitle">Real-time agricultural statistics & records</p>
+        </div>
+        <div class="user-profile-widget">
+          <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-right: 10px;">
+            <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
+          </button>
+          <button class="notification-badge-btn" onclick="switchSection('notifications')">
+            <i class="fa-regular fa-bell"></i>
+            <span class="badge-count" id="notification-count">0</span>
+          </button>
+          <div class="profile-pill">
+            <i class="fa-solid fa-user-gear"></i>
+            <span id="user-display-name">Farmer Console</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- METRIC STATUS CARDS (COMMON OVERVIEWS) -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div>
+            <h3 data-i18n="metric_revenue">Total Revenue</h3>
+            <div class="val" id="card-total-revenue">0TK</div>
+          </div>
+          <div class="stat-icon stat-income"><i class="fa-solid fa-coins"></i></div>
+        </div>
+        <div class="stat-card">
+          <div>
+            <h3 data-i18n="metric_expenses">Total Expenses</h3>
+            <div class="val" id="card-total-expenses">0TK</div>
+          </div>
+          <div class="stat-icon stat-expense"><i class="fa-solid fa-receipt"></i></div>
+        </div>
+        <div class="stat-card">
+          <div>
+            <h3 data-i18n="metric_active_crops">Active Crops</h3>
+            <div class="val" id="card-active-crops">0</div>
+          </div>
+          <div class="stat-icon stat-crops"><i class="fa-solid fa-seedling"></i></div>
+        </div>
+        <div class="stat-card">
+          <div>
+            <h3 data-i18n="metric_low_stock">Low Stock Items</h3>
+            <div class="val" id="card-low-stock">0</div>
+          </div>
+          <div class="stat-icon stat-inventory"><i class="fa-solid fa-circle-exclamation"></i></div>
+        </div>
+      </div>
+
+
+      <!-- ==============================================
+           SECTION: OVERVIEW
+           ============================================== -->
+      <div id="section-overview" class="dash-section active">
+        <div class="dash-grid">
+          
+          <!-- Recent Active Crops -->
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h2 data-i18n="overview_crops_title">Recent Crop Timelines</h2>
+              <button class="btn btn-outline" style="padding: 6px 12px; font-size:0.85rem;" onclick="switchSection('crops')" data-i18n="overview_crops_btn">Manage Crops</button>
+            </div>
+            <div class="table-wrapper">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th data-i18n="th_crop_variety">Crop / Variety</th>
+                    <th data-i18n="th_date_planted">Date Planted</th>
+                    <th data-i18n="th_expected_harvest">Expected Harvest</th>
+                    <th data-i18n="th_status">Status</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-crops-table">
+                  <!-- JS populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Weather Integration Sidebar -->
+          <div class="dash-card">
+            <div class="dash-card-header">
+              <h2 data-i18n="overview_weather_title">Quick Weather</h2>
+              <select id="dash-weather-district-select" onchange="fetchDashboardWeather(this.value)" style="padding: 4px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-surface); font-size: 0.82rem; color: var(--text-main); outline: none;">
+                <option value="Dhaka">Dhaka / ঢাকা</option>
+                <option value="Naogaon">Naogaon / নওগাঁ</option>
+                <option value="Rajshahi">Rajshahi / রাজশাহী</option>
+                <option value="Bogura">Bogura / বগুড়া</option>
+                <option value="Chattogram">Chattogram / চট্টগ্রাম</option>
+                <option value="Khulna">Khulna / খুলনা</option>
+                <option value="Barishal">Barishal / বরিশাল</option>
+                <option value="Sylhet">Sylhet / সিলেট</option>
+                <option value="Rangpur">Rangpur / রংপুর</option>
+                <option value="Mymensingh">Mymensingh / ময়মনসিংহ</option>
+                <option value="Pirojpur">Pirojpur / পিরোজপুর</option>
+              </select>
+            </div>
+            <div style="background-color: var(--primary); color: white; border-radius: var(--radius-sm); padding: 20px; display:flex; flex-direction:column; gap:12px;">
+              <div style="font-size: 1.1rem; font-weight: 700;" id="dash-weather-location">Loading Location...</div>
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size: 2.2rem; font-weight:800;" id="dash-weather-temp">--°C</span>
+                <span id="dash-weather-condition" style="font-weight: 500;">Clear</span>
+              </div>
+              <hr style="border:0; border-top:1px solid rgba(255,255,255,0.15)">
+              <div style="font-size:0.85rem; line-height: 1.4;" id="dash-weather-advice">Checking agricultural advice...</div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="dash-grid">
+          <!-- Recent Income & Expenses -->
+          <div class="dash-card" style="grid-column: 1 / -1;">
+            <div class="dash-card-header">
+              <h2 data-i18n="overview_transactions_title">Recent Transactions</h2>
+              <button class="btn btn-outline" style="padding: 6px 12px; font-size:0.85rem;" onclick="switchSection('finance')" data-i18n="overview_transactions_btn">All Logs</button>
+            </div>
+            <div class="table-wrapper">
+              <table class="custom-table">
+                <thead>
+                  <tr>
+                    <th data-i18n="th_date">Date</th>
+                    <th data-i18n="th_category">Category</th>
+                    <th data-i18n="th_type">Type</th>
+                    <th data-i18n="th_amount">Amount</th>
+                    <th data-i18n="th_description">Description</th>
+                  </tr>
+                </thead>
+                <tbody id="overview-finance-table">
+                  <!-- JS populated -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: FARM FIELDS
+           ============================================== -->
+      <div id="section-farms" class="dash-section">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2 data-i18n="farms_sec_title">Farm fields and Plots</h2>
+            <button class="btn btn-primary" onclick="openModal('farm')" data-i18n="farms_add_btn"><i class="fa-solid fa-circle-plus"></i> Add New Field</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th data-i18n="th_field_name">Field Name</th>
+                  <th data-i18n="th_location">Location</th>
+                  <th data-i18n="th_size_acres">Size (Acres)</th>
+                  <th data-i18n="th_soil_type">Soil Type</th>
+                  <th data-i18n="th_description">Description</th>
+                  <th data-i18n="th_actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="farms-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: CROPS TRACK
+           ============================================== -->
+      <div id="section-crops" class="dash-section">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2 data-i18n="crops_sec_title">Seasonal Crops Tracking</h2>
+            <button class="btn btn-primary" onclick="openModal('crop')" data-i18n="crops_add_btn"><i class="fa-solid fa-circle-plus"></i> Plant Crop</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th data-i18n="th_crop_name">Crop Name</th>
+                  <th data-i18n="th_variety">Variety</th>
+                  <th data-i18n="th_field_plot">Field / Plot</th>
+                  <th data-i18n="th_planting_date">Planting Date</th>
+                  <th data-i18n="th_expected_harvest">Expected Harvest</th>
+                  <th data-i18n="th_status">Status</th>
+                  <th data-i18n="th_notes">Notes</th>
+                  <th data-i18n="th_actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="crops-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: INVENTORY LOGS
+           ============================================== -->
+      <div id="section-inventory" class="dash-section">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2 data-i18n="inv_sec_title">Fertilizer & Inventory Stock</h2>
+            <button class="btn btn-primary" onclick="openModal('inventory')" data-i18n="inv_add_btn"><i class="fa-solid fa-circle-plus"></i> Add Stock Item</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th data-i18n="th_item_name">Item Name</th>
+                  <th data-i18n="th_category">Category</th>
+                  <th data-i18n="th_current_stock">Current Stock</th>
+                  <th data-i18n="th_unit">Unit</th>
+                  <th data-i18n="th_safety_threshold">Safety Threshold</th>
+                  <th data-i18n="th_notes">Notes</th>
+                  <th data-i18n="th_actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="inventory-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: EQUIPMENT LOGS
+           ============================================== -->
+      <div id="section-equipment" class="dash-section">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2 data-i18n="eq_sec_title">Farm Equipment Inventory</h2>
+            <button class="btn btn-primary" onclick="openModal('equipment')" data-i18n="eq_add_btn"><i class="fa-solid fa-circle-plus"></i> Register Equipment</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th data-i18n="th_item_name">Item Name</th>
+                  <th data-i18n="th_category">Category Type</th>
+                  <th data-i18n="th_status">Status</th>
+                  <th data-i18n="th_purchase_date">Purchase Date</th>
+                  <th data-i18n="th_description">Description</th>
+                  <th data-i18n="th_actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="equipment-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: FINANCIALS
+           ============================================== -->
+      <div id="section-finance" class="dash-section">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2 data-i18n="fin_sec_title">Income & Expenses Ledger</h2>
+            <button class="btn btn-primary" onclick="openModal('finance')" data-i18n="fin_add_btn"><i class="fa-solid fa-circle-plus"></i> Log Transaction</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th data-i18n="th_date">Date</th>
+                  <th data-i18n="th_type">Type</th>
+                  <th data-i18n="th_category">Category</th>
+                  <th data-i18n="th_amount">Amount</th>
+                  <th data-i18n="th_description">Description</th>
+                  <th data-i18n="th_actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="finance-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: HARVESTS & SALES
+           ============================================== -->
+      <div id="section-harvest" class="dash-section">
+        <!-- Harvest Records -->
+        <div class="dash-card" style="margin-bottom: 30px;">
+          <div class="dash-card-header">
+            <h2 data-i18n="har_sec_title">Yield Harvest Records</h2>
+            <button class="btn btn-primary" onclick="openModal('harvest')" data-i18n="har_add_btn"><i class="fa-solid fa-circle-plus"></i> Log Yield Harvest</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th data-i18n="th_harvest_date">Harvest Date</th>
+                  <th data-i18n="th_crop">Crop</th>
+                  <th data-i18n="th_qty_collected">Quantity Collected</th>
+                  <th data-i18n="th_quality_grade">Quality Grade</th>
+                  <th data-i18n="th_notes">Notes</th>
+                  <th data-i18n="th_actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="harvest-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Sales Logs -->
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2 data-i18n="sales_sec_title">Crop Distribution & Sales</h2>
+            <button class="btn btn-primary" onclick="openModal('sale')" data-i18n="sales_add_btn"><i class="fa-solid fa-circle-plus"></i> Record Sale Log</button>
+          </div>
+          <div class="table-wrapper">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th data-i18n="th_sale_date">Sale Date</th>
+                  <th data-i18n="th_harvest_ref">Harvest Reference</th>
+                  <th data-i18n="th_buyer_name">Buyer Name</th>
+                  <th data-i18n="th_qty_sold">Quantity Sold</th>
+                  <th data-i18n="th_revenue">Revenue ($)</th>
+                  <th data-i18n="th_notes">Notes</th>
+                  <th data-i18n="th_actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="sales-table-body">
+                <!-- JS populated -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: REPORTS
+           ============================================== -->
+      <div id="section-reports" class="dash-section">
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3 data-i18n="reports_fin_title">Revenue vs. Expenses</h3>
+            <div class="chart-container">
+              <canvas id="financialComparisonChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card">
+            <h3 data-i18n="reports_crop_title">Crop Status Distribution</h3>
+            <div class="chart-container">
+              <canvas id="cropStatusChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-card" style="grid-column: 1 / -1;">
+            <h3 data-i18n="reports_yield_title">Harvest Quantity Yields (kg)</h3>
+            <div class="chart-container" style="max-width: 600px; height: 300px;">
+              <canvas id="harvestYieldsChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           SECTION: NOTIFICATIONS
+           ============================================== -->
+      <div id="section-notifications" class="dash-section">
+        <div class="dash-card">
+          <div class="dash-card-header">
+            <h2 data-i18n="notif_sec_title">Inventory Alerts & Broadcasts</h2>
+            <button class="btn btn-outline" style="padding: 6px 12px; font-size: 0.85rem;" onclick="clearAllNotifications()" data-i18n="notif_read_all_btn">Mark All as Read</button>
+          </div>
+          <div id="notifications-list">
+            <!-- JS populated -->
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ==============================================
+       DASHBOARD FORM MODALS
+       ============================================== -->
+
+  <!-- Modal: Farm -->
+  <div class="modal" id="modal-farm">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_farm_title">Create Field Plot</h3>
+        <button class="close-btn" onclick="closeModal('farm')">&times;</button>
+      </div>
+      <form id="form-farm" onsubmit="handleFarmSubmit(event)">
+        <div class="form-group">
+          <label for="farm-name" data-i18n="label_farm_name">Field/Plot Name</label>
+          <input type="text" id="farm-name" required placeholder="e.g. Field North-A, Orchard Plot">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="farm-location" data-i18n="label_farm_location">Field Location</label>
+            <input type="text" id="farm-location" required placeholder="e.g. Hill Area, Sector 3">
+          </div>
+          <div class="form-group">
+            <label for="farm-size" data-i18n="label_farm_size">Plot Size (Acres)</label>
+            <input type="number" id="farm-size" required step="0.1" min="0.1" placeholder="e.g. 5.5">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="farm-soil" data-i18n="label_farm_soil">Soil Texture Type</label>
+          <select id="farm-soil" required>
+            <option value="Loamy">Loamy</option>
+            <option value="Clay">Clay</option>
+            <option value="Sandy">Sandy</option>
+            <option value="Silt">Silt</option>
+            <option value="Peat">Peat</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="farm-desc" data-i18n="label_farm_desc">Field Comments</label>
+          <textarea id="farm-desc" rows="3" placeholder="Soil health status, crop rotations, drainage properties..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_register_field">Register Field</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Crop -->
+  <div class="modal" id="modal-crop">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_crop_title">Plant New Crop</h3>
+        <button class="close-btn" onclick="closeModal('crop')">&times;</button>
+      </div>
+      <form id="form-crop" onsubmit="handleCropSubmit(event)">
+        <div class="form-group">
+          <label for="crop-farm" data-i18n="label_crop_farm">Select Field Plot</label>
+          <select id="crop-farm" required>
+            <!-- JS populated -->
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="crop-name" data-i18n="label_crop_name">Crop Name</label>
+            <input type="text" id="crop-name" required placeholder="e.g. Wheat, Tomato">
+          </div>
+          <div class="form-group">
+            <label for="crop-variety" data-i18n="label_crop_variety">Crop Variety</label>
+            <input type="text" id="crop-variety" required placeholder="e.g. HD 2967, Roma">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="crop-planted" data-i18n="label_crop_planted">Sowing Date</label>
+            <input type="date" id="crop-planted" required>
+          </div>
+          <div class="form-group">
+            <label for="crop-expected" data-i18n="label_crop_expected">Expected Harvest Date</label>
+            <input type="date" id="crop-expected" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="crop-status" data-i18n="label_crop_status">Current Phase</label>
+          <select id="crop-status" required>
+            <option value="Planted">Planted</option>
+            <option value="Growing">Growing</option>
+            <option value="Harvested">Harvested</option>
+            <option value="Failed">Failed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="crop-notes" data-i18n="label_crop_notes">Crop Timeline Notes</label>
+          <textarea id="crop-notes" rows="3" placeholder="Sowing spacing, depth, applied baseline fertilizers..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_save_crop">Save Crop Schedule</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Inventory -->
+  <div class="modal" id="modal-inventory">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_inv_title">Add Stock Item</h3>
+        <button class="close-btn" onclick="closeModal('inventory')">&times;</button>
+      </div>
+      <form id="form-inventory" onsubmit="handleInventorySubmit(event)">
+        <div class="form-group">
+          <label for="inv-name" data-i18n="label_inv_name">Item Name</label>
+          <input type="text" id="inv-name" required placeholder="e.g. NPK Fertilizer, Wheat Seeds">
+        </div>
+        <div class="form-group">
+          <label for="inv-type" data-i18n="label_inv_type">Item Category</label>
+          <select id="inv-type" required>
+            <option value="Seed" data-i18n="opt_seed">Seeds</option>
+            <option value="Fertilizer">Fertilizer</option>
+            <option value="Pesticide">Pesticide</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="inv-qty" data-i18n="label_inv_qty">Quantity</label>
+            <input type="number" id="inv-qty" required min="0" placeholder="e.g. 50">
+          </div>
+          <div class="form-group">
+            <label for="inv-unit" data-i18n="label_inv_unit">Measurement Unit</label>
+            <input type="text" id="inv-unit" required placeholder="e.g. kg, L, bags">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="inv-threshold" data-i18n="label_inv_threshold">Safety Limit Threshold</label>
+          <input type="number" id="inv-threshold" required min="0" placeholder="Trigger alert below this quantity">
+        </div>
+        <div class="form-group">
+          <label for="inv-notes" data-i18n="label_inv_notes">Inventory Notes</label>
+          <textarea id="inv-notes" rows="3" placeholder="Storage shelf instructions, expiration details..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_record_stock">Record Stock</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Equipment -->
+  <div class="modal" id="modal-equipment">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_eq_title">Register Farm Equipment</h3>
+        <button class="close-btn" onclick="closeModal('equipment')">&times;</button>
+      </div>
+      <form id="form-equipment" onsubmit="handleEquipmentSubmit(event)">
+        <div class="form-group">
+          <label for="eq-name" data-i18n="label_eq_name">Equipment Name</label>
+          <input type="text" id="eq-name" required placeholder="e.g. Mini Tractor, Sprayer Pump">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="eq-type" data-i18n="label_eq_type">Equipment Category</label>
+            <input type="text" id="eq-type" required placeholder="e.g. Harvesting, Tillage">
+          </div>
+          <div class="form-group">
+            <label for="eq-status" data-i18n="label_eq_status">Operational Status</label>
+            <select id="eq-status" required>
+              <option value="Available">Available</option>
+              <option value="In Use">In Use</option>
+              <option value="Maintenance">Maintenance</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="eq-date" data-i18n="label_eq_date">Purchase Date</label>
+          <input type="date" id="eq-date">
+        </div>
+        <div class="form-group">
+          <label for="eq-desc" data-i18n="label_eq_desc">Technical Description</label>
+          <textarea id="eq-desc" rows="3" placeholder="Power HP details, service milestones..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_save_eq">Save Equipment Log</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Finance -->
+  <div class="modal" id="modal-finance">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_fin_title">Log Transaction Ledger</h3>
+        <button class="close-btn" onclick="closeModal('finance')">&times;</button>
+      </div>
+      <form id="form-finance" onsubmit="handleFinanceSubmit(event)">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="fin-type" data-i18n="label_fin_type">Transaction Type</label>
+            <select id="fin-type" required>
+              <option value="Expense">Expense</option>
+              <option value="Income">Income</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="fin-category" data-i18n="label_fin_category">Category</label>
+            <select id="fin-category" required>
+              <option value="Seeds">Seeds</option>
+              <option value="Fertilizer">Fertilizer</option>
+              <option value="Pesticide">Pesticide</option>
+              <option value="Labor">Labor Hire</option>
+              <option value="Equipment Purchase">Equipment Purchase</option>
+              <option value="Equipment Rent">Equipment Rental</option>
+              <option value="Crop Sale">Crop Distribution Revenue</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="fin-amount" data-i18n="label_fin_amount">Amount (TK)</label>
+            <input type="number" id="fin-amount" required step="0.01" min="0.01" placeholder="0.00">
+          </div>
+          <div class="form-group">
+            <label for="fin-date" data-i18n="label_fin_date">Date logged</label>
+            <input type="date" id="fin-date" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="fin-desc" data-i18n="label_fin_desc">Transaction Comments</label>
+          <input type="text" id="fin-desc" placeholder="Details about supplier, invoice reference...">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_log_ledger">Log to Ledger</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Harvest -->
+  <div class="modal" id="modal-harvest">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_har_title">Record Yield Harvest</h3>
+        <button class="close-btn" onclick="closeModal('harvest')">&times;</button>
+      </div>
+      <form id="form-harvest" onsubmit="handleHarvestSubmit(event)">
+        <div class="form-group">
+          <label for="har-crop" data-i18n="label_har_crop">Select Planted Crop</label>
+          <select id="har-crop" required>
+            <!-- JS populated -->
+          </select>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="har-qty" data-i18n="label_har_qty">Quantity Harvested</label>
+            <input type="number" id="har-qty" required min="0.1" step="0.1" placeholder="e.g. 500">
+          </div>
+          <div class="form-group">
+            <label for="har-unit" data-i18n="label_har_unit">Unit</label>
+            <input type="text" id="har-unit" required placeholder="e.g. kg, tons, bags">
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="har-date" data-i18n="label_har_date">Harvest Date</label>
+            <input type="date" id="har-date" required>
+          </div>
+          <div class="form-group">
+            <label for="har-quality" data-i18n="label_har_quality">Yield Quality Rating</label>
+            <select id="har-quality" required>
+              <option value="Excellent">Excellent</option>
+              <option value="Good" selected>Good</option>
+              <option value="Fair">Fair</option>
+              <option value="Poor">Poor</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="har-notes" data-i18n="label_har_notes">Harvest Comments</label>
+          <textarea id="har-notes" rows="3" placeholder="Mention moisture status, color density, grade sorting..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_record_harvest">Record Harvest Yield</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Sale -->
+  <div class="modal" id="modal-sale">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_sale_title">Log Sales Transaction</h3>
+        <button class="close-btn" onclick="closeModal('sale')">&times;</button>
+      </div>
+      <form id="form-sale" onsubmit="handleSaleSubmit(event)">
+        <div class="form-group">
+          <label for="sale-harvest" data-i18n="label_sale_harvest">Select Harvest Yield Reference</label>
+          <select id="sale-harvest" required>
+            <!-- JS populated -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sale-buyer" data-i18n="label_sale_buyer">Buyer / Distributing Entity Name</label>
+          <input type="text" id="sale-buyer" required placeholder="e.g. Central Grain Market Co-op">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+          <div class="form-group">
+            <label for="sale-qty" data-i18n="label_sale_qty">Quantity Disposed</label>
+            <input type="number" id="sale-qty" required min="0.1" step="0.1" placeholder="Should not exceed harvested yield">
+          </div>
+          <div class="form-group">
+            <label for="sale-rev" data-i18n="label_sale_rev">Total Sale Revenue ($)</label>
+            <input type="number" id="sale-rev" required min="0.1" step="0.01" placeholder="e.g. 1500.00">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="sale-date" data-i18n="label_sale_date">Sale Date</label>
+          <input type="date" id="sale-date" required>
+        </div>
+        <div class="form-group">
+          <label for="sale-notes" data-i18n="label_sale_notes">Sales Comments</label>
+          <textarea id="sale-notes" rows="3" placeholder="Contract numbers, shipping details..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_log_sale">Log Sale & Sync Revenue</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Crop Status -->
+  <div class="modal" id="modal-edit-crop">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_edit_crop_title">Update Crop Stage</h3>
+        <button class="close-btn" onclick="closeModal('edit-crop')">&times;</button>
+      </div>
+      <form id="form-edit-crop" onsubmit="handleCropUpdateSubmit(event)">
+        <input type="hidden" id="edit-crop-id">
+        <div class="form-group">
+          <label for="edit-crop-status" data-i18n="label_edit_crop_status">Current Phase</label>
+          <select id="edit-crop-status" required>
+            <option value="Planted">Planted</option>
+            <option value="Growing">Growing</option>
+            <option value="Harvested">Harvested</option>
+            <option value="Failed">Failed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="edit-crop-notes" data-i18n="label_edit_crop_notes">Progress Updates</label>
+          <textarea id="edit-crop-notes" rows="3" placeholder="Recent observations..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_apply_crop_update">Apply Status Update</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/lang.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

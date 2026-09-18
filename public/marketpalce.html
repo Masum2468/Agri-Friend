@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSphere - Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/marketpalce.css?v=9">
+</head>
+<body>
+  <!-- Premium Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriSphere</span>
+    </a>
+    <nav>
+      <a href="/#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather Advisory</a>
+      <a href="knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Ag-Guides</a>
+      <a href="marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
+      </button>
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In / Register</a>
+      </div>
+    </nav>
+  </header>
+
+      <!-- Marketplace Section -->
+  <section id="marketplace" class="module" style="background-color: #ecf3ee;">
+    <div class="section-header">
+      <h2 data-i18n="marketplace_section_title">Equipment & Seed Marketplace</h2>
+      <p data-i18n="marketplace_section_desc">Rent tractors, exchange seeds, or buy tools directly from verified farmers in your community.</p>
+    </div>
+
+    <div class="market-header">
+      <h3 style="color: var(--primary); font-weight: 700;" data-i18n="marketplace_community_title">Community Listings</h3>
+      <button class="btn btn-primary" id="post-listing-btn" style="display: inline-flex;" onclick="openListingModal()" data-i18n="marketplace_post_btn">
+        <i class="fa-solid fa-circle-plus"></i> Post a Listing
+      </button>
+    </div>
+
+    <div class="cards-grid" id="market-grid">
+      <!-- Dynamically populated by JS -->
+    </div>
+    
+  </section>
+  
+  <!-- Create Listing Modal -->
+  <div class="modal" id="listing-modal">
+    <div class="modal-content glass">
+      <div class="modal-header">
+        <h3 data-i18n="modal_title">Create Marketplace Listing</h3>
+        <button class="close-btn" onclick="closeListingModal()">&times;</button>
+      </div>
+      <form id="create-listing-form" onsubmit="handleCreateListing(event)">
+        <div class="form-group">
+          <label for="list-title" data-i18n="form_title_label">Listing Title</label>
+          <input type="text" id="list-title" required placeholder="e.g. Hand Seeder for Sale, Power Tiller for Rent" data-i18n-placeholder="form_title_placeholder">
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label for="list-itemtype" data-i18n="form_itemtype_label">Item Type</label>
+            <select id="list-itemtype" required>
+              <option value="Equipment" data-i18n="opt_equipment">Equipment</option>
+              <option value="Seed" data-i18n="opt_seed">Seeds / Plants</option>
+              <option value="Crop" data-i18n="opt_crop">Crops</option>
+              <option value="Service" data-i18n="opt_service">Labor / Service</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="list-dealtype" data-i18n="form_dealtype_label">Listing Category</label>
+            <select id="list-dealtype" required>
+              <option value="Sale" data-i18n="opt_sale">For Sale</option>
+              <option value="Rent" data-i18n="opt_rent">For Rent</option>
+              <option value="Share" data-i18n="opt_share">Free Share</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="form-group">
+            <label for="list-price" data-i18n="form_price_label">Price (TK)</label>
+            <input type="number" id="list-price" required min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label for="list-contact" data-i18n="form_contact_label">Contact Info</label>
+            <input type="text" id="list-contact" required placeholder="e.g. Phone number, Email" data-i18n-placeholder="form_contact_placeholder">
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_image_label">Upload Picture (Optional)</label>
+          <div class="file-upload-wrapper">
+            <input type="file" id="list-image-file" accept="image/*" onchange="previewUploadImage(this)" style="display: none;">
+            <label for="list-image-file" class="file-upload-box">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span id="upload-label-text" data-i18n="choose_file_btn">Click to browse & upload item photo</span>
+              <small data-i18n="upload_auto_hint">(Leave blank for automatic smart picture)</small>
+            </label>
+          </div>
+          <div id="image-preview-container" style="display: none; margin-top: 6px; position: relative; width: fit-content;">
+            <img id="image-preview-img" src="" alt="Preview" style="max-height: 85px; border-radius: 6px; object-fit: cover; border: 1px solid var(--border-color); display: block;">
+            <button type="button" onclick="clearImagePreview()" style="position: absolute; top: 4px; right: 4px; background: rgba(220,38,38,0.9); color: #fff; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold;" title="Remove image">&times;</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="list-desc" data-i18n="form_desc_label">Item Description</label>
+          <textarea id="list-desc" rows="2" placeholder="Mention item age, condition, delivery availability, etc." data-i18n-placeholder="form_desc_placeholder"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 6px; padding: 10px;" data-i18n="form_submit_btn">Submit Post</button>
+      </form>
+    </div>
+  </div>
+    <!-- Footer -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
+    <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+      © 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+    </div>
+  </footer>
+    <script src="/js/lang.js?v=10"></script>
+    <script src="/js/main.js?v=10"></script>
+</body>
+</html>
