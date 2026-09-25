@@ -8,12 +8,27 @@ const guides = require('../data/guides');
 const dbManager = require('../models/dbManager');
 const { protect } = require('../middleware/auth');
 
-// Multer memory storage setup (stores image buffer in memory to save directly into MongoDB)
-const storage = multer.memoryStorage();
+// Ensure uploads directory exists
+const uploadsDir = path.join(__dirname, '../public/uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+
+// Multer disk storage setup (saves uploaded images to public/uploads directory)
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, uploadsDir);
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname) || '.jpg';
+    cb(null, 'listing-' + uniqueSuffix + ext.toLowerCase());
+  }
+});
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
   fileFilter: function (req, file, cb) {
     const allowed = /jpeg|jpg|png|webp|gif|bmp/;
     const ext = path.extname(file.originalname).toLowerCase();
@@ -320,12 +335,16 @@ router.post('/marketplace', optionalAuth, handleUpload, async (req, res) => {
     const price = (!isNaN(parsedPrice) && parsedPrice >= 0) ? parsedPrice : 0;
     const contact = (body.contact || '').trim();
     const description = (body.description || '').trim();
-    let imageUrl = body.imageUrl || '';
+    let imageUrl = (body.imageUrl || '').trim();
 
-    if (req.file && req.file.buffer) {
-      const mimeType = req.file.mimetype || 'image/jpeg';
-      const base64Data = req.file.buffer.toString('base64');
-      imageUrl = `data:${mimeType};base64,${base64Data}`;
+    if (req.file) {
+      if (req.file.filename) {
+        imageUrl = `/uploads/${req.file.filename}`;
+      } else if (req.file.buffer) {
+        const mimeType = req.file.mimetype || 'image/jpeg';
+        const base64Data = req.file.buffer.toString('base64');
+        imageUrl = `data:${mimeType};base64,${base64Data}`;
+      }
     }
 
     if (!title) {

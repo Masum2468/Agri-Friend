@@ -56,6 +56,10 @@ document.addEventListener('languagechanged', () => {
   if (currentCity) fetchWeather(currentCity);
   renderGuides();
   renderMarketplace();
+  const detailView = document.getElementById('detail-view');
+  if (detailView && detailView.style.display !== 'none' && window.currentOpenCropId) {
+    openCropDetail(window.currentOpenCropId, window.currentOpenSubTab || 'diseases', false);
+  }
   if (window.applyTranslations) window.applyTranslations();
 });
 // ----------------------------------------------------
@@ -295,12 +299,14 @@ function renderGuides(filterQuery = '') {
   if (activeTab === 'crops') {
     const currentList = guidesData.crops || [];
     const filtered = currentList.filter(item => {
+      const name = formatLocalizedText(item.name);
+      const desc = formatLocalizedText(item.description);
+      const scName = item.scientificName || '';
       return (
         !query ||
-        (item.name && item.name.toLowerCase().includes(query)) ||
-        (item.scientificName && item.scientificName.toLowerCase().includes(query)) ||
-        (item.type && item.type.toLowerCase().includes(query)) ||
-        (item.description && item.description.toLowerCase().includes(query))
+        name.toLowerCase().includes(query) ||
+        scName.toLowerCase().includes(query) ||
+        desc.toLowerCase().includes(query)
       );
     });
 
@@ -316,9 +322,8 @@ function renderGuides(filterQuery = '') {
       card.onclick = () => openCropDetail(item.id, 'crops');
 
       const cropName = formatLocalizedText(item.name);
-      const typeText = isBn 
-        ? ((item.type === 'Cereal' ? 'দানাশস্য' : item.type === 'Vegetable' ? 'সবজি' : item.type === 'Tuber' ? 'কন্দজাতীয় ফসল' : item.type) + ' নির্দেশিকা')
-        : (item.type + ' Guide');
+      const cropType = formatLocalizedText(item.type);
+      const typeText = isBn ? `${cropType} নির্দেশিকা` : `${cropType} Guide`;
 
       const sowingRateLabel = isBn ? 'বীজের হার:' : 'Sowing Rate:';
       const sowingDepthLabel = isBn ? 'বীজ গভীরতা:' : 'Sowing Depth:';
@@ -332,14 +337,14 @@ function renderGuides(filterQuery = '') {
         <div class="card-type"><i class="fa-solid fa-seedling"></i> ${typeText}</div>
         <h3>${cropName}</h3>
         <div class="sub-tag">${item.scientificName}</div>
-        <p class="desc">${item.description}</p>
+        <p class="desc">${formatLocalizedText(item.description)}</p>
         <div class="card-details">
-          <div class="detail-row"><span class="label">${sowingRateLabel}</span><span class="value">${item.seedInfo.rate}</span></div>
-          <div class="detail-row"><span class="label">${sowingDepthLabel}</span><span class="value">${item.seedInfo.depth}</span></div>
-          <div class="detail-row"><span class="label">${spacingLabel}</span><span class="value">${item.seedInfo.spacing}</span></div>
-          <div class="detail-row"><span class="label">${varietiesLabel}</span><span class="value" style="font-size: 0.85rem;">${item.seedInfo.popularVarieties}</span></div>
+          <div class="detail-row"><span class="label">${sowingRateLabel}</span><span class="value">${formatLocalizedText(item.seedInfo.rate)}</span></div>
+          <div class="detail-row"><span class="label">${sowingDepthLabel}</span><span class="value">${formatLocalizedText(item.seedInfo.depth)}</span></div>
+          <div class="detail-row"><span class="label">${spacingLabel}</span><span class="value">${formatLocalizedText(item.seedInfo.spacing)}</span></div>
+          <div class="detail-row"><span class="label">${varietiesLabel}</span><span class="value" style="font-size: 0.85rem;">${formatLocalizedText(item.seedInfo.popularVarieties)}</span></div>
           <div class="detail-row"><span class="label">${soilPhLabel}</span><span class="value">${item.optimalPH}</span></div>
-          <div class="detail-row"><span class="label">${durationLabel}</span><span class="value">${item.growthDuration}</span></div>
+          <div class="detail-row"><span class="label">${durationLabel}</span><span class="value">${formatLocalizedText(item.growthDuration)}</span></div>
         </div>
         <button class="btn btn-primary" style="margin-top: auto; width: 100%; justify-content: center; border-radius: 12px;" onclick="event.stopPropagation(); openCropDetail('${item.id}', 'crops');">
           <i class="fa-solid fa-book-open"></i> ${btnText} →
@@ -353,11 +358,17 @@ function renderGuides(filterQuery = '') {
 
     const filteredCrops = allCrops.filter(crop => {
       const cropDiseases = getDiseasesForCrop(crop.id);
+      const cropName = formatLocalizedText(crop.name);
       return (
         !query ||
-        crop.name.toLowerCase().includes(query) ||
-        crop.scientificName.toLowerCase().includes(query) ||
-        cropDiseases.some(d => d.name.toLowerCase().includes(query) || d.symptoms.toLowerCase().includes(query) || d.treatment.toLowerCase().includes(query))
+        cropName.toLowerCase().includes(query) ||
+        (crop.scientificName && crop.scientificName.toLowerCase().includes(query)) ||
+        cropDiseases.some(d => {
+          const dName = formatLocalizedText(d.name);
+          const dSymp = formatLocalizedText(d.easySymptoms || d.symptoms);
+          const dTreat = formatLocalizedText(d.treatment);
+          return dName.toLowerCase().includes(query) || dSymp.toLowerCase().includes(query) || dTreat.toLowerCase().includes(query);
+        })
       );
     });
 
@@ -410,25 +421,25 @@ function renderGuides(filterQuery = '') {
   else if (activeTab === 'fertilizers') {
     const currentList = guidesData.fertilizers || [];
     const filtered = currentList.filter(item => {
+      const name = formatLocalizedText(item.name);
+      const purpose = formatLocalizedText(item.purpose);
       return (
         !query ||
-        item.name.toLowerCase().includes(query) ||
-        item.type.toLowerCase().includes(query) ||
-        item.purpose.toLowerCase().includes(query) ||
-        item.targetCrops.toLowerCase().includes(query)
+        name.toLowerCase().includes(query) ||
+        purpose.toLowerCase().includes(query)
       );
     });
 
     if (filtered.length === 0) {
-      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${t('No fertilizer records match your query.')}</div>`;
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${isBn ? 'আপনার অনুসন্ধানের সাথে কোনো সার রেকর্ড মিলেনি।' : 'No fertilizer records match your query.'}</div>`;
       return;
     }
 
     filtered.forEach(item => {
       const card = document.createElement('div');
       card.className = 'guide-card glass';
-      const headerTitle = t('Soil Nutrients');
-      const compLabel = t('Composition:');
+      const headerTitle = isBn ? 'মৃত্তিকা পুষ্টি ও সার' : 'Soil Nutrients & Fertilizer';
+      const compLabel = isBn ? 'উপাদান:' : 'Composition:';
       const catLabel = isBn ? 'বিভাগ:' : 'Category:';
       const rateLabel = isBn ? 'প্রয়োগ হার:' : 'Rate:';
       const methodLabel = isBn ? 'প্রয়োগ পদ্ধতি:' : 'Method:';
@@ -436,14 +447,14 @@ function renderGuides(filterQuery = '') {
 
       card.innerHTML = `
         <div class="card-type" style="color: #2a6f97;"><i class="fa-solid fa-flask"></i> ${headerTitle}</div>
-        <h3>${item.name}</h3>
-        <div class="sub-tag">${compLabel} ${item.composition}</div>
-        <p class="desc">${item.purpose}</p>
+        <h3>${formatLocalizedText(item.name)}</h3>
+        <div class="sub-tag">${compLabel} ${formatLocalizedText(item.composition)}</div>
+        <p class="desc">${formatLocalizedText(item.purpose)}</p>
         <div class="card-details">
-          <div class="detail-row"><span class="label">${catLabel}</span><span class="value">${item.type}</span></div>
-          <div class="detail-row"><span class="label">${rateLabel}</span><span class="value">${item.applicationRate}</span></div>
-          <div class="detail-row"><span class="label">${methodLabel}</span><span class="value">${item.method}</span></div>
-          <div class="detail-row"><span class="label">${targetLabel}</span><span class="value" style="font-size: 0.85rem;">${item.targetCrops}</span></div>
+          <div class="detail-row"><span class="label">${catLabel}</span><span class="value">${formatLocalizedText(item.type)}</span></div>
+          <div class="detail-row"><span class="label">${rateLabel}</span><span class="value">${formatLocalizedText(item.applicationRate)}</span></div>
+          <div class="detail-row"><span class="label">${methodLabel}</span><span class="value">${formatLocalizedText(item.method)}</span></div>
+          <div class="detail-row"><span class="label">${targetLabel}</span><span class="value" style="font-size: 0.85rem;">${formatLocalizedText(item.targetCrops)}</span></div>
         </div>
       `;
       grid.appendChild(card);
@@ -452,23 +463,24 @@ function renderGuides(filterQuery = '') {
   else if (activeTab === 'pesticides') {
     const currentList = guidesData.pesticides || [];
     const filtered = currentList.filter(item => {
+      const name = formatLocalizedText(item.name);
+      const pests = formatLocalizedText(item.targetPests);
       return (
         !query ||
-        item.name.toLowerCase().includes(query) ||
-        item.activeIngredient.toLowerCase().includes(query) ||
-        item.targetPests.toLowerCase().includes(query)
+        name.toLowerCase().includes(query) ||
+        pests.toLowerCase().includes(query)
       );
     });
 
     if (filtered.length === 0) {
-      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${t('No pesticide records match your query.')}</div>`;
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${isBn ? 'আপনার অনুসন্ধানের সাথে কোনো বালাইনাশক রেকর্ড মilenি।' : 'No pesticide records match your query.'}</div>`;
       return;
     }
 
     filtered.forEach(item => {
       const card = document.createElement('div');
       card.className = 'guide-card glass';
-      const headerTitle = t('Pest Management');
+      const headerTitle = isBn ? 'বালাই ব্যবস্থাপনা' : 'Pest Management';
       const activeLabel = isBn ? 'কার্যকর উপাদান:' : 'Active:';
       const effLabel = isBn ? 'কার্যকর দমন:' : 'Effective For:';
       const pestTypeLabel = isBn ? 'কীটনাশকের ধরন:' : 'Pesticide Type:';
@@ -478,16 +490,16 @@ function renderGuides(filterQuery = '') {
 
       card.innerHTML = `
         <div class="card-type" style="color: #e65f2b;"><i class="fa-solid fa-shield-virus"></i> ${headerTitle}</div>
-        <h3>${item.name}</h3>
-        <div class="sub-tag">${activeLabel} ${item.activeIngredient}</div>
-        <p class="desc"><strong>${effLabel}</strong> ${item.targetPests}</p>
+        <h3>${formatLocalizedText(item.name)}</h3>
+        <div class="sub-tag">${activeLabel} ${formatLocalizedText(item.activeIngredient)}</div>
+        <p class="desc"><strong>${effLabel}</strong> ${formatLocalizedText(item.targetPests)}</p>
         <div class="card-details">
-          <div class="detail-row"><span class="label">${pestTypeLabel}</span><span class="value">${item.type}</span></div>
-          <div class="detail-row"><span class="label">${dilutionLabel}</span><span class="value">${item.dilutionRate}</span></div>
-          <div class="detail-row"><span class="label">${waitLabel}</span><span class="value" style="color: #c92a2a; font-weight: 600;">${item.safetyInterval}</span></div>
+          <div class="detail-row"><span class="label">${pestTypeLabel}</span><span class="value">${formatLocalizedText(item.type)}</span></div>
+          <div class="detail-row"><span class="label">${dilutionLabel}</span><span class="value">${formatLocalizedText(item.dilutionRate)}</span></div>
+          <div class="detail-row"><span class="label">${waitLabel}</span><span class="value" style="color: #c92a2a; font-weight: 600;">${formatLocalizedText(item.safetyInterval)}</span></div>
           <div class="detail-row" style="flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 8px;">
             <span class="label"><i class="fa-solid fa-triangle-exclamation"></i> ${safetyLabel}</span>
-            <span class="value" style="font-size: 0.85rem;">${item.safetyInstructions}</span>
+            <span class="value" style="font-size: 0.85rem;">${formatLocalizedText(item.safetyInstructions)}</span>
           </div>
         </div>
       `;
@@ -513,7 +525,13 @@ function getDiseasesForCrop(cropId) {
 // ----------------------------------------------------
 // DEDICATED CROP & DISEASE DETAIL PAGE RENDERER
 // ----------------------------------------------------
+window.currentOpenCropId = null;
+window.currentOpenSubTab = null;
+
 function openCropDetail(cropId, defaultSubTab = 'diseases', updateHistory = true) {
+  window.currentOpenCropId = cropId;
+  window.currentOpenSubTab = defaultSubTab;
+
   const crop = (guidesData.crops || []).find(c => c.id === cropId);
   if (!crop) return;
 
@@ -533,13 +551,13 @@ function openCropDetail(cropId, defaultSubTab = 'diseases', updateHistory = true
     history.pushState(null, '', `?tab=${defaultSubTab}&crop=${cropId}`);
   }
 
-  const t = window.translateText || (x => x);
   const isBn = (localStorage.getItem('language') || 'en') === 'bn';
   const cropName = formatLocalizedText(crop.name);
   const cropDiseases = getDiseasesForCrop(cropId);
 
   if (breadcrumb) {
-    breadcrumb.innerHTML = `<a href="knowledgehub.html" onclick="event.preventDefault(); closeDetailView();" style="color: #52b788; text-decoration: none;">Knowledge Hub</a> > <span>${cropName}</span>`;
+    const hubText = isBn ? 'কৃষি জ্ঞান কেন্দ্র' : 'Knowledge Hub';
+    breadcrumb.innerHTML = `<a href="knowledgehub.html" onclick="event.preventDefault(); closeDetailView();" style="color: #52b788; text-decoration: none;">${hubText}</a> > <span>${cropName}</span>`;
   }
 
   const helplineLabel = isBn ? 'কৃষি কল সেন্টার' : 'Agri Call Center';
@@ -561,7 +579,7 @@ function openCropDetail(cropId, defaultSubTab = 'diseases', updateHistory = true
         <div>
           <h1><i class="fa-solid fa-seedling"></i> ${cropName}</h1>
           <div class="scientific-name">${crop.scientificName}</div>
-          <p style="max-width: 850px; line-height: 1.6; font-size: 1.05rem;">${crop.description}</p>
+          <p style="max-width: 850px; line-height: 1.6; font-size: 1.05rem;">${formatLocalizedText(crop.description)}</p>
         </div>
         <div style="background: rgba(0,0,0,0.3); padding: 10px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.25); text-align: center;">
           <div style="font-size: 0.85rem; text-transform: uppercase; color: #a7f3d0; font-weight: 700;"><i class="fa-solid fa-phone-volume"></i> ${helplineLabel}</div>
@@ -569,11 +587,11 @@ function openCropDetail(cropId, defaultSubTab = 'diseases', updateHistory = true
         </div>
       </div>
       <div class="badge-grid">
-        <span class="spec-badge" style="background: #064e3b;"><i class="fa-solid fa-wheat-awn"></i> ${bighaSeedLabel} ${crop.bighaSeedRate || crop.seedInfo.rate}</span>
-        <span class="spec-badge"><i class="fa-solid fa-layer-group"></i> ${typeLabel} ${crop.type}</span>
-        <span class="spec-badge"><i class="fa-solid fa-flask"></i> ${soilLabel} ${crop.idealSoil}</span>
-        <span class="spec-badge"><i class="fa-solid fa-clock"></i> ${durationLabel} ${crop.growthDuration}</span>
-        <span class="spec-badge"><i class="fa-solid fa-calendar-days"></i> ${seasonLabel} ${crop.plantingSeason}</span>
+        <span class="spec-badge" style="background: #064e3b;"><i class="fa-solid fa-wheat-awn"></i> ${bighaSeedLabel} ${formatLocalizedText(crop.bighaSeedRate || crop.seedInfo.rate)}</span>
+        <span class="spec-badge"><i class="fa-solid fa-layer-group"></i> ${typeLabel} ${formatLocalizedText(crop.type)}</span>
+        <span class="spec-badge"><i class="fa-solid fa-flask"></i> ${soilLabel} ${formatLocalizedText(crop.idealSoil)}</span>
+        <span class="spec-badge"><i class="fa-solid fa-clock"></i> ${durationLabel} ${formatLocalizedText(crop.growthDuration)}</span>
+        <span class="spec-badge"><i class="fa-solid fa-calendar-days"></i> ${seasonLabel} ${formatLocalizedText(crop.plantingSeason)}</span>
       </div>
     </div>
 
@@ -600,6 +618,7 @@ function openCropDetail(cropId, defaultSubTab = 'diseases', updateHistory = true
 }
 
 function switchCropSubTab(subTabName, cropId) {
+  window.currentOpenSubTab = subTabName;
   const crop = (guidesData.crops || []).find(c => c.id === cropId);
   if (!crop) return;
 
@@ -608,10 +627,9 @@ function switchCropSubTab(subTabName, cropId) {
 
   const buttons = document.querySelectorAll('.subtab-btn');
   buttons.forEach(btn => btn.classList.remove('active'));
-  const activeBtn = Array.from(buttons).find(b => b.getAttribute('onclick').includes(subTabName));
+  const activeBtn = Array.from(buttons).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(subTabName));
   if (activeBtn) activeBtn.classList.add('active');
 
-  const t = window.translateText || (x => x);
   const isBn = (localStorage.getItem('language') || 'en') === 'bn';
   const cropName = formatLocalizedText(crop.name);
   const cropDiseases = getDiseasesForCrop(cropId);
@@ -641,13 +659,13 @@ function switchCropSubTab(subTabName, cropId) {
         <div class="disease-detail-card">
           <div class="disease-title-row">
             <h2><i class="fa-solid fa-bug"></i> ${disName}</h2>
-            <span class="pathogen-pill"><i class="fa-solid fa-microscope"></i> ${dis.pathogen}</span>
+            <span class="pathogen-pill"><i class="fa-solid fa-microscope"></i> ${formatLocalizedText(dis.pathogen)}</span>
           </div>
 
           <!-- Easy Visual Symptoms for Farmer -->
           <div style="background: #fef2f2; border: 1px solid #fecaca; padding: 16px; border-radius: 12px; margin-bottom: 18px;">
             <h4 style="color: #b91c1c; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-eye"></i> ${visualLabel}</h4>
-            <p style="font-size: 1.02rem; font-weight: 600; color: #991b1b; line-height: 1.6;">${dis.easySymptoms || dis.symptoms}</p>
+            <p style="font-size: 1.02rem; font-weight: 600; color: #991b1b; line-height: 1.6;">${formatLocalizedText(dis.easySymptoms || dis.symptoms)}</p>
           </div>
 
           <!-- 16L Tank Dosage Highlight Box -->
@@ -655,31 +673,31 @@ function switchCropSubTab(subTabName, cropId) {
             <h4 style="color: #065f46; font-size: 1.1rem; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
               <i class="fa-solid fa-spray-can-sparkles"></i> ${tankLabel}
             </h4>
-            <p style="font-size: 1.08rem; font-weight: 800; color: #047857; margin-bottom: 6px;">${dis.tankDosage || dis.treatment}</p>
-            ${dis.brandNames ? `<p style="font-size: 0.95rem; color: #065f46; margin-top: 4px;"><strong>${brandLabel}</strong> <span style="background: #d1fae5; padding: 3px 8px; border-radius: 6px; font-weight: 700;">${dis.brandNames}</span></p>` : ''}
+            <p style="font-size: 1.08rem; font-weight: 800; color: #047857; margin-bottom: 6px;">${formatLocalizedText(dis.tankDosage || dis.treatment)}</p>
+            ${dis.brandNames ? `<p style="font-size: 0.95rem; color: #065f46; margin-top: 4px;"><strong>${brandLabel}</strong> <span style="background: #d1fae5; padding: 3px 8px; border-radius: 6px; font-weight: 700;">${formatLocalizedText(dis.brandNames)}</span></p>` : ''}
           </div>
 
           <div class="prevention-box">
             <h4><i class="fa-solid fa-shield-halved"></i> ${prevLabel}</h4>
-            <p style="font-size: 0.98rem; color: #1e293b; line-height: 1.6;">${dis.prevention}</p>
+            <p style="font-size: 0.98rem; color: #1e293b; line-height: 1.6;">${formatLocalizedText(dis.prevention)}</p>
           </div>
 
           <div class="treatment-section" style="margin-top: 18px;">
             <div class="treatment-grid">
               <div class="chemical-box">
                 <h5><i class="fa-solid fa-vial"></i> ${chemLabel}</h5>
-                <p style="font-size: 0.98rem; font-weight: 600; color: #14532d;">${dis.treatment}</p>
+                <p style="font-size: 0.98rem; font-weight: 600; color: #14532d;">${formatLocalizedText(dis.treatment)}</p>
               </div>
               <div class="organic-box">
                 <h5><i class="fa-solid fa-leaf"></i> ${orgLabel}</h5>
-                <p style="font-size: 0.98rem; font-weight: 600; color: #78350f;">${dis.organicTreatment || orgFallback}</p>
+                <p style="font-size: 0.98rem; font-weight: 600; color: #78350f;">${formatLocalizedText(dis.organicTreatment || orgFallback)}</p>
               </div>
             </div>
           </div>
 
           ${dis.emergencyNotice ? `
             <div style="margin-top: 16px; background: #fff7ed; border-left: 4px solid #ea580c; padding: 12px 16px; border-radius: 6px; font-size: 0.92rem; color: #9a3412;">
-              <i class="fa-solid fa-bell"></i> <strong>${tipLabel}</strong> ${dis.emergencyNotice}
+              <i class="fa-solid fa-bell"></i> <strong>${tipLabel}</strong> ${formatLocalizedText(dis.emergencyNotice)}
             </div>
           ` : ''}
         </div>
@@ -689,84 +707,103 @@ function switchCropSubTab(subTabName, cropId) {
     contentDiv.innerHTML = diseasesHTML;
   } 
   else if (subTabName === 'planting') {
+    const headingText = isBn ? `${cropName} - বিঘাভিত্তিক বীজ ও চাষাবাদ নির্দেশিকা` : `${cropName} - Cultivation & Seed Guide per Bigha`;
+    const seedRateLabel = isBn ? 'বিঘায় বীজের হার (Per Bigha Seed):' : 'Seed Rate per Bigha:';
+    const seedDepthLabel = isBn ? 'বীজ গভীরতা (Depth):' : 'Sowing Depth:';
+    const spacingLabel = isBn ? 'চারার দূরত্ব (Spacing):' : 'Plant Spacing:';
+    const varTitle = isBn ? 'বাংলাদেশের অনুমোদিত জনপ্রিয় উচ্চ ফলনশীল জাতসমূহ:' : 'Approved High Yielding Varieties in Bangladesh:';
+    const tipsTitle = isBn ? 'কৃষকের মাঠপর্যায়ের পরামর্শ (Farmer Field Tips):' : 'Farmer Field Advisory & Tips:';
+    const soilTitle = isBn ? 'উপযুক্ত মাটি ও জমি প্রস্তুতি:' : 'Ideal Soil & Land Preparation:';
+    const soilDesc = isBn ? 'জমি ৪-৫ টি চাষ ও মই দিয়ে মাটি ঝুরঝুরে ও সমতল করে নেওয়া জরুরি।' : 'Till the land 4-5 times with harrowing to ensure loose, level soil.';
+
     contentDiv.innerHTML = `
       <div class="disease-detail-card">
         <div class="disease-title-row">
-          <h2 style="color: #1b5f43;"><i class="fa-solid fa-wheat-awn"></i> ${t(crop.name)} - ${t('বিঘাভিত্তিক বীজ ও চাষাবাদ নির্দেশিকা')}</h2>
-          <span class="pathogen-pill" style="background: #e0f2fe; color: #0369a1;"><i class="fa-solid fa-sun"></i> ${crop.plantingSeason}</span>
+          <h2 style="color: #1b5f43;"><i class="fa-solid fa-wheat-awn"></i> ${headingText}</h2>
+          <span class="pathogen-pill" style="background: #e0f2fe; color: #0369a1;"><i class="fa-solid fa-sun"></i> ${formatLocalizedText(crop.plantingSeason)}</span>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 15px;">
           <div style="background: #f0fdf4; padding: 18px; border-radius: 12px; border: 1px solid #bbf7d0;">
-            <h4 style="color: #166534; margin-bottom: 8px;"><i class="fa-solid fa-seedling"></i> ${t('বিঘায় বীজের হার (Per Bigha Seed):')}</h4>
-            <p style="font-size: 1.15rem; font-weight: 800; color: #14532d;">${crop.bighaSeedRate || crop.seedInfo.rate}</p>
+            <h4 style="color: #166534; margin-bottom: 8px;"><i class="fa-solid fa-seedling"></i> ${seedRateLabel}</h4>
+            <p style="font-size: 1.15rem; font-weight: 800; color: #14532d;">${formatLocalizedText(crop.bighaSeedRate || crop.seedInfo.rate)}</p>
           </div>
 
           <div style="background: #f0f9ff; padding: 18px; border-radius: 12px; border: 1px solid #bae6fd;">
-            <h4 style="color: #0369a1; margin-bottom: 8px;"><i class="fa-solid fa-ruler-vertical"></i> ${t('বীজ গভীরতা (Depth):')}</h4>
-            <p style="font-size: 1.1rem; font-weight: 700; color: #0284c7;">${crop.seedInfo.depth}</p>
+            <h4 style="color: #0369a1; margin-bottom: 8px;"><i class="fa-solid fa-ruler-vertical"></i> ${seedDepthLabel}</h4>
+            <p style="font-size: 1.1rem; font-weight: 700; color: #0284c7;">${formatLocalizedText(crop.seedInfo.depth)}</p>
           </div>
 
           <div style="background: #fffbeb; padding: 18px; border-radius: 12px; border: 1px solid #fde68a;">
-            <h4 style="color: #b45309; margin-bottom: 8px;"><i class="fa-solid fa-arrows-left-right"></i> ${t('চারার দূরত্ব (Spacing):')}</h4>
-            <p style="font-size: 1.05rem; font-weight: 700; color: #92400e;">${crop.seedInfo.spacing}</p>
+            <h4 style="color: #b45309; margin-bottom: 8px;"><i class="fa-solid fa-arrows-left-right"></i> ${spacingLabel}</h4>
+            <p style="font-size: 1.05rem; font-weight: 700; color: #92400e;">${formatLocalizedText(crop.seedInfo.spacing)}</p>
           </div>
         </div>
 
         <div style="margin-top: 22px; background: #ffffff; border: 2px solid #166534; padding: 20px; border-radius: 12px;">
-          <h4 style="color: #166534; font-size: 1.15rem; margin-bottom: 8px;"><i class="fa-solid fa-star"></i> ${t('বাংলাদেশের অনুমোদিত জনপ্রিয় উচ্চ ফলনশীল জাতসমূহ:')}</h4>
-          <p style="font-size: 1.08rem; font-weight: 700; color: #14532d;">${crop.seedInfo.popularVarieties}</p>
+          <h4 style="color: #166534; font-size: 1.15rem; margin-bottom: 8px;"><i class="fa-solid fa-star"></i> ${varTitle}</h4>
+          <p style="font-size: 1.08rem; font-weight: 700; color: #14532d;">${formatLocalizedText(crop.seedInfo.popularVarieties)}</p>
         </div>
 
         ${crop.farmerTips ? `
           <div style="margin-top: 20px; background: #eff6ff; border-left: 5px solid #2563eb; padding: 18px; border-radius: 8px;">
-            <h4 style="color: #1e40af; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-lightbulb"></i> ${t('কৃষকের মাঠপর্যায়ের পরামর্শ (Farmer Field Tips):')}</h4>
-            <p style="font-size: 1rem; color: #1e3a8a; line-height: 1.6;">${crop.farmerTips}</p>
+            <h4 style="color: #1e40af; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-lightbulb"></i> ${tipsTitle}</h4>
+            <p style="font-size: 1rem; color: #1e3a8a; line-height: 1.6;">${formatLocalizedText(crop.farmerTips)}</p>
           </div>
         ` : ''}
 
         <div style="margin-top: 20px; line-height: 1.7; color: #334155;">
-          <h4 style="font-size: 1.05rem; color: #0f172a; margin-bottom: 6px;"><i class="fa-solid fa-mountain-sun"></i> ${t('উপযুক্ত মাটি ও জমি প্রস্তুতি:')}</h4>
-          <p><strong>${crop.idealSoil}</strong> (pH: ${crop.optimalPH}). ${t('জমি ৪-৫ টি চাষ ও মই দিয়ে মাটি ঝুরঝুরে ও সমতল করে নেওয়া জরুরি।')}</p>
+          <h4 style="font-size: 1.05rem; color: #0f172a; margin-bottom: 6px;"><i class="fa-solid fa-mountain-sun"></i> ${soilTitle}</h4>
+          <p><strong>${formatLocalizedText(crop.idealSoil)}</strong> (pH: ${crop.optimalPH}). ${soilDesc}</p>
         </div>
       </div>
     `;
   }
   else if (subTabName === 'fertilizers') {
     const bFert = crop.bighaFertilizer;
+    const fertTitle = isBn ? `${cropName} - প্রতি বিঘা (৩৩ শতক) জমির জন্য সারের সঠিক প্রয়োগ মাত্রা` : `${cropName} - Recommended Fertilizer Rates per Bigha (33 Decimals)`;
+    const fertDesc = isBn ? 'বিঘা প্রতি সুষম সারের সঠিক পরিমাণ ও কিস্তিতে প্রয়োগের সময়সূচী:' : 'Balanced fertilizer quantities per bigha and split application schedule:';
+    const detailTitle = isBn ? 'সারের বিস্তারিত বিবরণ ও প্রয়োগবিধি:' : 'Detailed Fertilizer Descriptions & Application Methods:';
+    const compLabel = isBn ? 'উপাদান:' : 'Composition:';
+    const rateLabel = isBn ? 'প্রয়োগ মাত্রা:' : 'Rate:';
+    const methodLabel = isBn ? 'প্রয়োগ পদ্ধতি:' : 'Method:';
+
     let fertsHTML = `
       <div class="disease-detail-card">
         <div class="disease-title-row">
-          <h2 style="color: #1e3a8a;"><i class="fa-solid fa-flask"></i> ${t(crop.name)} ${t('- প্রতি বিঘা (৩৩ শতক) জমির জন্য সারের সঠিক প্রয়োগ মাত্রা')}</h2>
+          <h2 style="color: #1e3a8a;"><i class="fa-solid fa-flask"></i> ${fertTitle}</h2>
         </div>
-        <p style="margin-bottom: 20px; color: #334155; font-size: 1.02rem;">${t('বিঘা প্রতি সুষম সারের সঠিক পরিমাণ ও কিস্তিতে প্রয়োগের সময়সূচী:')}</p>
+        <p style="margin-bottom: 20px; color: #334155; font-size: 1.02rem;">${fertDesc}</p>
     `;
 
     if (bFert) {
       fertsHTML += `
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 25px;">
-          ${bFert.urea ? `<div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 18px; border-radius: 12px;"><h4 style="color: #166534;"><i class="fa-solid fa-circle-dot"></i> ইউরিয়া (Urea)</h4><p style="font-weight: 700; color: #14532d; font-size: 1.05rem;">${bFert.urea}</p></div>` : ''}
-          ${bFert.tsp ? `<div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 18px; border-radius: 12px;"><h4 style="color: #0369a1;"><i class="fa-solid fa-circle-dot"></i> টিএসপি (TSP)</h4><p style="font-weight: 700; color: #0c4a6e; font-size: 1.05rem;">${bFert.tsp}</p></div>` : ''}
-          ${bFert.dap ? `<div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 18px; border-radius: 12px;"><h4 style="color: #0369a1;"><i class="fa-solid fa-circle-dot"></i> ডিএপি (DAP)</h4><p style="font-weight: 700; color: #0c4a6e; font-size: 1.05rem;">${bFert.dap}</p></div>` : ''}
-          ${bFert.mop ? `<div style="background: #fffbeb; border: 1px solid #fde68a; padding: 18px; border-radius: 12px;"><h4 style="color: #b45309;"><i class="fa-solid fa-circle-dot"></i> এমওপি পটাশ (MOP)</h4><p style="font-weight: 700; color: #78350f; font-size: 1.05rem;">${bFert.mop}</p></div>` : ''}
-          ${bFert.gypsum ? `<div style="background: #faf5ff; border: 1px solid #e9d5ff; padding: 18px; border-radius: 12px;"><h4 style="color: #6b21a8;"><i class="fa-solid fa-circle-dot"></i> জিপসাম (Gypsum)</h4><p style="font-weight: 700; color: #581c87; font-size: 1.05rem;">${bFert.gypsum}</p></div>` : ''}
-          ${bFert.zinc ? `<div style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 18px; border-radius: 12px;"><h4 style="color: #be185d;"><i class="fa-solid fa-circle-dot"></i> দস্তা সার (Zinc)</h4><p style="font-weight: 700; color: #831843; font-size: 1.05rem;">${bFert.zinc}</p></div>` : ''}
+          ${bFert.urea ? `<div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 18px; border-radius: 12px;"><h4 style="color: #166534;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'ইউরিয়া (Urea)' : 'Urea'}</h4><p style="font-weight: 700; color: #14532d; font-size: 1.05rem;">${formatLocalizedText(bFert.urea)}</p></div>` : ''}
+          ${bFert.tsp ? `<div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 18px; border-radius: 12px;"><h4 style="color: #0369a1;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'টিএসপি (TSP)' : 'TSP'}</h4><p style="font-weight: 700; color: #0c4a6e; font-size: 1.05rem;">${formatLocalizedText(bFert.tsp)}</p></div>` : ''}
+          ${bFert.dap ? `<div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 18px; border-radius: 12px;"><h4 style="color: #0369a1;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'ডিএপি (DAP)' : 'DAP'}</h4><p style="font-weight: 700; color: #0c4a6e; font-size: 1.05rem;">${formatLocalizedText(bFert.dap)}</p></div>` : ''}
+          ${bFert.mop ? `<div style="background: #fffbeb; border: 1px solid #fde68a; padding: 18px; border-radius: 12px;"><h4 style="color: #b45309;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'এমওপি পটাশ (MOP)' : 'MOP Potash'}</h4><p style="font-weight: 700; color: #78350f; font-size: 1.05rem;">${formatLocalizedText(bFert.mop)}</p></div>` : ''}
+          ${bFert.gypsum ? `<div style="background: #faf5ff; border: 1px solid #e9d5ff; padding: 18px; border-radius: 12px;"><h4 style="color: #6b21a8;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'জিপসাম (Gypsum)' : 'Gypsum'}</h4><p style="font-weight: 700; color: #581c87; font-size: 1.05rem;">${formatLocalizedText(bFert.gypsum)}</p></div>` : ''}
+          ${bFert.zinc ? `<div style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 18px; border-radius: 12px;"><h4 style="color: #be185d;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'দস্তা সার (Zinc)' : 'Zinc Sulphate'}</h4><p style="font-weight: 700; color: #831843; font-size: 1.05rem;">${formatLocalizedText(bFert.zinc)}</p></div>` : ''}
+          ${bFert.vermi ? `<div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 18px; border-radius: 12px;"><h4 style="color: #166534;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'ট্রাইকো-কম্পোস্ট / জৈব সার' : 'Vermicompost / Organic'}</h4><p style="font-weight: 700; color: #14532d; font-size: 1.05rem;">${formatLocalizedText(bFert.vermi)}</p></div>` : ''}
+          ${bFert.bio ? `<div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 18px; border-radius: 12px;"><h4 style="color: #0369a1;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'রাইজোবিয়াম অণুজীব সার' : 'Rhizobium Bio-fertilizer'}</h4><p style="font-weight: 700; color: #0c4a6e; font-size: 1.05rem;">${formatLocalizedText(bFert.bio)}</p></div>` : ''}
+          ${bFert.boron ? `<div style="background: #fffbeb; border: 1px solid #fde68a; padding: 18px; border-radius: 12px;"><h4 style="color: #b45309;"><i class="fa-solid fa-circle-dot"></i> ${isBn ? 'বোরন সার (Boron)' : 'Boron'}</h4><p style="font-weight: 700; color: #78350f; font-size: 1.05rem;">${formatLocalizedText(bFert.boron)}</p></div>` : ''}
         </div>
       `;
     }
 
     const fertList = crop.fertilizers || ["Urea", "TSP", "MOP", "Gypsum", "Zinc Sulphate"];
-    fertsHTML += `<h4 style="color: #0f172a; margin-bottom: 12px;"><i class="fa-solid fa-list-check"></i> ${t('সারের বিস্তারিত বিবরণ ও প্রয়োগবিধি:')}</h4><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">`;
+    fertsHTML += `<h4 style="color: #0f172a; margin-bottom: 12px;"><i class="fa-solid fa-list-check"></i> ${detailTitle}</h4><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">`;
 
     fertList.forEach(fName => {
       const matchFert = (guidesData.fertilizers || []).find(f => f.name.toLowerCase().includes(fName.toLowerCase()));
       if (matchFert) {
         fertsHTML += `
           <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px; border-radius: 12px;">
-            <h4 style="color: #0369a1; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-flask-vial"></i> ${matchFert.name}</h4>
-            <p style="font-size: 0.88rem; color: #0284c7; margin-bottom: 8px;"><strong>${t('উপাদান:')}</strong> ${matchFert.composition}</p>
-            <p style="font-size: 0.92rem; color: #1e293b; margin-bottom: 6px;"><strong>${t('প্রয়োগ মাত্রা:')}</strong> ${matchFert.bighaDosage || matchFert.applicationRate}</p>
-            <p style="font-size: 0.88rem; color: #475569;"><strong>${t('প্রয়োগ পদ্ধতি:')}</strong> ${matchFert.method}</p>
+            <h4 style="color: #0369a1; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-flask-vial"></i> ${formatLocalizedText(matchFert.name)}</h4>
+            <p style="font-size: 0.88rem; color: #0284c7; margin-bottom: 8px;"><strong>${compLabel}</strong> ${formatLocalizedText(matchFert.composition)}</p>
+            <p style="font-size: 0.92rem; color: #1e293b; margin-bottom: 6px;"><strong>${rateLabel}</strong> ${formatLocalizedText(matchFert.bighaDosage || matchFert.applicationRate)}</p>
+            <p style="font-size: 0.88rem; color: #475569;"><strong>${methodLabel}</strong> ${formatLocalizedText(matchFert.method)}</p>
           </div>
         `;
       }
@@ -816,8 +853,12 @@ function searchGuides() {
 // MARKETPLACE HUB
 // ----------------------------------------------------
 function getMarketplaceItemImage(item) {
-  if (item.imageUrl && item.imageUrl.trim() !== '') {
-    return item.imageUrl.trim();
+  if (item && item.imageUrl && typeof item.imageUrl === 'string' && item.imageUrl.trim() !== '') {
+    let url = item.imageUrl.trim();
+    if (url.startsWith('uploads/')) {
+      url = '/' + url;
+    }
+    return url;
   }
 
   const type = (item.itemType || 'Equipment').toLowerCase();
