@@ -19,7 +19,7 @@
       hero_dashboard_btn: "Go to My Farm Dashboard",
       
       // Weather section
-      weather_section_title: "Weather-Driven Farm Advisory",
+      weather_section_title: "Weather-Based Agricultural Advice",
       weather_section_desc: "Enter your location below. Our engine analyzes meteorological parameters to deliver customized farming actions, spray safety advisories, and irrigation plans.",
       weather_report_title: "Location Weather",
       weather_search_placeholder: "Search District (e.g. Dhaka, Bogura)...",
@@ -313,7 +313,7 @@
       hero_dashboard_btn: "আমার খামার ড্যাশবোর্ডে যান",
       
       // Weather section
-      weather_section_title: "আবহাওয়া ভিত্তিক খামার পরামর্শ",
+      weather_section_title: "আবহাওয়াভিত্তিক কৃষি পরামর্শ",
       weather_section_desc: "নিচে আপনার অবস্থান লিখুন। আমাদের ইঞ্জিন কাস্টমাইজড কৃষি কাজ, স্প্রে নিরাপত্তা পরামর্শ এবং সেচ পরিকল্পনা প্রদান করতে আবহাওয়া সংক্রান্ত পরামিতি বিশ্লেষণ করে।",
       weather_report_title: "অবস্থানের আবহাওয়া",
       weather_search_placeholder: "জেলা অনুসন্ধান করুন (যেমন: ঢাকা, বগুড়া)...",
