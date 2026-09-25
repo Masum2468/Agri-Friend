@@ -8,23 +8,8 @@ const guides = require('../data/guides');
 const dbManager = require('../models/dbManager');
 const { protect } = require('../middleware/auth');
 
-// Ensure uploads folder exists
-const uploadDir = path.join(__dirname, '../public/uploads');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
-
-// Multer storage setup
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadDir);
-  },
-  filename: function (req, file, cb) {
-    const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    cb(null, 'listing-' + uniqueSuffix + ext);
-  }
-});
+// Multer memory storage setup (stores image buffer in memory to save directly into MongoDB)
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
@@ -337,8 +322,10 @@ router.post('/marketplace', optionalAuth, handleUpload, async (req, res) => {
     const description = (body.description || '').trim();
     let imageUrl = body.imageUrl || '';
 
-    if (req.file) {
-      imageUrl = `/uploads/${req.file.filename}`;
+    if (req.file && req.file.buffer) {
+      const mimeType = req.file.mimetype || 'image/jpeg';
+      const base64Data = req.file.buffer.toString('base64');
+      imageUrl = `data:${mimeType};base64,${base64Data}`;
     }
 
     if (!title) {

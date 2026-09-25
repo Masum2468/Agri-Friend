@@ -80,23 +80,27 @@ function updateNavigationForUser() {
   const postListingBtn = document.getElementById('post-listing-btn');
 
   if (currentUser) {
-    // Authenticated state
-    // const isFarmer = currentUser.role === 'farmer';
-    //modified by me
     const linkPath = '/dashboard';
     const linkText = 'Farm Dashboard';
     const linkIcon = 'fa-chalkboard-user';
 
-    authContainer.innerHTML = `
-      <a href="${linkPath}" class="btn btn-outline" style="margin-right: 10px;"><i class="fa-solid ${linkIcon}"></i> ${linkText}</a>
-      <button onclick="handleLogout()" class="btn btn-primary" style="background: #c92a2a;"><i class="fa-solid fa-power-off"></i> Sign Out</button>
-    `;
+    if (authContainer) {
+      authContainer.innerHTML = `
+        <a href="${linkPath}" class="btn btn-outline" style="margin-right: 10px;" data-i18n="nav_dashboard"><i class="fa-solid ${linkIcon}"></i> <span class="i18n-text">${linkText}</span></a>
+        <button onclick="handleLogout()" class="btn btn-primary" style="background: #c92a2a;" data-i18n="nav_signout"><i class="fa-solid fa-power-off"></i> <span class="i18n-text">Sign Out</span></button>
+      `;
+    }
     if (heroBtn) {
       heroBtn.href = linkPath;
-      heroBtn.innerHTML = `<i class="fa-solid ${linkIcon}"></i> Go to My ${linkText}`;
+      heroBtn.setAttribute('data-i18n', 'hero_dashboard_btn');
+      heroBtn.innerHTML = `<i class="fa-solid ${linkIcon}"></i> <span class="i18n-text">Go to My Farm Dashboard</span>`;
     }
     if (postListingBtn) {
-      postListingBtn.style.display = 'inline-flex'; //modified by me
+      postListingBtn.style.display = 'inline-flex';
+    }
+
+    if (window.applyTranslations) {
+      window.applyTranslations();
     }
   }
 }
@@ -249,9 +253,34 @@ async function loadGuides() {
     guidesData.pesticides = await pestsRes.json();
 
     renderGuides();
+    checkUrlParams();
   } catch (err) {
     console.error('Error loading reference guides:', err);
   }
+}
+
+function checkUrlParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const cropParam = urlParams.get('crop');
+  const tabParam = urlParams.get('tab');
+  
+  if (tabParam && ['crops', 'diseases', 'fertilizers', 'pesticides'].includes(tabParam)) {
+    switchTab(tabParam, false);
+  }
+  
+  if (cropParam) {
+    openCropDetail(cropParam, tabParam || 'diseases', false);
+  }
+}
+
+function formatLocalizedText(text) {
+  if (!text || typeof text !== 'string') return text || '';
+  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  if (text.includes('/')) {
+    const parts = text.split('/');
+    return isBn ? parts[1].trim() : parts[0].trim();
+  }
+  return window.translateText ? window.translateText(text) : text;
 }
 
 function renderGuides(filterQuery = '') {
@@ -259,130 +288,522 @@ function renderGuides(filterQuery = '') {
   if (!grid) return;
   grid.innerHTML = '';
   
-  const currentList = guidesData[activeTab] || [];
   const query = filterQuery.toLowerCase();
+  const t = window.translateText || (x => x);
+  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
 
-  const filtered = currentList.filter(item => {
-    return (
-      (item.name && item.name.toLowerCase().includes(query)) ||
-      (item.scientificName && item.scientificName.toLowerCase().includes(query)) ||
-      (item.type && item.type.toLowerCase().includes(query)) ||
-      (item.description && item.description.toLowerCase().includes(query)) ||
-      (item.targetCrops && item.targetCrops.toLowerCase().includes(query)) ||
-      (item.pathogen && item.pathogen.toLowerCase().includes(query)) ||
-      (item.activeIngredient && item.activeIngredient.toLowerCase().includes(query))
-    );
-  });
-  if (filtered.length === 0) {
-    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">No advisory records match your query.</div>`;
-    return;
-  }
+  if (activeTab === 'crops') {
+    const currentList = guidesData.crops || [];
+    const filtered = currentList.filter(item => {
+      return (
+        !query ||
+        (item.name && item.name.toLowerCase().includes(query)) ||
+        (item.scientificName && item.scientificName.toLowerCase().includes(query)) ||
+        (item.type && item.type.toLowerCase().includes(query)) ||
+        (item.description && item.description.toLowerCase().includes(query))
+      );
+    });
 
-  filtered.forEach(item => {
-    const card = document.createElement('div');
-    card.className = 'guide-card glass';
+    if (filtered.length === 0) {
+      const emptyText = isBn ? 'আপনার অনুসন্ধানের সাথে কোনো ক্যাটালগ নির্দেশিকা মিলেনি।' : 'No advisory records match your query.';
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${emptyText}</div>`;
+      return;
+    }
 
-    const t = window.translateText || (x => x);
+    filtered.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'guide-card glass clickable-card';
+      card.onclick = () => openCropDetail(item.id, 'crops');
 
-    if (activeTab === 'crops') {
-      const typeText = t(item.type + ' Guide');
-      const cropName = t(item.name);
+      const cropName = formatLocalizedText(item.name);
+      const typeText = isBn 
+        ? ((item.type === 'Cereal' ? 'দানাশস্য' : item.type === 'Vegetable' ? 'সবজি' : item.type === 'Tuber' ? 'কন্দজাতীয় ফসল' : item.type) + ' নির্দেশিকা')
+        : (item.type + ' Guide');
+
+      const sowingRateLabel = isBn ? 'বীজের হার:' : 'Sowing Rate:';
+      const sowingDepthLabel = isBn ? 'বীজ গভীরতা:' : 'Sowing Depth:';
+      const spacingLabel = isBn ? 'চারার দূরত্ব:' : 'Spacing:';
+      const varietiesLabel = isBn ? 'অনুমোদিত জাতসমূহ:' : 'Varieties:';
+      const soilPhLabel = isBn ? 'মাটির pH:' : 'Soil pH:';
+      const durationLabel = isBn ? 'মেয়াদ:' : 'Duration:';
+      const btnText = isBn ? 'বিস্তারিত চাষাবাদ ও বীজ নির্দেশিকা' : 'Detailed Cultivation Guide';
+
       card.innerHTML = `
-        <div class="card-type">${typeText}</div>
+        <div class="card-type"><i class="fa-solid fa-seedling"></i> ${typeText}</div>
         <h3>${cropName}</h3>
         <div class="sub-tag">${item.scientificName}</div>
         <p class="desc">${item.description}</p>
         <div class="card-details">
-          <div class="detail-row"><span class="label">${t('Sowing Rate:')}</span><span class="value">${item.seedInfo.rate}</span></div>
-          <div class="detail-row"><span class="label">${t('Sowing Depth:')}</span><span class="value">${item.seedInfo.depth}</span></div>
-          <div class="detail-row"><span class="label">${t('Spacing:')}</span><span class="value">${item.seedInfo.spacing}</span></div>
-          <div class="detail-row"><span class="label">${t('Varieties:')}</span><span class="value" style="font-size: 0.85rem;">${item.seedInfo.popularVarieties}</span></div>
-          <div class="detail-row"><span class="label">${t('Soil pH:')}</span><span class="value">${item.optimalPH}</span></div>
-          <div class="detail-row"><span class="label">${t('Duration:')}</span><span class="value">${item.growthDuration}</span></div>
+          <div class="detail-row"><span class="label">${sowingRateLabel}</span><span class="value">${item.seedInfo.rate}</span></div>
+          <div class="detail-row"><span class="label">${sowingDepthLabel}</span><span class="value">${item.seedInfo.depth}</span></div>
+          <div class="detail-row"><span class="label">${spacingLabel}</span><span class="value">${item.seedInfo.spacing}</span></div>
+          <div class="detail-row"><span class="label">${varietiesLabel}</span><span class="value" style="font-size: 0.85rem;">${item.seedInfo.popularVarieties}</span></div>
+          <div class="detail-row"><span class="label">${soilPhLabel}</span><span class="value">${item.optimalPH}</span></div>
+          <div class="detail-row"><span class="label">${durationLabel}</span><span class="value">${item.growthDuration}</span></div>
         </div>
+        <button class="btn btn-primary" style="margin-top: auto; width: 100%; justify-content: center; border-radius: 12px;" onclick="event.stopPropagation(); openCropDetail('${item.id}', 'crops');">
+          <i class="fa-solid fa-book-open"></i> ${btnText} →
+        </button>
       `;
-    } 
-    else if (activeTab === 'diseases') {
-      const headerTitle = t('Pathological Library');
-      const agentLabel = t('Agent:');
-      const suscLabel = t('Susceptible:');
-      const sympLabel = t('Symptoms:');
-      const prevLabel = t('Prevention:');
-      const treatLabel = t('Treatment:');
+      grid.appendChild(card);
+    });
+  }
+  else if (activeTab === 'diseases') {
+    const allCrops = guidesData.crops || [];
+
+    const filteredCrops = allCrops.filter(crop => {
+      const cropDiseases = getDiseasesForCrop(crop.id);
+      return (
+        !query ||
+        crop.name.toLowerCase().includes(query) ||
+        crop.scientificName.toLowerCase().includes(query) ||
+        cropDiseases.some(d => d.name.toLowerCase().includes(query) || d.symptoms.toLowerCase().includes(query) || d.treatment.toLowerCase().includes(query))
+      );
+    });
+
+    if (filteredCrops.length === 0) {
+      const emptyText = isBn ? 'আপনার অনুসন্ধানের সাথে কোনো উদ্ভিদ রোগ রেকর্ড মিলেনি।' : 'No crop disease records match your query.';
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${emptyText}</div>`;
+      return;
+    }
+
+    filteredCrops.forEach(crop => {
+      const cropDiseases = getDiseasesForCrop(crop.id);
+      const card = document.createElement('div');
+      card.className = 'guide-card glass clickable-card crop-disease-summary-card';
+      card.onclick = () => openCropDetail(crop.id, 'diseases');
+
+      const cropName = formatLocalizedText(crop.name);
+      const headerTitle = isBn ? 'উদ্ভিদ রোগ লাইব্রেরি নির্দেশিকা' : 'Pathological Library / Disease Guide';
+      const summaryLabel = isBn ? 'আক্রান্ত ও চিহ্নিত রোগসমূহ:' : 'Diagnosed Crop Diseases:';
+      const registeredBadge = isBn ? 'রোগের তথ্য ও পরিচর্যা চার্ট নিবন্ধিত' : 'Disease Info & Care Chart Registered';
+      const countLabel = isBn ? `${cropDiseases.length} টি রোগ নিরাময় গাইড` : `${cropDiseases.length} Disease Curing Guides`;
+      const diagnosedLabel = isBn ? 'নির্ণয়কৃত রোগসমূহ:' : 'Diagnosed Diseases:';
+      const tipsLabel = isBn ? 'প্রতিরোধমূলক টিপস:' : 'Preventive Tips:';
+      const tipsValue = isBn ? 'বীজ শোধন, সুষম পটাশ ও স্প্রে' : 'Seed treatment, balanced potash & spray';
+      const btnText = isBn ? 'রোগের লক্ষণ ও চিকিৎসা দেখুন' : 'View Symptoms & Treatment';
+
+      const diseaseNamesBadge = cropDiseases.slice(0, 3).map(d => {
+        const dName = formatLocalizedText(d.name);
+        return `<span style="background: rgba(220,38,38,0.1); color: #dc2626; padding: 3px 8px; border-radius: 10px; font-size: 0.78rem; font-weight: 600;">${dName}</span>`;
+      }).join(' ');
+
       card.innerHTML = `
-        <div class="card-type" style="color: #d90429;">${headerTitle}</div>
-        <h3>${item.name}</h3>
-        <div class="sub-tag">${agentLabel} ${item.pathogen}</div>
-        <p class="desc"><strong>${suscLabel}</strong> ${item.targetCrops}</p>
-        <p class="desc"><strong>${sympLabel}</strong> ${item.symptoms}</p>
-        <div class="card-details" style="margin-top: 10px;">
-          <div class="detail-row" style="flex-direction: column; align-items: flex-start; gap: 4px;">
-            <span class="label"><i class="fa-solid fa-ban"></i> ${prevLabel}</span>
-            <span class="value" style="font-size: 0.9rem;">${item.prevention}</span>
-          </div>
-          <div class="detail-row" style="flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 8px;">
-            <span class="label"><i class="fa-solid fa-prescription-bottle-medical"></i> ${treatLabel}</span>
-            <span class="value" style="font-size: 0.9rem; color: #1b4332; font-weight: 600;">${item.treatment}</span>
-          </div>
+        <div class="card-type" style="color: #dc2626;"><i class="fa-solid fa-virus"></i> ${headerTitle}</div>
+        <h3 style="color: #991b1b;"><i class="fa-solid fa-plant-wilt" style="margin-right: 6px;"></i> ${cropName}</h3>
+        <div class="sub-tag">${crop.scientificName}</div>
+        <p class="desc" style="margin-bottom: 12px;"><strong>${summaryLabel}</strong></p>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 15px;">
+          ${diseaseNamesBadge || `<span style="font-size: 0.85rem; color: #64748b;">${registeredBadge}</span>`}
         </div>
+        <div class="card-details">
+          <div class="detail-row"><span class="label">${diagnosedLabel}</span><span class="value" style="font-weight: 700; color: #dc2626;">${countLabel}</span></div>
+          <div class="detail-row"><span class="label">${tipsLabel}</span><span class="value">${tipsValue}</span></div>
+        </div>
+        <button class="btn btn-primary" style="background: linear-gradient(135deg, #dc2626, #991b1b); margin-top: auto; width: 100%; justify-content: center; border-radius: 12px;" onclick="event.stopPropagation(); openCropDetail('${crop.id}', 'diseases');">
+          <i class="fa-solid fa-notes-medical"></i> ${btnText} →
+        </button>
       `;
-    } 
-    else if (activeTab === 'fertilizers') {
+      grid.appendChild(card);
+    });
+  }
+  else if (activeTab === 'fertilizers') {
+    const currentList = guidesData.fertilizers || [];
+    const filtered = currentList.filter(item => {
+      return (
+        !query ||
+        item.name.toLowerCase().includes(query) ||
+        item.type.toLowerCase().includes(query) ||
+        item.purpose.toLowerCase().includes(query) ||
+        item.targetCrops.toLowerCase().includes(query)
+      );
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${t('No fertilizer records match your query.')}</div>`;
+      return;
+    }
+
+    filtered.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'guide-card glass';
       const headerTitle = t('Soil Nutrients');
       const compLabel = t('Composition:');
+      const catLabel = isBn ? 'বিভাগ:' : 'Category:';
+      const rateLabel = isBn ? 'প্রয়োগ হার:' : 'Rate:';
+      const methodLabel = isBn ? 'প্রয়োগ পদ্ধতি:' : 'Method:';
+      const targetLabel = isBn ? 'লক্ষ্যভিত্তিক ফসল:' : 'Target Crops:';
+
       card.innerHTML = `
-        <div class="card-type" style="color: #2a6f97;">${headerTitle}</div>
+        <div class="card-type" style="color: #2a6f97;"><i class="fa-solid fa-flask"></i> ${headerTitle}</div>
         <h3>${item.name}</h3>
         <div class="sub-tag">${compLabel} ${item.composition}</div>
         <p class="desc">${item.purpose}</p>
         <div class="card-details">
-          <div class="detail-row"><span class="label">${t('Category:')}</span><span class="value">${item.type}</span></div>
-          <div class="detail-row"><span class="label">${t('Rate:')}</span><span class="value">${item.applicationRate}</span></div>
-          <div class="detail-row"><span class="label">${t('Method:')}</span><span class="value">${item.method}</span></div>
-          <div class="detail-row"><span class="label">${t('Target Crops:')}</span><span class="value" style="font-size: 0.85rem;">${item.targetCrops}</span></div>
+          <div class="detail-row"><span class="label">${catLabel}</span><span class="value">${item.type}</span></div>
+          <div class="detail-row"><span class="label">${rateLabel}</span><span class="value">${item.applicationRate}</span></div>
+          <div class="detail-row"><span class="label">${methodLabel}</span><span class="value">${item.method}</span></div>
+          <div class="detail-row"><span class="label">${targetLabel}</span><span class="value" style="font-size: 0.85rem;">${item.targetCrops}</span></div>
         </div>
       `;
-    } 
-    else if (activeTab === 'pesticides') {
+      grid.appendChild(card);
+    });
+  }
+  else if (activeTab === 'pesticides') {
+    const currentList = guidesData.pesticides || [];
+    const filtered = currentList.filter(item => {
+      return (
+        !query ||
+        item.name.toLowerCase().includes(query) ||
+        item.activeIngredient.toLowerCase().includes(query) ||
+        item.targetPests.toLowerCase().includes(query)
+      );
+    });
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${t('No pesticide records match your query.')}</div>`;
+      return;
+    }
+
+    filtered.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'guide-card glass';
       const headerTitle = t('Pest Management');
-      const activeLabel = t('Active:');
-      const effLabel = t('Effective For:');
+      const activeLabel = isBn ? 'কার্যকর উপাদান:' : 'Active:';
+      const effLabel = isBn ? 'কার্যকর দমন:' : 'Effective For:';
+      const pestTypeLabel = isBn ? 'কীটনাশকের ধরন:' : 'Pesticide Type:';
+      const dilutionLabel = isBn ? 'মিশ্রণের হার:' : 'Dilution Rate:';
+      const waitLabel = isBn ? 'সংগ্রহের অপেক্ষাকাল:' : 'Harvest Wait:';
+      const safetyLabel = isBn ? 'সতর্কতা:' : 'Safety:';
+
       card.innerHTML = `
-        <div class="card-type" style="color: #e65f2b;">${headerTitle}</div>
+        <div class="card-type" style="color: #e65f2b;"><i class="fa-solid fa-shield-virus"></i> ${headerTitle}</div>
         <h3>${item.name}</h3>
         <div class="sub-tag">${activeLabel} ${item.activeIngredient}</div>
         <p class="desc"><strong>${effLabel}</strong> ${item.targetPests}</p>
         <div class="card-details">
-          <div class="detail-row"><span class="label">${t('Pesticide Type:')}</span><span class="value">${item.type}</span></div>
-          <div class="detail-row"><span class="label">${t('Dilution Rate:')}</span><span class="value">${item.dilutionRate}</span></div>
-          <div class="detail-row"><span class="label">${t('Harvest Wait:')}</span><span class="value" style="color: #c92a2a; font-weight: 600;">${item.safetyInterval}</span></div>
+          <div class="detail-row"><span class="label">${pestTypeLabel}</span><span class="value">${item.type}</span></div>
+          <div class="detail-row"><span class="label">${dilutionLabel}</span><span class="value">${item.dilutionRate}</span></div>
+          <div class="detail-row"><span class="label">${waitLabel}</span><span class="value" style="color: #c92a2a; font-weight: 600;">${item.safetyInterval}</span></div>
           <div class="detail-row" style="flex-direction: column; align-items: flex-start; gap: 4px; margin-top: 8px;">
-            <span class="label"><i class="fa-solid fa-triangle-exclamation"></i> ${t('Safety:')}</span>
+            <span class="label"><i class="fa-solid fa-triangle-exclamation"></i> ${safetyLabel}</span>
             <span class="value" style="font-size: 0.85rem;">${item.safetyInstructions}</span>
           </div>
         </div>
       `;
-    }
+      grid.appendChild(card);
+    });
+  }
+}
 
-    grid.appendChild(card);
+function getDiseasesForCrop(cropId) {
+  const allDiseases = guidesData.diseases || [];
+  const crop = (guidesData.crops || []).find(c => c.id === cropId);
+  if (!crop) return [];
+
+  const cropTitleClean = crop.name.split('/')[0].trim().toLowerCase();
+
+  return allDiseases.filter(d => {
+    if (d.cropIds && Array.isArray(d.cropIds) && d.cropIds.includes(cropId)) return true;
+    if (d.targetCrops && (d.targetCrops.toLowerCase().includes(cropTitleClean) || d.targetCrops.includes(crop.id))) return true;
+    return false;
   });
 }
 
-function switchTab(tabId) {
+// ----------------------------------------------------
+// DEDICATED CROP & DISEASE DETAIL PAGE RENDERER
+// ----------------------------------------------------
+function openCropDetail(cropId, defaultSubTab = 'diseases', updateHistory = true) {
+  const crop = (guidesData.crops || []).find(c => c.id === cropId);
+  if (!crop) return;
+
+  const catalogView = document.getElementById('catalog-browser-view');
+  const detailView = document.getElementById('detail-view');
+  const detailContent = document.getElementById('detail-content-area');
+  const breadcrumb = document.getElementById('detail-breadcrumb');
+
+  if (!detailView || !detailContent) return;
+
+  if (catalogView) catalogView.style.display = 'none';
+  detailView.style.display = 'flex';
+
+  window.scrollTo({ top: 100, behavior: 'smooth' });
+
+  if (updateHistory) {
+    history.pushState(null, '', `?tab=${defaultSubTab}&crop=${cropId}`);
+  }
+
+  const t = window.translateText || (x => x);
+  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  const cropName = formatLocalizedText(crop.name);
+  const cropDiseases = getDiseasesForCrop(cropId);
+
+  if (breadcrumb) {
+    breadcrumb.innerHTML = `<a href="knowledgehub.html" onclick="event.preventDefault(); closeDetailView();" style="color: #52b788; text-decoration: none;">Knowledge Hub</a> > <span>${cropName}</span>`;
+  }
+
+  const helplineLabel = isBn ? 'কৃষি কল সেন্টার' : 'Agri Call Center';
+  const tollFreeLabel = isBn ? '(টোল ফ্রি)' : '(Toll Free)';
+  const bighaSeedLabel = isBn ? 'বিঘায় বীজ:' : 'Seed Rate:';
+  const typeLabel = isBn ? 'টাইপ:' : 'Category:';
+  const soilLabel = isBn ? 'মাটি:' : 'Soil:';
+  const durationLabel = isBn ? 'মেয়াদ:' : 'Duration:';
+  const seasonLabel = isBn ? 'মৌসুম:' : 'Season:';
+
+  const tab1Label = isBn ? 'রোগ নির্ণয়, লক্ষণ ও চিকিৎসা' : 'Disease Diagnosis & Treatment';
+  const tab2Label = isBn ? 'বিঘাভিত্তিক বীজ ও চাষাবাদ নির্দেশিকা' : 'Cultivation & Seed Guide';
+  const tab3Label = isBn ? 'বিঘাপ্রতি সার প্রয়োগ মাত্রা' : 'Fertilizer Application Rates';
+
+  detailContent.innerHTML = `
+    <!-- Crop Hero Header -->
+    <div class="detail-hero-banner">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px;">
+        <div>
+          <h1><i class="fa-solid fa-seedling"></i> ${cropName}</h1>
+          <div class="scientific-name">${crop.scientificName}</div>
+          <p style="max-width: 850px; line-height: 1.6; font-size: 1.05rem;">${crop.description}</p>
+        </div>
+        <div style="background: rgba(0,0,0,0.3); padding: 10px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.25); text-align: center;">
+          <div style="font-size: 0.85rem; text-transform: uppercase; color: #a7f3d0; font-weight: 700;"><i class="fa-solid fa-phone-volume"></i> ${helplineLabel}</div>
+          <div style="font-size: 1.4rem; font-weight: 800; color: #ffffff;">১৬১২৩ <span style="font-size: 0.8rem; font-weight: 500;">${tollFreeLabel}</span></div>
+        </div>
+      </div>
+      <div class="badge-grid">
+        <span class="spec-badge" style="background: #064e3b;"><i class="fa-solid fa-wheat-awn"></i> ${bighaSeedLabel} ${crop.bighaSeedRate || crop.seedInfo.rate}</span>
+        <span class="spec-badge"><i class="fa-solid fa-layer-group"></i> ${typeLabel} ${crop.type}</span>
+        <span class="spec-badge"><i class="fa-solid fa-flask"></i> ${soilLabel} ${crop.idealSoil}</span>
+        <span class="spec-badge"><i class="fa-solid fa-clock"></i> ${durationLabel} ${crop.growthDuration}</span>
+        <span class="spec-badge"><i class="fa-solid fa-calendar-days"></i> ${seasonLabel} ${crop.plantingSeason}</span>
+      </div>
+    </div>
+
+    <!-- Inner Sub-Tabs Navigation -->
+    <div class="detail-subtabs" style="margin-top: 25px;">
+      <button class="subtab-btn ${defaultSubTab === 'diseases' ? 'active' : ''}" onclick="switchCropSubTab('diseases', '${cropId}')">
+        <i class="fa-solid fa-virus-covid"></i> ${tab1Label} (${cropDiseases.length})
+      </button>
+      <button class="subtab-btn ${defaultSubTab === 'crops' ? 'active' : ''}" onclick="switchCropSubTab('planting', '${cropId}')">
+        <i class="fa-solid fa-wheat-awn"></i> ${tab2Label}
+      </button>
+      <button class="subtab-btn ${defaultSubTab === 'fertilizers' ? 'active' : ''}" onclick="switchCropSubTab('fertilizers', '${cropId}')">
+        <i class="fa-solid fa-flask"></i> ${tab3Label}
+      </button>
+    </div>
+
+    <!-- Sub-tab Content Panel -->
+    <div id="crop-subtab-content" style="margin-top: 25px;">
+      <!-- Content populated by switchCropSubTab -->
+    </div>
+  `;
+
+  switchCropSubTab(defaultSubTab === 'crops' ? 'planting' : (defaultSubTab || 'diseases'), cropId);
+}
+
+function switchCropSubTab(subTabName, cropId) {
+  const crop = (guidesData.crops || []).find(c => c.id === cropId);
+  if (!crop) return;
+
+  const contentDiv = document.getElementById('crop-subtab-content');
+  if (!contentDiv) return;
+
+  const buttons = document.querySelectorAll('.subtab-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  const activeBtn = Array.from(buttons).find(b => b.getAttribute('onclick').includes(subTabName));
+  if (activeBtn) activeBtn.classList.add('active');
+
+  const t = window.translateText || (x => x);
+  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  const cropName = formatLocalizedText(crop.name);
+  const cropDiseases = getDiseasesForCrop(cropId);
+
+  if (subTabName === 'diseases') {
+    if (cropDiseases.length === 0) {
+      const emptyMsg = isBn ? 'এই ফসলের জন্য কোনো জটিল রোগ নিবন্ধিত নেই। সুষম খাদ্য ও পরিচ্ছন্ন জমি বজায় রাখুন।' : 'No critical disease records registered for this crop. Maintain clean soil and balanced nutrients.';
+      contentDiv.innerHTML = `<div class="glass" style="padding: 40px; text-align: center; border-radius: 16px; color: var(--text-light);">${emptyMsg}</div>`;
+      return;
+    }
+
+    const headingText = isBn ? `${cropName} - কৃষকবান্ধব রোগ চেনার উপায়, ট্যাংক ডোজ ও ঘরোয়া প্রতিকার` : `${cropName} - Disease Diagnosis, Tank Dosage & Remedies`;
+    let diseasesHTML = `<h3 style="color: #ffffff; font-size: 1.4rem; margin-bottom: 20px;"><i class="fa-solid fa-notes-medical" style="color: #ef233c;"></i> ${headingText}</h3>`;
+
+    cropDiseases.forEach(dis => {
+      const disName = formatLocalizedText(dis.name);
+      const visualLabel = isBn ? 'কৃষকের সহজে রোগ চেনার উপায় (Visual Symptoms):' : 'Visual Symptoms:';
+      const tankLabel = isBn ? '১৬ লিটার স্প্রে ট্যাংকের সহজ হিসাব (16-Liter Tank Dosage):' : '16-Liter Tank Dosage:';
+      const brandLabel = isBn ? 'বাজারে প্রচলিত ব্র্যান্ড নাম:' : 'Commercial Brand Names:';
+      const prevLabel = isBn ? 'রোগ প্রতিরোধ ব্যবস্থা (Prevention):' : 'Prevention & Proactive Care:';
+      const chemLabel = isBn ? 'রাসায়নিক প্রতিকার ও ওষুধের মাত্রা' : 'Chemical Treatment & Dosage';
+      const orgLabel = isBn ? 'দেশি ঘরোয়া ও কম খরচে জৈব প্রতিকার' : 'Organic & Home Remedies';
+      const orgFallback = isBn ? 'নিম তেল (৫ মিলি/লিটার) + সাবান পানি অথবা ট্রাইকোডার্মা দিয়ে বীজ শোধন করুন।' : 'Seed treatment with Trichoderma or Neem Oil spray (5ml/L).';
+      const tipLabel = isBn ? 'জরুরি কৃষক টিপস:' : 'Urgent Farmer Advisory:';
+
+      diseasesHTML += `
+        <div class="disease-detail-card">
+          <div class="disease-title-row">
+            <h2><i class="fa-solid fa-bug"></i> ${disName}</h2>
+            <span class="pathogen-pill"><i class="fa-solid fa-microscope"></i> ${dis.pathogen}</span>
+          </div>
+
+          <!-- Easy Visual Symptoms for Farmer -->
+          <div style="background: #fef2f2; border: 1px solid #fecaca; padding: 16px; border-radius: 12px; margin-bottom: 18px;">
+            <h4 style="color: #b91c1c; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-eye"></i> ${visualLabel}</h4>
+            <p style="font-size: 1.02rem; font-weight: 600; color: #991b1b; line-height: 1.6;">${dis.easySymptoms || dis.symptoms}</p>
+          </div>
+
+          <!-- 16L Tank Dosage Highlight Box -->
+          <div style="background: #ecfdf5; border: 2px solid #059669; padding: 18px; border-radius: 12px; margin-bottom: 18px;">
+            <h4 style="color: #065f46; font-size: 1.1rem; margin-bottom: 6px; display: flex; align-items: center; gap: 8px;">
+              <i class="fa-solid fa-spray-can-sparkles"></i> ${tankLabel}
+            </h4>
+            <p style="font-size: 1.08rem; font-weight: 800; color: #047857; margin-bottom: 6px;">${dis.tankDosage || dis.treatment}</p>
+            ${dis.brandNames ? `<p style="font-size: 0.95rem; color: #065f46; margin-top: 4px;"><strong>${brandLabel}</strong> <span style="background: #d1fae5; padding: 3px 8px; border-radius: 6px; font-weight: 700;">${dis.brandNames}</span></p>` : ''}
+          </div>
+
+          <div class="prevention-box">
+            <h4><i class="fa-solid fa-shield-halved"></i> ${prevLabel}</h4>
+            <p style="font-size: 0.98rem; color: #1e293b; line-height: 1.6;">${dis.prevention}</p>
+          </div>
+
+          <div class="treatment-section" style="margin-top: 18px;">
+            <div class="treatment-grid">
+              <div class="chemical-box">
+                <h5><i class="fa-solid fa-vial"></i> ${chemLabel}</h5>
+                <p style="font-size: 0.98rem; font-weight: 600; color: #14532d;">${dis.treatment}</p>
+              </div>
+              <div class="organic-box">
+                <h5><i class="fa-solid fa-leaf"></i> ${orgLabel}</h5>
+                <p style="font-size: 0.98rem; font-weight: 600; color: #78350f;">${dis.organicTreatment || orgFallback}</p>
+              </div>
+            </div>
+          </div>
+
+          ${dis.emergencyNotice ? `
+            <div style="margin-top: 16px; background: #fff7ed; border-left: 4px solid #ea580c; padding: 12px 16px; border-radius: 6px; font-size: 0.92rem; color: #9a3412;">
+              <i class="fa-solid fa-bell"></i> <strong>${tipLabel}</strong> ${dis.emergencyNotice}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    });
+
+    contentDiv.innerHTML = diseasesHTML;
+  } 
+  else if (subTabName === 'planting') {
+    contentDiv.innerHTML = `
+      <div class="disease-detail-card">
+        <div class="disease-title-row">
+          <h2 style="color: #1b5f43;"><i class="fa-solid fa-wheat-awn"></i> ${t(crop.name)} - ${t('বিঘাভিত্তিক বীজ ও চাষাবাদ নির্দেশিকা')}</h2>
+          <span class="pathogen-pill" style="background: #e0f2fe; color: #0369a1;"><i class="fa-solid fa-sun"></i> ${crop.plantingSeason}</span>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-top: 15px;">
+          <div style="background: #f0fdf4; padding: 18px; border-radius: 12px; border: 1px solid #bbf7d0;">
+            <h4 style="color: #166534; margin-bottom: 8px;"><i class="fa-solid fa-seedling"></i> ${t('বিঘায় বীজের হার (Per Bigha Seed):')}</h4>
+            <p style="font-size: 1.15rem; font-weight: 800; color: #14532d;">${crop.bighaSeedRate || crop.seedInfo.rate}</p>
+          </div>
+
+          <div style="background: #f0f9ff; padding: 18px; border-radius: 12px; border: 1px solid #bae6fd;">
+            <h4 style="color: #0369a1; margin-bottom: 8px;"><i class="fa-solid fa-ruler-vertical"></i> ${t('বীজ গভীরতা (Depth):')}</h4>
+            <p style="font-size: 1.1rem; font-weight: 700; color: #0284c7;">${crop.seedInfo.depth}</p>
+          </div>
+
+          <div style="background: #fffbeb; padding: 18px; border-radius: 12px; border: 1px solid #fde68a;">
+            <h4 style="color: #b45309; margin-bottom: 8px;"><i class="fa-solid fa-arrows-left-right"></i> ${t('চারার দূরত্ব (Spacing):')}</h4>
+            <p style="font-size: 1.05rem; font-weight: 700; color: #92400e;">${crop.seedInfo.spacing}</p>
+          </div>
+        </div>
+
+        <div style="margin-top: 22px; background: #ffffff; border: 2px solid #166534; padding: 20px; border-radius: 12px;">
+          <h4 style="color: #166534; font-size: 1.15rem; margin-bottom: 8px;"><i class="fa-solid fa-star"></i> ${t('বাংলাদেশের অনুমোদিত জনপ্রিয় উচ্চ ফলনশীল জাতসমূহ:')}</h4>
+          <p style="font-size: 1.08rem; font-weight: 700; color: #14532d;">${crop.seedInfo.popularVarieties}</p>
+        </div>
+
+        ${crop.farmerTips ? `
+          <div style="margin-top: 20px; background: #eff6ff; border-left: 5px solid #2563eb; padding: 18px; border-radius: 8px;">
+            <h4 style="color: #1e40af; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-lightbulb"></i> ${t('কৃষকের মাঠপর্যায়ের পরামর্শ (Farmer Field Tips):')}</h4>
+            <p style="font-size: 1rem; color: #1e3a8a; line-height: 1.6;">${crop.farmerTips}</p>
+          </div>
+        ` : ''}
+
+        <div style="margin-top: 20px; line-height: 1.7; color: #334155;">
+          <h4 style="font-size: 1.05rem; color: #0f172a; margin-bottom: 6px;"><i class="fa-solid fa-mountain-sun"></i> ${t('উপযুক্ত মাটি ও জমি প্রস্তুতি:')}</h4>
+          <p><strong>${crop.idealSoil}</strong> (pH: ${crop.optimalPH}). ${t('জমি ৪-৫ টি চাষ ও মই দিয়ে মাটি ঝুরঝুরে ও সমতল করে নেওয়া জরুরি।')}</p>
+        </div>
+      </div>
+    `;
+  }
+  else if (subTabName === 'fertilizers') {
+    const bFert = crop.bighaFertilizer;
+    let fertsHTML = `
+      <div class="disease-detail-card">
+        <div class="disease-title-row">
+          <h2 style="color: #1e3a8a;"><i class="fa-solid fa-flask"></i> ${t(crop.name)} ${t('- প্রতি বিঘা (৩৩ শতক) জমির জন্য সারের সঠিক প্রয়োগ মাত্রা')}</h2>
+        </div>
+        <p style="margin-bottom: 20px; color: #334155; font-size: 1.02rem;">${t('বিঘা প্রতি সুষম সারের সঠিক পরিমাণ ও কিস্তিতে প্রয়োগের সময়সূচী:')}</p>
+    `;
+
+    if (bFert) {
+      fertsHTML += `
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 25px;">
+          ${bFert.urea ? `<div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 18px; border-radius: 12px;"><h4 style="color: #166534;"><i class="fa-solid fa-circle-dot"></i> ইউরিয়া (Urea)</h4><p style="font-weight: 700; color: #14532d; font-size: 1.05rem;">${bFert.urea}</p></div>` : ''}
+          ${bFert.tsp ? `<div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 18px; border-radius: 12px;"><h4 style="color: #0369a1;"><i class="fa-solid fa-circle-dot"></i> টিএসপি (TSP)</h4><p style="font-weight: 700; color: #0c4a6e; font-size: 1.05rem;">${bFert.tsp}</p></div>` : ''}
+          ${bFert.dap ? `<div style="background: #f0f9ff; border: 1px solid #bae6fd; padding: 18px; border-radius: 12px;"><h4 style="color: #0369a1;"><i class="fa-solid fa-circle-dot"></i> ডিএপি (DAP)</h4><p style="font-weight: 700; color: #0c4a6e; font-size: 1.05rem;">${bFert.dap}</p></div>` : ''}
+          ${bFert.mop ? `<div style="background: #fffbeb; border: 1px solid #fde68a; padding: 18px; border-radius: 12px;"><h4 style="color: #b45309;"><i class="fa-solid fa-circle-dot"></i> এমওপি পটাশ (MOP)</h4><p style="font-weight: 700; color: #78350f; font-size: 1.05rem;">${bFert.mop}</p></div>` : ''}
+          ${bFert.gypsum ? `<div style="background: #faf5ff; border: 1px solid #e9d5ff; padding: 18px; border-radius: 12px;"><h4 style="color: #6b21a8;"><i class="fa-solid fa-circle-dot"></i> জিপসাম (Gypsum)</h4><p style="font-weight: 700; color: #581c87; font-size: 1.05rem;">${bFert.gypsum}</p></div>` : ''}
+          ${bFert.zinc ? `<div style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 18px; border-radius: 12px;"><h4 style="color: #be185d;"><i class="fa-solid fa-circle-dot"></i> দস্তা সার (Zinc)</h4><p style="font-weight: 700; color: #831843; font-size: 1.05rem;">${bFert.zinc}</p></div>` : ''}
+        </div>
+      `;
+    }
+
+    const fertList = crop.fertilizers || ["Urea", "TSP", "MOP", "Gypsum", "Zinc Sulphate"];
+    fertsHTML += `<h4 style="color: #0f172a; margin-bottom: 12px;"><i class="fa-solid fa-list-check"></i> ${t('সারের বিস্তারিত বিবরণ ও প্রয়োগবিধি:')}</h4><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px;">`;
+
+    fertList.forEach(fName => {
+      const matchFert = (guidesData.fertilizers || []).find(f => f.name.toLowerCase().includes(fName.toLowerCase()));
+      if (matchFert) {
+        fertsHTML += `
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 18px; border-radius: 12px;">
+            <h4 style="color: #0369a1; font-size: 1.05rem; margin-bottom: 6px;"><i class="fa-solid fa-flask-vial"></i> ${matchFert.name}</h4>
+            <p style="font-size: 0.88rem; color: #0284c7; margin-bottom: 8px;"><strong>${t('উপাদান:')}</strong> ${matchFert.composition}</p>
+            <p style="font-size: 0.92rem; color: #1e293b; margin-bottom: 6px;"><strong>${t('প্রয়োগ মাত্রা:')}</strong> ${matchFert.bighaDosage || matchFert.applicationRate}</p>
+            <p style="font-size: 0.88rem; color: #475569;"><strong>${t('প্রয়োগ পদ্ধতি:')}</strong> ${matchFert.method}</p>
+          </div>
+        `;
+      }
+    });
+
+    fertsHTML += `</div></div>`;
+    contentDiv.innerHTML = fertsHTML;
+  }
+}
+
+
+function closeDetailView() {
+  const catalogView = document.getElementById('catalog-browser-view');
+  const detailView = document.getElementById('detail-view');
+
+  if (detailView) detailView.style.display = 'none';
+  if (catalogView) catalogView.style.display = 'flex';
+
+  history.pushState(null, '', 'knowledgehub.html');
+}
+
+function switchTab(tabId, clearUrl = true) {
   activeTab = tabId;
   
-  // Set active class on buttons
   const buttons = document.querySelectorAll('.tab-btn');
   buttons.forEach(btn => btn.classList.remove('active'));
   
-  // Find which button triggered and set active
-  const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(tabId));
+  const targetBtn = Array.from(buttons).find(btn => btn.getAttribute('onclick') && btn.getAttribute('onclick').includes(tabId));
   if (targetBtn) targetBtn.classList.add('active');
 
-  // Clear search bar
   const searchInput = document.getElementById('guide-search-input');
   if (searchInput) searchInput.value = '';
   
+  if (clearUrl) {
+    closeDetailView();
+  }
+
   renderGuides();
 }
 
