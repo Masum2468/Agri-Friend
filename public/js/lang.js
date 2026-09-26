@@ -66,8 +66,7 @@
       footer_user_console: "User Console",
       footer_farmer_signin: "Farmer Sign In",
       footer_register_farm: "Register Farm",
-      footer_admin_panel: "Administrative Panel",
-      footer_copyright: "© 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.",
+      footer_copyright: "© 2026 AgriFriend Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.",
       
       // Knowledge Hub
       guides_title: "Agricultural Knowledge Hub",
@@ -180,54 +179,6 @@
       th_buyer_name: "Buyer Name",
       th_qty_sold: "Quantity Sold",
       th_revenue: "Revenue (TK)",
-
-      // Admin Panel
-      admin_header_title: "System Administration",
-      admin_header_subtitle: "System statistics, moderation and alerts center",
-      admin_menu_stats: "System Stats",
-      admin_menu_users: "Farmers Accounts",
-      admin_menu_broadcast: "Broadcast Alert",
-      admin_menu_market: "Moderate Market",
-
-      // Admin Metrics
-      admin_total_farmers: "Total Farmers",
-      admin_market_listings: "Market Listings",
-      admin_registered_farms: "Registered Farms",
-      admin_active_crops: "Active Crops",
-
-      // Admin Sections
-      admin_overview_title: "Recent System Activity Overview",
-      admin_overview_desc: "Welcome to the AgriSphere Admin Control Panel. From here, you can audit registered grower accounts, moderate community machinery rental and seed sale listings, and broadcast urgent agricultural weather alerts or fertilizer notifications to all active farmers' console hubs.",
-      admin_mod_policy_title: "Moderation Policy",
-      admin_mod_policy_desc: "Ensure that listings in the local equipment marketplace remain relevant to agriculture. Purge suspicious duplicate ads or commercial spam.",
-      admin_broadcast_policy_title: "Global Broadcasts",
-      admin_broadcast_policy_desc: "Broadcasted notifications appear immediately in the farmers' alert center. Use this to post regional pest alerts or fertilizer subsidy notifications.",
-      admin_users_title: "Registered Farmer Accounts",
-      admin_broadcast_title: "Send System-Wide Announcement",
-      admin_market_title: "Community Equipment Marketplace Moderation",
-
-      // Admin Form Labels
-      broad_title_label: "Alert Title",
-      broad_title_placeholder: "e.g. Pest Warning: Powdery Mildew, Subsidy Update",
-      broad_type_label: "Alert Type",
-      broad_msg_label: "Alert Message Details",
-      broad_msg_placeholder: "Describe the announcement details clearly. This will be sent to all users' dashboards instantly.",
-      broad_submit_btn: "Broadcast Notification",
-
-      // Admin & Table Extra Headers
-      th_username: "Username",
-      th_email: "Email",
-      th_role: "Role",
-      th_farm_name: "Farm Name",
-      th_contact_info: "Contact Info",
-      th_item_title: "Item Title",
-      th_deal_type: "Deal Type",
-      th_price: "Price (TK)",
-      th_seller_name: "Seller Name",
-      opt_info_announcement: "Info Announcement",
-      opt_crit_alert: "Critical Security/Pest Alert",
-      opt_event_announcement: "Success / Event Announcement",
-
       // Modals
       modal_farm_title: "Create Field Plot",
       label_farm_name: "Field/Plot Name",
@@ -361,7 +312,7 @@
       footer_farmer_signin: "কৃষক সাইন ইন",
       footer_register_farm: "খামার নিবন্ধন",
       footer_admin_panel: "অ্যাডমিন প্যানেল",
-      footer_copyright: "© ২০২৬ AgriSphere ডিজিটাল কৃষি ব্যবস্থা। পিরোজপুর বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়ের কম্পিউটার সায়েন্স বিভাগ-এর মাসুম রেজা কর্তৃক উন্নয়ন করা হয়েছে। সর্বস্বত্ব সংরক্ষিত।",
+      footer_copyright: "© ২০২৬ AgriFriend ডিজিটাল কৃষি ব্যবস্থা। পিরোজপুর বিজ্ঞান ও প্রযুক্তি বিশ্ববিদ্যালয়ের কম্পিউটার সায়েন্স বিভাগ-এর মাসুম রেজা কর্তৃক উন্নয়ন করা হয়েছে। সর্বস্বত্ব সংরক্ষিত।",
       
       // Knowledge Hub
       guides_title: "কৃষি তথ্য ও জ্ঞান কেন্দ্র",
@@ -475,54 +426,6 @@
       th_buyer_name: "ক্রেতার নাম",
       th_qty_sold: "বিক্রিত পরিমাণ",
       th_revenue: "রাজস্ব (টাকা)",
-
-      // Admin Panel
-      admin_header_title: "সিস্টেম প্রশাসন",
-      admin_header_subtitle: "সিস্টেম পরিসংখ্যান, নিয়ন্ত্রণ ও সতর্কতা কেন্দ্র",
-      admin_menu_stats: "সিস্টেম পরিসংখ্যান",
-      admin_menu_users: "কৃষকদের অ্যাকাউন্ট",
-      admin_menu_broadcast: "সতর্কতা সম্প্রচার",
-      admin_menu_market: "মার্কেট নিয়ন্ত্রণ",
-
-      // Admin Metrics
-      admin_total_farmers: "মোট কৃষক",
-      admin_market_listings: "মার্কেট লিস্টিং",
-      admin_registered_farms: "নিবন্ধিত খামার",
-      admin_active_crops: "সক্রিয় ফসল",
-
-      // Admin Sections
-      admin_overview_title: "সাম্প্রতিক সিস্টেম কার্যকলাপ সারসংক্ষেপ",
-      admin_overview_desc: "AgriSphere অ্যাডমিন কন্ট্রোল প্যানেলে স্বাগতম। এখান থেকে আপনি নিবন্ধিত কৃষকদের অ্যাকাউন্ট নিরীক্ষা করতে পারেন, সম্প্রদায়ের যন্ত্রপাতি ভাড়া ও বীজ বিক্রির লিস্টিং পরিচালনা করতে পারেন এবং সকল সক্রিয় কৃষকের ড্যাশবোর্ডে জরুরি আবহাওয়া বা সার নোটিফিকেশন পাঠাতে পারেন।",
-      admin_mod_policy_title: "নিয়ন্ত্রণ নীতি",
-      admin_mod_policy_desc: "স্থানীয় সরঞ্জাম মার্কেটপ্লেসের লিস্টিংগুলো যেন কৃষির সাথে প্রাসঙ্গিক থাকে তা নিশ্চিত করুন। সন্দেহজনক ডুপ্লিকেট বা বাণিজ্যিক স্প্যাম সরিয়ে ফেলুন।",
-      admin_broadcast_policy_title: "গ্লোবাল সম্প্রচার",
-      admin_broadcast_policy_desc: "সম্প্রচারিত নোটিফিকেশন কৃষকদের সতর্কতা কেন্দ্রে তাৎক্ষণিকভাবে প্রদর্শিত হয়। আঞ্চলিক কীটপতঙ্গ সতর্কতা বা সার ভর্তুকি বিজ্ঞপ্তির জন্য এটি ব্যবহার করুন।",
-      admin_users_title: "নিবন্ধিত কৃষক অ্যাকাউন্টসমূহ",
-      admin_broadcast_title: "সিস্টেম-ব্যাপী ঘোষণা পাঠান",
-      admin_market_title: "কমিউনিটি সরঞ্জাম মার্কেটপ্লেস নিয়ন্ত্রণ",
-
-      // Admin Form Labels
-      broad_title_label: "সতর্কতার শিরোনাম",
-      broad_title_placeholder: "যেমন: কীটপতঙ্গ সতর্কতা: পাউডারি মিলডিউ, ভর্তুকি আপডেট",
-      broad_type_label: "সতর্কতার ধরন",
-      broad_msg_label: "সতর্কবার্তা বিবরণ",
-      broad_msg_placeholder: "ঘোষণার বিবরণ পরিষ্কারভাবে বর্ণনা করুন। এটি সমস্ত ব্যবহারকারীর ড্যাশবোর্ডে সাথে সাথে পাঠানো হবে।",
-      broad_submit_btn: "নোটিফিকেশন সম্প্রচার করুন",
-
-      // Admin & Table Extra Headers
-      th_username: "ইউজারনেম",
-      th_email: "ইমেল",
-      th_role: "ভূমিকা",
-      th_farm_name: "খামারের নাম",
-      th_contact_info: "যোগাযোগের তথ্য",
-      th_item_title: "আইটেম শিরোনাম",
-      th_deal_type: "চুক্তির ধরন",
-      th_price: "মূল্য (টাকা)",
-      th_seller_name: "বিক্রেতার নাম",
-      opt_info_announcement: "তথ্য ভিত্তিক ঘোষণা",
-      opt_crit_alert: "জরুরি নিরাপত্তা/কীটপতঙ্গের সতর্কতা",
-      opt_event_announcement: "সফলতা / ইভেন্ট ঘোষণা",
-
       // Modals
       modal_farm_title: "খামারের জমি তৈরি করুন",
       label_farm_name: "জমির নাম",
