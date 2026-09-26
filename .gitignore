@@ -3,3 +3,4 @@ uploads/
 .env
 .env.example
 package-lock.json
+mock_db.json
