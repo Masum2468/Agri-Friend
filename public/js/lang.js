@@ -95,7 +95,7 @@
       register_farmname_label: "Farm Entity Name",
       register_location_label: "Location / Region",
       register_contact_label: "Contact Phone",
-      register_submit_btn: "Initialize Account",
+      register_submit_btn: "Submit",
 
       // Dashboard Common
       dash_header_title: "Farmer Console",
@@ -342,7 +342,7 @@
       register_farmname_label: "খামারের নাম",
       register_location_label: "অবস্থান / অঞ্চল",
       register_contact_label: "যোগাযোগের ফোন নম্বর",
-      register_submit_btn: "অ্যাকাউন্ট চালু করুন",
+      register_submit_btn: "সাবমিট",
 
       // Dashboard Common
       dash_header_title: "কৃষক কনসোল",
