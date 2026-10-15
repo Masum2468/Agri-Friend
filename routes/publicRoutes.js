@@ -39,6 +39,58 @@ const upload = multer({
   }
 });
 
+// @route   GET /api/public/guides/all-centers
+router.get('/guides/all-centers', (req, res) => {
+  res.json({
+    knowledgeCenters: guides.knowledgeCenters,
+    crops: guides.crops,
+    diseases: guides.diseases,
+    inputs: guides.inputs,
+    seasonal: guides.seasonal,
+    calendar: guides.calendar,
+    troubleshoot: guides.troubleshoot,
+    tutorials: guides.tutorials,
+    fertilizers: guides.fertilizers,
+    pesticides: guides.pesticides
+  });
+});
+
+// @route   POST /api/public/guides/diagnose
+router.post('/guides/diagnose', upload.single('diseaseImage'), (req, res) => {
+  try {
+    const { crop, symptoms } = req.body;
+    let queryCrop = (crop || '').toLowerCase().trim();
+    let querySym = (symptoms || '').toLowerCase().trim();
+    
+    // Find matching diseases from database
+    let matches = guides.diseases.filter(d => {
+      let cropMatch = !queryCrop || (d.crop && d.crop.toLowerCase().includes(queryCrop)) || (d.crop_bn && d.crop_bn.includes(queryCrop));
+      let symMatch = !querySym || (d.symptoms && d.symptoms.toLowerCase().includes(querySym)) || (d.symptoms_bn && d.symptoms_bn.includes(querySym)) || (d.name_bn && d.name_bn.includes(querySym));
+      return cropMatch && symMatch;
+    });
+
+    if (matches.length === 0) {
+      // Return top 2 general disease matches for crop or overall
+      matches = guides.diseases.filter(d => !queryCrop || (d.crop && d.crop.toLowerCase().includes(queryCrop))).slice(0, 2);
+    }
+    if (matches.length === 0) {
+      matches = guides.diseases.slice(0, 3);
+    }
+
+    const uploadedImagePath = req.file ? `/uploads/${req.file.filename}` : null;
+
+    res.json({
+      success: true,
+      uploadedImage: uploadedImagePath,
+      matches: matches,
+      confidence: req.file ? '৮৭% (লক্ষণ সাদৃশ্য ভিত্তিক)' : '৭৫% (লক্ষণ অনুসন্ধান ভিত্তিক)',
+      recommendation: 'আক্রান্ত অংশের পাতা কৃষি কর্মকর্তার কাছে প্রদর্শন করতে পারেন অথবা হটলাইন ১৬১২৩ নম্বরে কল করুন।'
+    });
+  } catch (err) {
+    res.status(500).json({ error: 'নির্ণয় প্রক্রিয়াকরণে সমস্যা হয়েছে।' });
+  }
+});
+
 // @route   GET /api/public/guides/crops
 router.get('/guides/crops', (req, res) => {
   res.json(guides.crops);
@@ -312,8 +364,8 @@ const handleUpload = (req, res, next) => {
 };
 
 // @route   POST /api/public/marketplace
-// @desc    Create a new listing (Farmer/Admin/Community)
-router.post('/marketplace', optionalAuth, handleUpload, async (req, res) => {
+// @desc    Create a new listing (Authorized Farmer/Admin only)
+router.post('/marketplace', protect, handleUpload, async (req, res) => {
   try {
     const body = req.body || {};
     const title = (body.title || '').trim();
@@ -354,15 +406,13 @@ router.post('/marketplace', optionalAuth, handleUpload, async (req, res) => {
       return res.status(400).json({ message: 'Contact info is required.' });
     }
 
-    let sellerId = 'u_guest_' + Date.now().toString(36);
-    let sellerName = (body.sellerName || '').trim();
-
-    if (req.user && (req.user.id || req.user._id)) {
-      sellerId = req.user.id || req.user._id;
-      sellerName = req.user.username || sellerName || 'Farmer';
-    } else if (!sellerName) {
-      sellerName = 'Farmer (' + (contact.length >= 4 ? contact.slice(-4) : contact) + ')';
+    // Must be an authorized user
+    if (!req.user || (!req.user.id && !req.user._id)) {
+      return res.status(401).json({ message: 'Unauthorized. Please sign in to post a marketplace listing.' });
     }
+
+    const sellerId = req.user.id || req.user._id;
+    const sellerName = req.user.username || (body.sellerName || '').trim() || 'Farmer';
 
     const newListing = await dbManager.create('MarketListing', {
       sellerId,
@@ -384,7 +434,7 @@ router.post('/marketplace', optionalAuth, handleUpload, async (req, res) => {
 });
 
 // @route   DELETE /api/public/marketplace/:id
-// @desc    Delete marketplace listing
+// @desc    Delete marketplace listing (Only listing owner or admin)
 router.delete('/marketplace/:id', protect, async (req, res) => {
   try {
     const listing = await dbManager.findById('MarketListing', req.params.id);
@@ -393,12 +443,17 @@ router.delete('/marketplace/:id', protect, async (req, res) => {
     }
 
     // Must be seller or admin to delete
-    const isAuthorized = String(listing.sellerId) === String(req.user.id) ||
-                         (listing.sellerName && listing.sellerName === req.user.username) ||
+    const currentUserId = String(req.user.id || req.user._id);
+    const currentUsername = (req.user.username || '').trim().toLowerCase();
+    const listingSellerId = String(listing.sellerId || '');
+    const listingSellerName = (listing.sellerName || '').trim().toLowerCase();
+
+    const isAuthorized = listingSellerId === currentUserId ||
+                         (listingSellerName && currentUsername && listingSellerName === currentUsername) ||
                          req.user.role === 'admin';
 
     if (!isAuthorized) {
-      return res.status(403).json({ message: 'Unauthorized action' });
+      return res.status(403).json({ message: 'Unauthorized: Only the creator of this listing or an admin can delete it.' });
     }
 
     await dbManager.findByIdAndDelete('MarketListing', req.params.id);

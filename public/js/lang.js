@@ -71,6 +71,9 @@
       // Knowledge Hub
       guides_title: "Agricultural Knowledge Hub",
       guides_desc: "Search through crop catalogs, plant diagnostic charts, fertilization guides, and safe chemical pesticide usage policies.",
+      kh_banner_title: "Agricultural Knowledge & Information Hub",
+      kh_banner_subtitle: "Learn agriculture, understand issues, make the right decisions.",
+      kh_search_placeholder: "Search crops, diseases, or agricultural issues...",
       tab_crops: "Crop & Seed Catalog",
       tab_diseases: "Disease Library",
       tab_fertilizers: "Fertilizer Advisor",
@@ -317,6 +320,9 @@
       // Knowledge Hub
       guides_title: "কৃষি তথ্য ও জ্ঞান কেন্দ্র",
       guides_desc: "ফসল ক্যাটালগ, উদ্ভিদ রোগ নির্ণয় চার্ট, সার নির্দেশিকা এবং নিরাপদ রাসায়নিক কীটনাশক ব্যবহার নীতি অনুসন্ধান করুন।",
+      kh_banner_title: "কৃষি তথ্য ও জ্ঞান কেন্দ্র",
+      kh_banner_subtitle: "কৃষি শিখুন, সমস্যা বুঝুন, সঠিক সিদ্ধান্ত নিন।",
+      kh_search_placeholder: "ফসল, রোগ বা কৃষি সমস্যা খুঁজুন...",
       tab_crops: "ফসল ও বীজ ক্যাটালগ",
       tab_diseases: "উদ্ভিদ রোগ লাইব্রেরি",
       tab_fertilizers: "সার উপদেষ্টা",

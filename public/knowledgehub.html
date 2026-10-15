@@ -27,29 +27,51 @@
     </nav>
   </header>
 
-  <!-- Reference Libraries (Tabs Layout) -->
-  <section id="guides" class="module">
-    <div class="section-header">
-      <h2 data-i18n="guides_title">Agricultural Knowledge Hub</h2>
-      <p data-i18n="guides_desc">Search through crop catalogs, plant diagnostic charts, fertilization guides, and safe chemical pesticide usage policies.</p>
+  <!-- Knowledge Hub Main Container -->
+  <main class="kh-container">
+    <!-- 1. Header Forest Green Banner (Matches Mockup) -->
+    <div class="kh-header-hero">
+      <h1 data-i18n="kh_banner_title"><i class="fa-solid fa-leaf"></i> কৃষি তথ্য ও জ্ঞান কেন্দ্র</h1>
+      <p data-i18n="kh_banner_subtitle">কৃষি শিখুন, সমস্যা বুঝুন, সঠিক সিদ্ধান্ত নিন।</p>
+    </div>
+
+    <!-- 2. Search Box (Matches Mockup) -->
+    <div class="kh-search-wrapper">
+      <div class="kh-search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="guide-search-input" placeholder="ফসল, রোগ বা কৃষি সমস্যা খুঁজুন..." data-i18n-placeholder="kh_search_placeholder" oninput="searchKnowledgeHub()">
+        <button id="kh-search-clear" class="kh-search-clear-btn" style="display:none;" onclick="clearKnowledgeSearch()" title="মুছে ফেলুন"><i class="fa-solid fa-xmark"></i></button>
+      </div>
     </div>
 
     <!-- MAIN CATALOG BROWSER VIEW -->
-    <div class="tabs-container" id="catalog-browser-view">
-      <div class="tabs-header glass">
-        <button class="tab-btn active" onclick="switchTab('crops')" data-i18n="tab_crops"><i class="fa-solid fa-seedling"></i> Crop & Seed Catalog</button>
-        <button class="tab-btn" onclick="switchTab('diseases')" data-i18n="tab_diseases"><i class="fa-solid fa-bug"></i> Disease Library</button>
-        <button class="tab-btn" onclick="switchTab('fertilizers')" data-i18n="tab_fertilizers"><i class="fa-solid fa-flask"></i> Fertilizer Advisor</button>
-        <button class="tab-btn" onclick="switchTab('pesticides')" data-i18n="tab_pesticides"><i class="fa-solid fa-shield-virus"></i> Pesticide Guide</button>
+    <div id="catalog-browser-view">
+      <!-- 3. The 7 Knowledge Centers Grid (2 Columns Like Mockup Image) -->
+      <div class="kh-centers-grid" id="kh-centers-cards-container">
+        <!-- Dynamically rendered or pre-populated by JS -->
       </div>
 
-      <div class="search-box-guide">
-        <input type="text" id="guide-search-input" placeholder="Search guides (e.g. Rice, Late Blight, Organic)..." data-i18n-placeholder="search_guides_placeholder" oninput="searchGuides()">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </div>
+      <!-- 4. Interactive Active Center Workspace -->
+      <section id="kh-active-workspace" class="kh-active-workspace">
+        <div class="kh-workspace-header">
+          <div class="kh-workspace-title-group">
+            <h2 id="kh-workspace-heading"><i class="fa-solid fa-seedling"></i> ১. ফসলভিত্তিক জ্ঞান কেন্দ্র</h2>
+            <p id="kh-workspace-desc">ফসলের বীজ বপন থেকে ফসল সংগ্রহ পর্যন্ত ধাপে ধাপে চাষ পদ্ধতি নির্দেশিকা।</p>
+          </div>
+          <div class="kh-center-selector-pills" id="kh-center-selector-pills">
+            <!-- Pill navigation to quickly switch centers -->
+          </div>
+        </div>
 
-      <div class="cards-grid" id="guides-grid">
-        <!-- Dynamically populated by JS -->
+        <!-- Dynamic Content Area for the Selected Center -->
+        <div id="kh-workspace-body">
+          <!-- Populated by JS based on active center -->
+        </div>
+      </section>
+
+      <!-- Legacy / Drilldown Guide Catalog View (Optional fallback tabs) -->
+      <div id="legacy-guides-section" style="margin-top: 50px; display: none;">
+        <div class="cards-grid" id="guides-grid"></div>
       </div>
     </div>
 
@@ -64,7 +86,20 @@
         <!-- Dynamically populated detail view -->
       </div>
     </div>
-  </section>
+  </main>
+
+  <!-- Video Playback Modal (For Center 7) -->
+  <div id="kh-video-modal" class="kh-video-modal-backdrop" onclick="closeVideoModal(event)">
+    <div class="kh-video-modal-box" onclick="event.stopPropagation()">
+      <div class="kh-video-modal-header">
+        <h3 id="kh-modal-video-title">কৃষি ভিডিও টিউটোরিয়াল</h3>
+        <button class="kh-modal-close-btn" onclick="closeVideoModal()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="kh-video-frame-container">
+        <iframe id="kh-modal-iframe" src="" title="AgriFriend Video Player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+  </div>
 
   <!-- Footer -->
   <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
