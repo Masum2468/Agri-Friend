@@ -202,7 +202,7 @@ header nav a:hover::after {
 
 .hero-content h1 span {
   background: linear-gradient(135deg, var(--primary-light), var(--accent));
-  -webkit-background-clip: text;
+  /* -webkit-background-clip: text; */
   -webkit-text-fill-color: transparent;
 }
 

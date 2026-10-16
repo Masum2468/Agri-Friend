@@ -1567,7 +1567,6 @@ function renderGuides(filterQuery = '') {
       grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${isBn ? 'আপনার অনুসন্ধানের সাথে কোনো সার রেকর্ড মিলেনি।' : 'No fertilizer records match your query.'}</div>`;
       return;
     }
-
     filtered.forEach(item => {
       const card = document.createElement('div');
       card.className = 'guide-card glass';
@@ -2000,70 +1999,66 @@ function getMarketplaceItemImage(item) {
   // Equipment Category
   if (type === 'equipment') {
     if (text.includes('tractor') || text.includes('ট্রাক্টর')) {
-      return 'https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/tractor.jpg';
     }
     if (text.includes('irrigation') || text.includes('drip') || text.includes('pump') || text.includes('সেচ') || text.includes('পাম্প') || text.includes('water')) {
-      return 'https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-liton-miah-426000778-36797458.jpg';
     }
     if (text.includes('tiller') || text.includes('rotary') || text.includes('plow') || text.includes('টিলার') || text.includes('লাঙ্গল')) {
-      return 'https://images.unsplash.com/photo-1530267981375-f0de937f5f13?auto=format&fit=crop&w=600&q=80';
-    }
-    if (text.includes('harvester') || text.includes('cutter') || text.includes('হারভেস্টার')) {
-      return 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80';
-    }
-    if (text.includes('spray') || text.includes('স্প্রে')) {
-      return 'https://images.unsplash.com/photo-1563514227147-6d2ff665a6a0?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/tiller.jpg';
     }
     // Default Equipment
-    return 'https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?auto=format&fit=crop&w=600&q=80';
+    return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/eq.png';
   }
 
   // Seed & Compost Category
   if (type === 'seed') {
     if (text.includes('compost') || text.includes('fertilizer') || text.includes('manure') || text.includes('কম্পোস্ট') || text.includes('সার')) {
-      return 'https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-anntarazevich-7299923.jpg';
     }
     if (text.includes('potato') || text.includes('আলু') || text.includes('tuber')) {
-      return 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/alo.jpg';
     }
     if (text.includes('rice') || text.includes('paddy') || text.includes('dhan') || text.includes('ধান') || text.includes('চাল') || text.includes('brri')) {
-      return 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/dhan.jpg';
     }
     if (text.includes('wheat') || text.includes('গম') || text.includes('grain')) {
-      return 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-karen-susi-2931561-39705611.jpg';
     }
     // Default Seed
-    return 'https://images.unsplash.com/photo-1530595467537-0b5996c41f2d?auto=format&fit=crop&w=600&q=80';
+    return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/le.jpg';
   }
 
   // Crop Category
   if (type === 'crop') {
     if (text.includes('tomato') || text.includes('টমেটো')) {
-      return 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-unal-aslan-48172282-30309037.jpg';
     }
     if (text.includes('potato') || text.includes('আলু')) {
-      return 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/alo.jpg';
     }
     if (text.includes('rice') || text.includes('paddy') || text.includes('ধান') || text.includes('grain')) {
-      return 'https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/dhan.jpg';
+      return '';
     }
     if (text.includes('mango') || text.includes('fruit') || text.includes('আম') || text.includes('ফল')) {
-      return 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/mango.jpg';
     }
     // Default Crop
-    return 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=600&q=80';
+    return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/le.jpg';
+
   }
 
   // Service Category
   if (type === 'service') {
     if (text.includes('tractor') || text.includes('plow') || text.includes('tilling') || text.includes('চাষ') || text.includes('হাল')) {
-      return 'https://images.unsplash.com/photo-1500937386664-56d1dfef3854?auto=format&fit=crop&w=600&q=80';
+      return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-drphotographer152-32938346.jpg';
     }
     // Default Service
-    return 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=600&q=80';
+    return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/le.jpg';
   }
 
-  return 'https://images.unsplash.com/photo-1592878904946-b3cd8ae243d0?auto=format&fit=crop&w=600&q=80';
+  return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-drphotographer152-32938346.jpg';
 }
 
 function getItemTypeIcon(itemType) {
@@ -2259,8 +2254,8 @@ async function handleCreateListing(e) {
     if (res.ok) {
       closeListingModal();
       await fetchMarketplace();
-      const isBn = (localStorage.getItem('language') || 'en') === 'bn';
-      alert(isBn ? 'আপনার মার্কেটপ্লেস লিস্টিং সফলভাবে যুক্ত হয়েছে!' : 'Your marketplace listing was posted successfully!');
+      // const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+      // alert(isBn ? 'আপনার মার্কেটপ্লেস লিস্টিং সফলভাবে যুক্ত হয়েছে!' : 'Your marketplace listing was posted successfully!');
     } else {
       const errData = await res.json().catch(() => ({}));
       const isBn = (localStorage.getItem('language') || 'en') === 'bn';
@@ -2295,8 +2290,8 @@ async function handleDeleteListing(id) {
 
     if (res.ok) {
       await fetchMarketplace();
-      const isBn = (localStorage.getItem('language') || 'en') === 'bn';
-      alert(isBn ? 'লিস্টিং সফলভাবে মুছে ফেলা হয়েছে।' : 'Listing deleted successfully.');
+      // const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+      // alert(isBn ? 'লিস্টিং সফলভাবে মুছে ফেলা হয়েছে।' : 'Listing deleted successfully.');
     } else {
       const errData = await res.json().catch(() => ({}));
       const isBn = (localStorage.getItem('language') || 'en') === 'bn';
