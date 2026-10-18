@@ -16,7 +16,10 @@
       <i class="fa-solid fa-seedling"></i>
       <span>AgriFriend</span>
     </a>
-    <nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <nav id="main-nav">
       <a href="#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather Advisory</a>
       <a href="knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Ag-Guides</a>
       <a href="marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
@@ -50,7 +53,7 @@
     <div class="weather-module">
       <div class="weather-container">
         <!-- Left Panel: Search & Visual Weather Status -->
-        <!-- <div style="display: flex; flex-direction: column; gap: 20px;"> -->
+        <div class="weather-left-panel">
           <div class="weather-search">
             <h3><i class="fa-solid fa-cloud-sun"></i> <span data-i18n="weather_report_title">Location Weather</span></h3>
             <div class="search-bar-group">

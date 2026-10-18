@@ -20,6 +20,9 @@
           <i class="fa-solid fa-seedling"></i>
           <span>AgriFriend</span>
         </a>
+        <button class="sidebar-close-btn" onclick="closeDashboardSidebar()" aria-label="Close Sidebar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
       <div class="sidebar-menu">
         <a class="sidebar-item active" onclick="switchSection('overview')">
@@ -67,14 +70,22 @@
       </div>
     </aside>
 
+    <!-- Overlay for mobile drawer -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeDashboardSidebar()"></div>
+
     <!-- Main Dashboard Section -->
     <main class="main-panel">
       
       <!-- Top Dashboard Header -->
       <header class="dash-header">
-        <div>
-          <h1 id="dash-title" data-i18n="dash_header_title">Farmer Console</h1>
-          <p style="color: var(--text-light); font-size: 0.95rem;" id="dash-subtitle" data-i18n="dash_header_subtitle">Real-time agricultural statistics & records</p>
+        <div class="dash-header-title-box" style="display: flex; align-items: center; gap: 14px;">
+          <button class="sidebar-toggle-btn" id="sidebar-toggle-btn" onclick="toggleDashboardSidebar()" aria-label="Toggle Sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div>
+            <h1 id="dash-title" data-i18n="dash_header_title">Farmer Console</h1>
+            <p style="color: var(--text-light); font-size: 0.95rem;" id="dash-subtitle" data-i18n="dash_header_subtitle">Real-time agricultural statistics & records</p>
+          </div>
         </div>
         <div class="user-profile-widget">
           <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-right: 10px;">
@@ -475,7 +486,7 @@
           <label for="farm-name" data-i18n="label_farm_name">Field/Plot Name</label>
           <input type="text" id="farm-name" required placeholder="e.g. Field North-A, Orchard Plot">
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="farm-location" data-i18n="label_farm_location">Field Location</label>
             <input type="text" id="farm-location" required placeholder="e.g. Hill Area, Sector 3">
@@ -497,7 +508,7 @@
         </div>
         <div class="form-group">
           <label for="farm-desc" data-i18n="label_farm_desc">Field Comments</label>
-          <textarea id="farm-desc" rows="3" placeholder="Soil health status, crop rotations, drainage properties..."></textarea>
+          <textarea id="farm-desc" rows="2" placeholder="Soil health status, crop rotations, drainage properties..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_register_field">Register Field</button>
       </form>
@@ -518,7 +529,7 @@
             <!-- JS populated -->
           </select>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="crop-name" data-i18n="label_crop_name">Crop Name</label>
             <input type="text" id="crop-name" required placeholder="e.g. Wheat, Tomato">
@@ -528,7 +539,7 @@
             <input type="text" id="crop-variety" required placeholder="e.g. HD 2967, Roma">
           </div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="crop-planted" data-i18n="label_crop_planted">Sowing Date</label>
             <input type="date" id="crop-planted" required>
@@ -549,7 +560,7 @@
         </div>
         <div class="form-group">
           <label for="crop-notes" data-i18n="label_crop_notes">Crop Timeline Notes</label>
-          <textarea id="crop-notes" rows="3" placeholder="Sowing spacing, depth, applied baseline fertilizers..."></textarea>
+          <textarea id="crop-notes" rows="2" placeholder="Sowing spacing, depth, applied baseline fertilizers..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_save_crop">Save Crop Schedule</button>
       </form>
@@ -577,7 +588,7 @@
             <option value="Other">Other</option>
           </select>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="inv-qty" data-i18n="label_inv_qty">Quantity</label>
             <input type="number" id="inv-qty" required min="0" placeholder="e.g. 50">
@@ -593,7 +604,7 @@
         </div>
         <div class="form-group">
           <label for="inv-notes" data-i18n="label_inv_notes">Inventory Notes</label>
-          <textarea id="inv-notes" rows="3" placeholder="Storage shelf instructions, expiration details..."></textarea>
+          <textarea id="inv-notes" rows="2" placeholder="Storage shelf instructions, expiration details..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_record_stock">Record Stock</button>
       </form>
@@ -612,7 +623,7 @@
           <label for="eq-name" data-i18n="label_eq_name">Equipment Name</label>
           <input type="text" id="eq-name" required placeholder="e.g. Mini Tractor, Sprayer Pump">
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="eq-type" data-i18n="label_eq_type">Equipment Category</label>
             <input type="text" id="eq-type" required placeholder="e.g. Harvesting, Tillage">
@@ -632,7 +643,7 @@
         </div>
         <div class="form-group">
           <label for="eq-desc" data-i18n="label_eq_desc">Technical Description</label>
-          <textarea id="eq-desc" rows="3" placeholder="Power HP details, service milestones..."></textarea>
+          <textarea id="eq-desc" rows="2" placeholder="Power HP details, service milestones..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_save_eq">Save Equipment Log</button>
       </form>
@@ -647,7 +658,7 @@
         <button class="close-btn" onclick="closeModal('finance')">&times;</button>
       </div>
       <form id="form-finance" onsubmit="handleFinanceSubmit(event)">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="fin-type" data-i18n="label_fin_type">Transaction Type</label>
             <select id="fin-type" required>
@@ -669,7 +680,7 @@
             </select>
           </div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="fin-amount" data-i18n="label_fin_amount">Amount (TK)</label>
             <input type="number" id="fin-amount" required step="0.01" min="0.01" placeholder="0.00">
@@ -702,7 +713,7 @@
             <!-- JS populated -->
           </select>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="har-qty" data-i18n="label_har_qty">Quantity Harvested</label>
             <input type="number" id="har-qty" required min="0.1" step="0.1" placeholder="e.g. 500">
@@ -712,7 +723,7 @@
             <input type="text" id="har-unit" required placeholder="e.g. kg, tons, bags">
           </div>
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="har-date" data-i18n="label_har_date">Harvest Date</label>
             <input type="date" id="har-date" required>
@@ -729,7 +740,7 @@
         </div>
         <div class="form-group">
           <label for="har-notes" data-i18n="label_har_notes">Harvest Comments</label>
-          <textarea id="har-notes" rows="3" placeholder="Mention moisture status, color density, grade sorting..."></textarea>
+          <textarea id="har-notes" rows="2" placeholder="Mention moisture status, color density, grade sorting..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_record_harvest">Record Harvest Yield</button>
       </form>
@@ -754,7 +765,7 @@
           <label for="sale-buyer" data-i18n="label_sale_buyer">Buyer / Distributing Entity Name</label>
           <input type="text" id="sale-buyer" required placeholder="e.g. Central Grain Market Co-op">
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="form-group">
             <label for="sale-qty" data-i18n="label_sale_qty">Quantity Disposed</label>
             <input type="number" id="sale-qty" required min="0.1" step="0.1" placeholder="Should not exceed harvested yield">
@@ -770,7 +781,7 @@
         </div>
         <div class="form-group">
           <label for="sale-notes" data-i18n="label_sale_notes">Sales Comments</label>
-          <textarea id="sale-notes" rows="3" placeholder="Contract numbers, shipping details..."></textarea>
+          <textarea id="sale-notes" rows="2" placeholder="Contract numbers, shipping details..."></textarea>
         </div>
         <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;" data-i18n="btn_log_sale">Log Sale & Sync Revenue</button>
       </form>

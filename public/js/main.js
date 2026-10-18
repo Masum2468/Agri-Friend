@@ -13,11 +13,11 @@ let guidesData = {
   fertilizers: [],
   pesticides: []
 };
-let activeKnowledgeCenterId = 'center-crops';
-let activeCropTimelineId = 'rice';
-let activeSeasonalTab = 'kharif1';
+let activeKnowledgeCenterId ='center-crops';
+let activeCropTimelineId ='rice';
+let activeSeasonalTab ='kharif1';
 let marketplaceData = [];
-let currentCity = 'Dhaka';
+let currentCity ='Dhaka';
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const searchBtn = document.getElementById('weather-search-btn');
   const cityInput = document.getElementById('weather-city-input');
 
-  if (searchBtn && cityInput) {
+  if (searchBtn && cityInput){
     searchBtn.addEventListener('click', () => {
       const city = cityInput.value.trim();
       if (city) fetchWeather(city);
@@ -47,6 +47,50 @@ document.addEventListener('DOMContentLoaded', () => {
     cityInput.addEventListener('change', () => {
       const city = cityInput.value.trim();
       if (city) fetchWeather(city);
+    });
+  }
+
+  // Mobile Navigation Toggle
+  const navToggleBtn = document.getElementById('nav-toggle');
+  const mainNav = document.getElementById('main-nav');
+  if (navToggleBtn && mainNav) {
+    navToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = mainNav.classList.toggle('nav-open');
+      const icon = navToggleBtn.querySelector('i');
+      if (icon) {
+        if (isOpen) {
+          icon.classList.remove('fa-bars');
+          icon.classList.add('fa-xmark');
+        } else {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!mainNav.contains(e.target) && !navToggleBtn.contains(e.target)) {
+        if (mainNav.classList.contains('nav-open')) {
+          mainNav.classList.remove('nav-open');
+          const icon = navToggleBtn.querySelector('i');
+          if (icon) {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+          }
+        }
+      }
+    });
+
+    mainNav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mainNav.classList.remove('nav-open');
+        const icon = navToggleBtn.querySelector('i');
+        if (icon) {
+          icon.classList.remove('fa-xmark');
+          icon.classList.add('fa-bars');
+        }
+      });
     });
   }
 });
@@ -75,7 +119,7 @@ document.addEventListener('languagechanged', () => {
 // AUTHENTICATION CHECK
 // ----------------------------------------------------
 async function checkAuth() {
-  try {
+  try{
     const res = await fetch('/api/auth/me', { credentials: 'include' });
     if (res.ok) {
       currentUser = await res.json();
@@ -257,17 +301,17 @@ async function loadGuides() {
     if (res.ok) {
       const data = await res.json();
       guidesData = { ...guidesData, ...data };
-    } else {
-      const [cropsRes, diseasesRes, fertsRes, pestsRes] = await Promise.all([
-        fetch('/api/public/guides/crops'),
-        fetch('/api/public/guides/diseases'),
-        fetch('/api/public/guides/fertilizers'),
-        fetch('/api/public/guides/pesticides')
-      ]);
-      guidesData.crops = await cropsRes.json();
-      guidesData.diseases = await diseasesRes.json();
-      guidesData.fertilizers = await fertsRes.json();
-      guidesData.pesticides = await pestsRes.json();
+    // } else {
+    //   const [cropsRes, diseasesRes, fertsRes, pestsRes] = await Promise.all([
+    //     fetch('/api/public/guides/crops'),
+    //     fetch('/api/public/guides/diseases'),
+    //     fetch('/api/public/guides/fertilizers'),
+    //     fetch('/api/public/guides/pesticides')
+    //   ]);
+    //   // guidesData.crops = await cropsRes.json();
+    //   // guidesData.diseases = await diseasesRes.json();
+    //   // guidesData.fertilizers = await fertsRes.json();
+    //   // guidesData.pesticides = await pestsRes.json();
     }
   } catch (err) {
     console.error('Error loading reference guides:', err);
@@ -295,6 +339,7 @@ function renderKnowledgeCenters(filterQuery = '') {
   const query = (filterQuery || '').toLowerCase().trim();
 
   const filtered = centers.filter(c => {
+    
     if (!query) return true;
     const title = (c.title || c.titleFull || c.title_bn || '').toLowerCase();
     const sub = (c.subtitle || c.subtitle_bn || '').toLowerCase();
@@ -2039,7 +2084,6 @@ function getMarketplaceItemImage(item) {
     }
     if (text.includes('rice') || text.includes('paddy') || text.includes('ধান') || text.includes('grain')) {
       return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/dhan.jpg';
-      return '';
     }
     if (text.includes('mango') || text.includes('fruit') || text.includes('আম') || text.includes('ফল')) {
       return 'https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/mango.jpg';

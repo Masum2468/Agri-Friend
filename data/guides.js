@@ -1,9 +1,8 @@
 // Static guides and complete 7 Agricultural Knowledge Centers for AgriFriend Portal
 // Bangladesh Agricultural Context - Farmer Friendly Bilingual Edition
-
-module.exports = {
+module.exports ={
   // 7 AGRICULTURAL KNOWLEDGE CENTERS (৭টি কৃষি জ্ঞান কেন্দ্র)
-  knowledgeCenters: [
+  knowledgeCenters:[
     {
       id: "crops",
       number: 1,
@@ -30,10 +29,10 @@ module.exports = {
       icon: "fa-bug",
       image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80",
       badge: "AI Powered",
-      featuredDiseases: ["ধানের ব্লাস্ট", "আলুর নাবি ধসা", "বেগুনের ডগা ছিদ্রকারী", "মরিচের অ্যানথ্রাকনোজ", "ভুট্টার ফল আর্মিওয়ার্ম"]
+      featuredDiseases:["ধানের ব্লাস্ট", "আলুর নাবি ধসা", "বেগুনের ডগা ছিদ্রকারী", "মরিচের অ্যানথ্রাকনোজ", "ভুট্টার ফল আর্মিওয়ার্ম"]
     },
     {
-      id: "inputs",
+      id:"inputs",
       number: 3,
       title: "সার ও উপকরণ গাইড",
       titleFull: "৩. সার, বীজ ও কৃষি উপকরণ গাইড",
@@ -110,7 +109,7 @@ module.exports = {
       id: "crop_rice",
       name: "Rice / ধান",
       scientificName: "Oryza sativa",
-      type: "Cereal / দানাশস্য",
+      type:"Cereal / দানাশস্য",
       image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=700&q=80",
       idealSoil: "Fertile Clay-Loam Soil / উর্বর এটেল ও দোআঁশ মাটি (Clay-Loam)",
       optimalPH: "5.5 - 6.5",

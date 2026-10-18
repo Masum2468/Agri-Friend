@@ -243,12 +243,33 @@ function switchSection(sectionId) {
   const titleText = dashboardSectionTitles[sectionId] || 'Farmer Console';
   const t = window.translateText || (x => x);
   document.getElementById('dash-title').innerText = t(titleText);
+  // Close mobile sidebar if open
+  closeDashboardSidebar();
   
   // If reports tab, load and render charts
   if (sectionId === 'reports') {
     loadReportsCharts();
   }
 }
+
+// ----------------------------------------------------
+// MOBILE SIDEBAR TOGGLE
+// ----------------------------------------------------
+window.toggleDashboardSidebar = function() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  if (sidebar) {
+    sidebar.classList.toggle('sidebar-open');
+    if (overlay) overlay.classList.toggle('active');
+  }
+};
+
+window.closeDashboardSidebar = function() {
+  const sidebar = document.querySelector('.sidebar');
+  const overlay = document.getElementById('sidebar-overlay');
+  if (sidebar) sidebar.classList.remove('sidebar-open');
+  if (overlay) overlay.classList.remove('active');
+};
 
 // ----------------------------------------------------
 // TABLE RENDERS

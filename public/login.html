@@ -24,8 +24,8 @@
     }
 
     .auth-card {
-      width:600px;
-      max-width: 580px;
+      width: 100%;
+      max-width: 520px;
       border-radius: var(--radius-lg);
       padding: 40px;
       animation: fadeIn 0.5s ease-out;
@@ -99,6 +99,49 @@
       margin-bottom: 20px;
       font-size: 0.9rem;
       display: none;
+    }
+
+    /* Responsive Breakpoints for Login */
+    @media (max-width: 768px) {
+      .auth-wrapper {
+        padding: 24px 14px;
+        min-height: 85vh;
+      }
+      .auth-card {
+        padding: 26px 18px;
+        border-radius: var(--radius-md);
+      }
+      .form-header h2 {
+        font-size: 1.5rem;
+      }
+      header {
+        padding: 12px 16px;
+      }
+      header .logo {
+        font-size: 1.3rem;
+      }
+      header nav a {
+        font-size: 0.9rem;
+      }
+      .form-group input {
+        font-size: 16px !important;
+        min-height: 44px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .auth-card {
+        padding: 20px 14px;
+      }
+      .auth-tab {
+        font-size: 1rem;
+      }
+      .form-header h2 {
+        font-size: 1.35rem;
+      }
+      .form-header p {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
