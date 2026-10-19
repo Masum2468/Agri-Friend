@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
 
   <!-- Premium Header -->
@@ -23,11 +25,13 @@
       <a href="#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather Advisory</a>
       <a href="knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Ag-Guides</a>
       <a href="marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
-      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn"
+        style="padding: 6px 12px; margin-left: 5px;">
         <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
       </button>
       <div id="auth-buttons">
-        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In / Register</a>
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i
+            class="fa-solid fa-right-to-bracket"></i> Sign In / Register</a>
       </div>
     </nav>
   </header>
@@ -35,10 +39,13 @@
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1><span data-i18n="hero_title_1">Empowering Farmers with</span> <br><span data-i18n="hero_title_2">Smart Digital Agriculture</span></h1>
+      <h1><span data-i18n="hero_title_1">Empowering Farmers with</span> <br><span data-i18n="hero_title_2">Smart Digital
+          Agriculture</span></h1>
       <div class="hero-actions">
-        <a href="#weather" class="btn btn-primary" data-i18n="hero_weather_btn"><i class="fa-solid fa-cloud-showers-water"></i> Check Weather Advice</a>
-        <a href="/login" class="btn btn-outline" id="hero-dashboard-btn" data-i18n="hero_dashboard_btn"><i class="fa-solid fa-chalkboard-user"></i> Go to My Farm Dashboard</a>
+        <a href="#weather" class="btn btn-primary" data-i18n="hero_weather_btn"><i
+            class="fa-solid fa-cloud-showers-water"></i> Check Weather Advice</a>
+        <a href="/login" class="btn btn-outline" id="hero-dashboard-btn" data-i18n="hero_dashboard_btn"><i
+            class="fa-solid fa-chalkboard-user"></i> Go to My Farm Dashboard</a>
       </div>
     </div>
   </section>
@@ -47,17 +54,51 @@
   <section id="weather" class="module">
     <div class="section-header">
       <h2 data-i18n="weather_section_title">Weather-Driven Farm Advisory</h2>
-      <p data-i18n="weather_section_desc">Enter your location below. Our engine analyzes meteorological parameters to deliver customized farming actions, spray safety advisories, and irrigation plans.</p>
+      <p data-i18n="weather_section_desc">Enter your location below. Our engine analyzes meteorological parameters to
+        deliver customized farming actions, spray safety advisories, and irrigation plans.</p>
     </div>
 
     <div class="weather-module">
       <div class="weather-container">
         <!-- Left Panel: Search & Visual Weather Status -->
         <div class="weather-left-panel">
+          <div class="weather-info" id="weather-display">
+            <!-- Dynamically populated by JS (stunning layout) -->
+            <div class="weather-main-info">
+              <div class="weather-temp-container">
+                <span class="weather-temp-num">28</span>
+                <span class="weather-temp-deg">°C</span>
+                <i class="fa-solid fa-cloud-sun weather-main-icon"></i>
+              </div>
+              <div class="weather-meta">
+                <div class="weather-location-badge"><i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh</div>
+                <div class="weather-condition-text" id="weather-condition">Partly Cloudy</div>
+              </div>
+            </div>
+            <div class="weather-stats-grid">
+              <div class="weather-stat-card">
+                <div class="stat-icon-wrapper humidity-icon"><i class="fa-solid fa-droplet"></i></div>
+                <div class="stat-detail">
+                  <span class="stat-label" data-i18n="weather_humidity_label">Humidity</span>
+                  <span class="stat-val" id="weather-humidity">65%</span>
+                </div>
+              </div>
+              <div class="weather-stat-card">
+                <div class="stat-icon-wrapper wind-icon"><i class="fa-solid fa-wind"></i></div>
+                <div class="stat-detail">
+                  <span class="stat-label" data-i18n="weather_wind_label">Wind Speed</span>
+                  <span class="stat-val" id="weather-wind">12 km/h</span>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="weather-search">
-            <h3><i class="fa-solid fa-cloud-sun"></i> <span data-i18n="weather_report_title">Location Weather</span></h3>
+            <h3><i class="fa-solid fa-cloud-sun"></i> <span data-i18n="weather_report_title">Location Weather</span>
+            </h3>
             <div class="search-bar-group">
-              <input type="text" id="weather-city-input" list="bd-districts" placeholder="Search District (e.g. Dhaka, Bogura)..." data-i18n-placeholder="weather_search_placeholder" value="Dhaka">
+              <input type="text" id="weather-city-input" list="bd-districts"
+                placeholder="Search District (e.g. Dhaka, Bogura)..." data-i18n-placeholder="weather_search_placeholder"
+                value="Dhaka">
               <datalist id="bd-districts">
                 <!-- All 64 Districts of Bangladesh -->
                 <option value="Dhaka">Dhaka / ঢাকা</option>
@@ -125,12 +166,14 @@
                 <option value="Netrokona">Netrokona / নেত্রকোণা</option>
                 <option value="Sherpur">Sherpur / শেরপুর</option>
               </datalist>
-              <button id="weather-search-btn" data-i18n="weather_search_btn"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+              <button id="weather-search-btn" data-i18n="weather_search_btn"><i
+                  class="fa-solid fa-magnifying-glass"></i> Search</button>
             </div>
-            
+
             <!-- Quick District Selector Chips -->
             <div class="district-chips" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
-              <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-light); align-self: center;" data-i18n="quick_districts_label">Popular Districts:</span>
+              <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-light); align-self: center;"
+                data-i18n="quick_districts_label">Popular Districts:</span>
               <button type="button" class="btn-chip" onclick="quickSelectDistrict('Dhaka')">Dhaka</button>
               <button type="button" class="btn-chip" onclick="quickSelectDistrict('Naogaon')">Naogaon</button>
               <button type="button" class="btn-chip" onclick="quickSelectDistrict('Chattogram')">Chattogram</button>
@@ -147,41 +190,12 @@
             <div id="weather-status-label" style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;"></div>
           </div>
 
-          <div class="weather-info" id="weather-display">
-            <!-- Dynamically populated by JS (stunning layout) -->
-            <div class="weather-main-info">
-              <div class="weather-temp-container">
-                <span class="weather-temp-num">28</span>
-                <span class="weather-temp-deg">°C</span>
-                <i class="fa-solid fa-cloud-sun weather-main-icon"></i>
-              </div>
-              <div class="weather-meta">
-                <div class="weather-location-badge"><i class="fa-solid fa-location-dot"></i> Dhaka, Bangladesh</div>
-                <div class="weather-condition-text"id="weather-condition">Partly Cloudy</div>
-              </div>
-            </div>
-            <div class="weather-stats-grid">
-              <div class="weather-stat-card">
-                <div class="stat-icon-wrapper humidity-icon"><i class="fa-solid fa-droplet"></i></div>
-                <div class="stat-detail">
-                  <span class="stat-label" data-i18n="weather_humidity_label">Humidity</span>
-                  <span class="stat-val" id="weather-humidity">65%</span>
-                </div>
-              </div>
-              <div class="weather-stat-card">
-                <div class="stat-icon-wrapper wind-icon"><i class="fa-solid fa-wind"></i></div>
-                <div class="stat-detail">
-                  <span class="stat-label" data-i18n="weather_wind_label">Wind Speed</span>
-                  <span class="stat-val" id="weather-wind">12 km/h</span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Right Panel: Smart Advisory Alerts -->
         <div class="weather-right-panel">
-          <h3><i class="fa-solid fa-seedling"></i> <span data-i18n="weather_advice_title">Farming Recommendations</span></h3>
+          <h3><i class="fa-solid fa-seedling"></i> <span data-i18n="weather_advice_title">Farming Recommendations</span>
+          </h3>
           <div class="weather-advice-box" id="weather-advice-list">
             <!-- Dynamically populated with beautiful colored alert cards by JS -->
             <div class="advice-card advice-success">
@@ -190,7 +204,8 @@
             </div>
             <div class="advice-card advice-success">
               <div class="advice-icon-box"><i class="fa-solid fa-wind"></i></div>
-              <div class="advice-content-text">Calm winds. Perfect time for spraying organic pesticides or foliar feeds.</div>
+              <div class="advice-content-text">Calm winds. Perfect time for spraying organic pesticides or foliar feeds.
+              </div>
             </div>
           </div>
         </div>
@@ -202,7 +217,8 @@
     <div class="footer-content">
       <div class="footer-brand">
         <h3>AgriSphere</h3>
-        <p data-i18n="footer_brand_desc">A smart, digital hub designed for local farmers. Access guides, manage crop records, optimize inventory stock levels, and coordinate local marketplaces in a single application.</p>
+        <p data-i18n="footer_brand_desc">A smart, digital hub designed for local farmers. Access guides, manage crop
+          records, optimize inventory stock levels, and coordinate local marketplaces in a single application.</p>
       </div>
       <div class="footer-links">
         <h4 data-i18n="footer_section_title">Sections</h4>
@@ -222,12 +238,13 @@
       </div>
     </div>
     <div class="copyright" data-i18n="footer_copyright">
-      &copy; 2026 AgriFriend Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+      &copy; 2026 AgriFriend Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science,
+      Pirojpur Science and Technology University. All rights reserved.
     </div>
   </footer>
 
   <script src="/js/lang.js?v=10"></script>
   <script src="/js/main.js?v=10"></script>
 </body>
-</html>
 
+</html>
