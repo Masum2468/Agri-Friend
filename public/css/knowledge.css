@@ -772,12 +772,10 @@ footer {
 
 /* 1. Header Green Banner (Matches Mockup) */
 .kh-header-hero {
-  background: linear-gradient(135deg, #134e2f 0%, #195e38 50%, #1e6f42 100%);
   border-radius: 20px;
   padding: 45px 30px;
   text-align: center;
   color: #ffffff;
-  box-shadow: 0 12px 35px -8px rgba(19, 78, 47, 0.4);
   margin-bottom: 25px;
   position: relative;
   overflow: hidden;
@@ -790,7 +788,6 @@ footer {
   right: -20%;
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(82, 183, 136, 0.15) 0%, transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -809,7 +806,7 @@ footer {
 
 .kh-header-hero p {
   font-size: 1.15rem;
-  color: #a7f3d0;
+  color: #a5b7af;
   font-weight: 400;
   max-width: 650px;
   margin: 0 auto;

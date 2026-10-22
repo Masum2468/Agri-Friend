@@ -30,8 +30,8 @@
       weather_advice_title: "Farming Recommendations",
       
       // Marketplace section
-      marketplace_section_title: "Equipment & Seed Marketplace",
-      marketplace_section_desc: "Rent tractors, exchange seeds, or buy tools directly from verified farmers in your community.",
+      marketplace_section_title: "Equipment and Seed Marketplace",
+      marketplace_section_desc: "Buy, sell, and explore agricultural products with ease through a marketplace",
       marketplace_community_title: "Community Listings",
       marketplace_post_btn: "Post a Listing",
       
@@ -71,7 +71,7 @@
       // Knowledge Hub
       guides_title: "Agricultural Knowledge Hub",
       guides_desc: "Search through crop catalogs, plant diagnostic charts, fertilization guides, and safe chemical pesticide usage policies.",
-      kh_banner_title: "Agricultural Knowledge & Information Hub",
+      kh_banner_title: "Agricultural Knowledge and Information Hub",
       kh_banner_subtitle: "Learn agriculture, understand issues, make the right decisions.",
       kh_search_placeholder: "Search crops, diseases, or agricultural issues...",
       tab_crops: "Crop & Seed Catalog",
@@ -279,7 +279,7 @@
       
       // Marketplace section
       marketplace_section_title: "যন্ত্রপাতি ও বীজ বাজারক্ষেত্র",
-      marketplace_section_desc: "আপনার সম্প্রদায়ের যাচাইকৃত কৃষকদের কাছ থেকে সরাসরি ট্রাক্টর ভাড়া নিন, বীজ বিনিময় করুন বা সরঞ্জাম কিনুন।",
+      marketplace_section_desc: "সহজেই কৃষিপণ্য কিনুন, বিক্রি করুন এবং বিভিন্ন কৃষিপণ্য ঘুরে দেখুন।",
       marketplace_community_title: "সম্প্রদায় লিস্টিং সমূহ",
       marketplace_post_btn: "একটি লিস্টিং পোস্ট করুন",
       

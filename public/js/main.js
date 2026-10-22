@@ -109,10 +109,26 @@ document.addEventListener('languagechanged', () => {
   if (currentCity) fetchWeather(currentCity);
   renderGuides();
   renderMarketplace();
-  const detailView = document.getElementById('detail-view');
-  if (detailView && detailView.style.display !== 'none' && window.currentOpenCropId) {
-    openCropDetail(window.currentOpenCropId, window.currentOpenSubTab || 'diseases', false);
+
+  // Re-render entire Knowledge Hub on language switch
+  const khContainer = document.getElementById('kh-centers-cards-container');
+  if (khContainer) {
+    renderKnowledgeCenters();
+    renderCenterSelectorPills();
+    renderActiveCenterWorkspace(activeKnowledgeCenterId);
   }
+
+  // If detail view is open, re-render it too
+  const detailView = document.getElementById('detail-view');
+  if (detailView && detailView.style.display !== 'none') {
+    if (window.currentOpenCropId) {
+      openCropDetail(window.currentOpenCropId, window.currentOpenSubTab || 'diseases', false);
+    }
+    if (window.currentOpenDiseaseData) {
+      openDiseaseDetail(window.currentOpenDiseaseData);
+    }
+  }
+
   if (window.applyTranslations) window.applyTranslations();
 });
 // ----------------------------------------------------
@@ -301,17 +317,6 @@ async function loadGuides() {
     if (res.ok) {
       const data = await res.json();
       guidesData = { ...guidesData, ...data };
-    // } else {
-    //   const [cropsRes, diseasesRes, fertsRes, pestsRes] = await Promise.all([
-    //     fetch('/api/public/guides/crops'),
-    //     fetch('/api/public/guides/diseases'),
-    //     fetch('/api/public/guides/fertilizers'),
-    //     fetch('/api/public/guides/pesticides')
-    //   ]);
-    //   // guidesData.crops = await cropsRes.json();
-    //   // guidesData.diseases = await diseasesRes.json();
-    //   // guidesData.fertilizers = await fertsRes.json();
-    //   // guidesData.pesticides = await pestsRes.json();
     }
   } catch (err) {
     console.error('Error loading reference guides:', err);
@@ -596,54 +601,6 @@ function renderDiseasesCenter(container) {
   const diseases = guidesData.diseases || [];
 
   container.innerHTML = `
-    <!-- AI Diagnostic Upload Tester -->
-    <div class="kh-diagnosis-box" id="kh-upload-box">
-      <div style="max-width: 600px; margin: 0 auto;">
-        <i class="fa-solid fa-camera-retro" style="font-size: 2.8rem; color: #1b5f43; margin-bottom: 12px;"></i>
-        <h3 style="font-size: 1.35rem; font-weight: 700; color: #1e293b; margin-bottom: 6px;">
-          ছবি আপলোড বা লক্ষণ দিয়ে ফসলের রোগ শনাক্তকরণ
-        </h3>
-        <p style="color: #64748b; font-size: 0.95rem; margin-bottom: 20px;">
-          আক্রান্ত পাতা বা কাণ্ডের ছবি আপলোড করুন অথবা লক্ষণ লিখে তাত্ক্ষণিক রোগ ও প্রতিকার জেনে নিন।
-        </p>
-
-        <form id="kh-disease-form" onsubmit="handleDiseaseDiagnosis(event)" style="display: flex; flex-direction: column; gap: 14px; text-align: left;">
-          <div>
-            <label style="font-weight: 600; font-size: 0.88rem; color: #334155; margin-bottom: 4px; display: block;">আক্রান্ত ফসল নির্বাচন করুন:</label>
-            <select id="diag-crop" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px;">
-              <option value="">সকল ফসল / জানি না</option>
-              <option value="rice">ধান (Rice)</option>
-              <option value="wheat">গম (Wheat)</option>
-              <option value="potato">আলু (Potato)</option>
-              <option value="tomato">টমেটো (Tomato)</option>
-              <option value="mustard">সরিষা (Mustard)</option>
-              <option value="jute">পাট (Jute)</option>
-              <option value="eggplant">বেগুন (Brinjal)</option>
-              <option value="maize">ভুট্টা (Maize)</option>
-              <option value="chilli">মরিচ (Chilli)</option>
-            </select>
-          </div>
-
-          <div>
-            <label style="font-weight: 600; font-size: 0.88rem; color: #334155; margin-bottom: 4px; display: block;">রোগের দৃশ্যমান লক্ষণ লিখুন:</label>
-            <textarea id="diag-symptoms" placeholder="যেমন: পাতায় বাদামী দাগ, পাতা হলুদ হয়ে যাওয়া, পাতায় সাদা গুঁড়ো..." rows="2" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-family: inherit;"></textarea>
-          </div>
-
-          <div>
-            <label style="font-weight: 600; font-size: 0.88rem; color: #334155; margin-bottom: 4px; display: block;">আক্রান্ত অংশের ছবি (ঐচ্ছিক):</label>
-            <input type="file" id="diag-image" accept="image/*" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 8px; background: #ffffff;">
-          </div>
-
-          <button type="submit" class="btn btn-primary" style="justify-content: center; width: 100%; padding: 12px; border-radius: 10px; font-size: 1rem;">
-            <i class="fa-solid fa-microscope"></i> রোগ শনাক্ত করুন (Diagnose Now)
-          </button>
-        </form>
-      </div>
-
-      <!-- Result Area -->
-      <div id="kh-diag-result" style="display: none; margin-top: 25px; text-align: left;"></div>
-    </div>
-
     <!-- Disease Library Grid -->
     <div>
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
@@ -661,9 +618,9 @@ function renderDiseasesCenter(container) {
 }
 
 function renderDiseaseCardHTML(d) {
-  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  const safeData = encodeURIComponent(JSON.stringify(d));
   return `
-    <div class="kh-disease-card" style="display: flex; flex-direction: column;">
+    <div class="kh-disease-card" style="display:flex;flex-direction:column;cursor:pointer;" onclick="openDiseaseDetail('${safeData}')">
       <div style="height: 180px; overflow: hidden; position: relative;">
         <img src="${d.image || 'https://images.unsplash.com/photo-1599818816941-7647fb3ea8d4?w=600'}" alt="${d.name_bn || d.name}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://images.unsplash.com/photo-1599818816941-7647fb3ea8d4?w=600'">
         <span style="position: absolute; top: 10px; right: 10px; background: rgba(220,38,38,0.9); color: white; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 700;">
@@ -672,7 +629,7 @@ function renderDiseaseCardHTML(d) {
       </div>
       <div style="padding: 18px; display: flex; flex-direction: column; flex-grow: 1;">
         <h4 style="font-size: 1.15rem; color: #991b1b; margin-bottom: 4px;">${d.name_bn || d.name}</h4>
-        <div style="font-size: 0.8rem; color: #64748b; font-style: italic; margin-bottom: 8px;">রোগজীবাণু: ${d.pathogen || 'ছত্রাক / ব্যাকটেরিয়া'}</div>
+        <div style="font-size: 0.8rem; color: #64748b; font-style: italic; margin-bottom: 8px;">রোগজীবাণু: ${d.pathogen || 'ছত্রাক / ব্যাকটেরিয়া'}</div>
         <p style="font-size: 0.88rem; color: #334155; margin-bottom: 12px; line-height: 1.5;">
           <strong>লক্ষণ:</strong> ${d.symptoms_bn || d.symptoms || ''}
         </p>
@@ -687,71 +644,99 @@ function renderDiseaseCardHTML(d) {
   `;
 }
 
-async function handleDiseaseDiagnosis(e) {
-  e.preventDefault();
-  const crop = document.getElementById('diag-crop').value;
-  const symptoms = document.getElementById('diag-symptoms').value;
-  const fileInput = document.getElementById('diag-image');
-  const resultDiv = document.getElementById('kh-diag-result');
-  if (!resultDiv) return;
+function openDiseaseDetail(encodedData) {
+  // Save encoded data for re-render on language change
+  window.currentOpenDiseaseData = encodedData;
 
-  resultDiv.style.display = 'block';
-  resultDiv.innerHTML = '<div style="text-align: center; padding: 20px;"><i class="fa-solid fa-spinner fa-spin" style="font-size: 2rem; color: #1b5f43;"></i><p style="margin-top: 10px;">রোগ বিশ্লেষণ করা হচ্ছে...</p></div>';
+  const d = JSON.parse(decodeURIComponent(encodedData));
+  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
 
-  try {
-    const formData = new FormData();
-    if (crop) formData.append('crop', crop);
-    if (symptoms) formData.append('symptoms', symptoms);
-    if (fileInput && fileInput.files[0]) {
-      formData.append('diseaseImage', fileInput.files[0]);
-    }
+  const catalogView = document.getElementById('catalog-browser-view');
+  const detailView = document.getElementById('detail-view');
+  const contentArea = document.getElementById('detail-content-area');
+  const breadcrumb = document.getElementById('detail-breadcrumb');
 
-    const res = await fetch('/api/public/guides/diagnose', {
-      method: 'POST',
-      body: formData
-    });
+  if (catalogView) catalogView.style.display = 'none';
+  if (detailView) detailView.style.display = 'block';
 
-    const data = await res.json();
-    const matches = data.matches || [];
-    const bestMatch = matches[0] || (guidesData.diseases || [])[0];
+  // Bilingual breadcrumb
+  const hubLabel = isBn ? 'জ্ঞান কেন্দ্র' : 'Knowledge Hub';
+  const diseaseLabel = isBn ? 'রোগ' : 'Disease';
+  const diseaseName = isBn ? (d.name_bn || d.name) : (d.name || d.name_bn);
+  if (breadcrumb) breadcrumb.innerHTML = `Home > ${hubLabel} > ${diseaseLabel} > ${diseaseName}`;
 
-    resultDiv.innerHTML = `
-      <div style="background: #ffffff; border: 2px solid #52b788; border-radius: 14px; padding: 22px; box-shadow: 0 10px 25px rgba(0,0,0,0.08);">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; margin-bottom: 16px;">
-          <div>
-            <span style="background: #dcfce7; color: #166534; padding: 4px 10px; border-radius: 12px; font-size: 0.82rem; font-weight: 700;">
-              শনাক্তকরণ সফল (${data.confidence || '৮৫% সাদৃশ্য'})
-            </span>
-            <h3 style="color: #991b1b; font-size: 1.35rem; margin-top: 6px;">${bestMatch.name_bn || bestMatch.name}</h3>
+  // Bilingual labels
+  const labels = {
+    cropLabel:     isBn ? (d.crop_bn || d.crop || 'ফসল') : (d.crop || d.crop_bn || 'Crop'),
+    nameLabel:     isBn ? (d.name_bn || d.name) : (d.name || d.name_bn),
+    pathogenLabel: isBn ? 'রোগজীবাণু:' : 'Pathogen:',
+    pathogen:      d.pathogen || (isBn ? 'ছত্রাক / ব্যাকটেরিয়া' : 'Fungus / Bacteria'),
+
+    sym_title:     isBn ? '🔴 লক্ষণ ও কারণ' : '🔴 Symptoms & Cause',
+    sym_text:      isBn ? (d.symptoms_bn || d.symptoms || 'তথ্য পাওয়া যাচ্ছে না।')
+                        : (d.symptoms || d.symptoms_bn || 'Information not available.'),
+
+    chem_title:    isBn ? '🟢 রাসায়নিক নিয়ন্ত্রণ' : '🟢 Chemical Control',
+    chem_text:     isBn ? (d.chemical_control_bn || d.treatment || 'অনুমোদিত বালাইনাশক ব্যবহার করুন।')
+                        : (d.treatment || d.chemical_control_bn || 'Use approved pesticides.'),
+
+    org_title:     isBn ? '🟡 জৈব প্রতিকার' : '🟡 Organic Remedy',
+    org_text:      isBn ? (d.organic_control_bn || 'ট্রাইকোডার্মা ভিরিডি, নিম খৈল ও বায়োফাঙ্গিসাইড ব্যবহার করুন।')
+                        : (d.organic_control || 'Use Trichoderma viride, neem cake, and biofungicides.'),
+
+    safe_title:    isBn ? '🔵 সতর্কতা ও অপেক্ষাকাল' : '🔵 Safety & Waiting Period',
+    safe_text1:    isBn ? 'নিরাপদ অপেক্ষাকাল:' : 'Safe waiting period:',
+    interval:      d.safety_interval || (isBn ? '৭-১০ দিন' : '7-10 days'),
+    safe_text2:    isBn ? 'স্প্রে করার সময় PPE (মাস্ক, গ্লাভস) পরিধান করুন।'
+                        : 'Wear PPE (mask, gloves) while spraying.',
+
+    helpline_text: isBn ? '📞 কৃষি হেল্পলাইন: 16123 — বিশেষজ্ঞ পরামর্শের জন্য যোগাযোগ করুন'
+                        : '📞 Agri Helpline: 16123 — Contact for expert agricultural advice',
+  };
+
+  if (contentArea) {
+    contentArea.innerHTML = `
+      <div style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.08);">
+        <div style="position:relative;height:280px;overflow:hidden;">
+          <img src="${d.image || 'https://images.unsplash.com/photo-1599818816941-7647fb3ea8d4?w=800'}" alt="${labels.nameLabel}" style="width:100%;height:100%;object-fit:cover;">
+          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7),transparent);"></div>
+          <div style="position:absolute;bottom:20px;left:24px;">
+            <span style="background:rgba(220,38,38,0.9);color:#fff;padding:4px 12px;border-radius:12px;font-size:0.8rem;font-weight:700;">${labels.cropLabel}</span>
+            <h2 style="color:#fff;font-size:1.8rem;font-weight:800;margin-top:6px;">${labels.nameLabel}</h2>
+            <p style="color:rgba(255,255,255,0.8);font-size:0.9rem;">${labels.pathogenLabel} ${labels.pathogen}</p>
           </div>
-          ${data.uploadedImage ? `<img src="${data.uploadedImage}" style="width: 70px; height: 70px; border-radius: 10px; object-fit: cover; border: 2px solid #16a34a;">` : ''}
         </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-bottom: 16px;">
-          <div style="background: #fef2f2; padding: 14px; border-radius: 10px; border-left: 4px solid #dc2626;">
-            <h4 style="color: #991b1b; font-size: 0.95rem; margin-bottom: 4px;"><i class="fa-solid fa-triangle-exclamation"></i> লক্ষণ ও কারণ:</h4>
-            <p style="font-size: 0.88rem; color: #450a0a; line-height: 1.5;">${bestMatch.symptoms_bn || bestMatch.symptoms}</p>
+        <div style="padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <div style="background:#fef2f2;border-left:4px solid #dc2626;border-radius:10px;padding:18px;">
+            <h4 style="color:#991b1b;margin-bottom:10px;font-size:1rem;">${labels.sym_title}</h4>
+            <p style="color:#450a0a;font-size:0.92rem;line-height:1.7;">${labels.sym_text}</p>
           </div>
-          <div style="background: #f0fdf4; padding: 14px; border-radius: 10px; border-left: 4px solid #16a34a;">
-            <h4 style="color: #14532d; font-size: 0.95rem; margin-bottom: 4px;"><i class="fa-solid fa-shield-halved"></i> রাসায়নিক ও জরুরি নিয়ন্ত্রণ:</h4>
-            <p style="font-size: 0.88rem; color: #052e16; line-height: 1.5;">${bestMatch.chemical_control_bn || bestMatch.treatment}</p>
+          <div style="background:#f0fdf4;border-left:4px solid #16a34a;border-radius:10px;padding:18px;">
+            <h4 style="color:#14532d;margin-bottom:10px;font-size:1rem;">${labels.chem_title}</h4>
+            <p style="color:#052e16;font-size:0.92rem;line-height:1.7;">${labels.chem_text}</p>
+          </div>
+          <div style="background:#fffbeb;border-left:4px solid #d97706;border-radius:10px;padding:18px;">
+            <h4 style="color:#92400e;margin-bottom:10px;font-size:1rem;">${labels.org_title}</h4>
+            <p style="color:#451a03;font-size:0.92rem;line-height:1.7;">${labels.org_text}</p>
+          </div>
+          <div style="background:#eff6ff;border-left:4px solid #3b82f6;border-radius:10px;padding:18px;">
+            <h4 style="color:#1e40af;margin-bottom:10px;font-size:1rem;">${labels.safe_title}</h4>
+            <p style="color:#1e3a8a;font-size:0.92rem;line-height:1.7;">
+              ${labels.safe_text1} <strong>${labels.interval}</strong><br>${labels.safe_text2}
+            </p>
           </div>
         </div>
-
-        <div style="background: #fffbeb; border: 1px solid #fde68a; padding: 12px 16px; border-radius: 8px; font-size: 0.88rem; color: #92400e; margin-bottom: 12px;">
-          <i class="fa-solid fa-leaf"></i> <strong>জৈব প্রতিকার:</strong> ${bestMatch.organic_control_bn || 'ট্রাইকোডার্মা ও নিম খৈল ব্যবহার করুন।'}
-        </div>
-
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #64748b; flex-wrap: wrap; gap: 8px;">
-          <span><i class="fa-solid fa-hourglass-half"></i> নিরাপদ অপেক্ষাকাল: <strong style="color: #dc2626;">${bestMatch.safety_interval || '৭-১০ দিন'}</strong></span>
-          <span style="color: #166534; font-weight: 600;"><i class="fa-solid fa-phone-volume"></i> জরুরি পরামর্শে কৃষি হটলাইন: ১৬১২৩</span>
+        <div style="padding:0 28px 28px;">
+          <div style="background:#f1f5f9;border-radius:10px;padding:16px;text-align:center;font-size:0.95rem;font-weight:600;color:#1b4332;">
+            ${labels.helpline_text}
+          </div>
         </div>
       </div>
     `;
-  } catch (err) {
-    resultDiv.innerHTML = '<p style="color: #dc2626;">শনাক্তকরণে সমস্যা হয়েছে। আবার চেষ্টা করুন।</p>';
   }
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
+window.openDiseaseDetail = openDiseaseDetail;
 
 function filterDiseasesCatalog() {
   const query = (document.getElementById('kh-disease-filter')?.value || '').toLowerCase().trim();
@@ -1132,281 +1117,6 @@ function syncCalendarToFarmTasks(cropName) {
     notice.innerText = `${cropName} সফলভাবে খামার ড্যাশবোর্ডের শিডিউলে যুক্ত হয়েছে!`;
     setTimeout(() => { notice.style.display = 'none'; }, 3500);
   }
-}
-
-// ----------------------------------------------------
-// 6. TROUBLESHOOTING & SOLUTIONS CENTER
-// ----------------------------------------------------
-function renderTroubleshootCenter(container) {
-  const issues = guidesData.troubleshoot || [
-    {
-      id: 'issue-1',
-      title_bn: '১. পাতা হলুদ হয়ে যাওয়া (Yellowing Leaves)',
-      causes_bn: 'নাইট্রোজেনের (ইউরিয়া) অভাব, জমিতে অতিরিক্ত পানি জমে থাকা, বা শিকড়ে কৃমির আক্রমণ।',
-      actions_bn: 'জমি থেকে দ্রুত অতিরিক্ত পানি নিষ্কাশন করুন। ইউরিয়া সার উপরিপ্রয়োগ করুন (বিঘাপ্রতি ৮-১০ কেজি) অথবা ২% ইউরিয়া স্প্রে করুন।'
-    },
-    {
-      id: 'issue-2',
-      title_bn: '২. গাছের বৃদ্ধি কম হওয়া ও খর্বাকৃতি (Stunted Growth)',
-      causes_bn: 'ফসফরাস বা জিংকের (দস্তা) তীব্র অভাব, মাটি শক্ত হয়ে যাওয়া, বা মাটির অতিরিক্ত অম্লতা (pH < ৫.০)।',
-      actions_bn: 'বিঘাপ্রতি ১.৫ কেজি চিলেটেড জিংক বা ডিএপি প্রয়োগ করুন। গাছের গোড়ার মাটি নিড়ানি দিয়ে আলগা করে দিন।'
-    },
-    {
-      id: 'issue-3',
-      title_bn: '৩. জমিতে পানি জমে থাকা ও শিকড় পচন (Waterlogging)',
-      causes_bn: 'নিষ্কাশন নালার অভাব, ভারী এঁটেল মাটি, ও অতিবৃষ্টি।',
-      actions_bn: 'জমির চারপাশে গভীর নিকাশ নালা তৈরি করুন। মাটি শুকানোর পর কপার অক্সিক্লোরাইড স্প্রে করে পচন রোধ করুন।'
-    },
-    {
-      id: 'issue-4',
-      title_bn: '৪. ফুল ও কচি ফল ঝরে পড়া (Flower & Fruit Drop)',
-      causes_bn: 'বোরনের ঘাটতি, মাটিতে পানির চরম ঘাটতি বা আকস্মিক অতিরিক্ত সেচ, হরমোনের ভারসাম্যহীনতা।',
-      actions_bn: 'ফুল আসার সময় ও ফল ধরার পর প্রতি লিটার পানিতে ২ গ্রাম বোরন বা সলুবোর স্প্রে করুন। নিয়মিত পরিমিত সেচ দিন।'
-    },
-    {
-      id: 'issue-5',
-      title_bn: '৫. ক্ষতিকর পোকামাকড়ের আক্রমণ (Pest Infestation)',
-      causes_bn: 'মাজরা পোকা, পাতা মোড়ানো পোকা, জাব পোকা বা সাদা মাছির ব্যাপক উপদ্রব।',
-      actions_bn: 'আলোক ফাঁদ বা সেক্স ফেরোমন ফাঁদ ব্যবহার করুন। আক্রমণ বেশি হলে অনুমোদিত বালাইনাশক (যেমন কার্বোফিউরান বা ইমিডাক্লোপ্রিড) সঠিক মাত্রায় স্প্রে করুন।'
-    }
-  ];
-
-  const accordionsHTML = issues.map((iss, idx) => `
-    <div class="kh-faq-item">
-      <div class="kh-faq-header" onclick="toggleTroubleshootAccordion(this)">
-        <span><i class="fa-solid fa-circle-question" style="color: #1b5f43; margin-right: 8px;"></i> ${iss.title_bn}</span>
-        <i class="fa-solid fa-chevron-down"></i>
-      </div>
-      <div class="kh-faq-body" style="${idx === 0 ? 'display: block;' : 'display: none;'}">
-        <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 12px; border-radius: 6px; margin-bottom: 10px;">
-          <strong style="color: #991b1b;"><i class="fa-solid fa-magnifying-glass"></i> সম্ভাব্য কারণ:</strong>
-          <p style="color: #7f1d1d; margin-top: 4px; font-size: 0.92rem;">${iss.causes_bn}</p>
-        </div>
-        <div style="background: #f0fdf4; border-left: 4px solid #16a34a; padding: 12px; border-radius: 6px;">
-          <strong style="color: #14532d;"><i class="fa-solid fa-wand-magic-sparkles"></i> তাত্ক্ষণিক করণীয় ও স্থায়ী সমাধান:</strong>
-          <p style="color: #052e16; margin-top: 4px; font-size: 0.92rem;">${iss.actions_bn}</p>
-        </div>
-      </div>
-    </div>
-  `).join('');
-
-  container.innerHTML = `
-    <div style="margin-bottom: 20px;">
-      <h3 style="font-size: 1.35rem; font-weight: 700; color: #134e2f; margin-bottom: 6px;">
-        <i class="fa-solid fa-triangle-exclamation"></i> কৃষকের সাধারণ সমস্যা ও সরাসরি সমাধান
-      </h3>
-      <p style="color: #64748b; font-size: 0.95rem;">
-        সমস্যার ওপর ক্লিক করে কারণ ও তাৎক্ষণিক করণীয় সমাধান জেনে নিন।
-      </p>
-    </div>
-
-    <div>${accordionsHTML}</div>
-
-    <!-- Helpline Box -->
-    <div style="margin-top: 25px; background: linear-gradient(135deg, #1e3a8a, #1e40af); color: #ffffff; border-radius: 14px; padding: 22px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
-      <div>
-        <h4 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 4px;">
-          <i class="fa-solid fa-headset"></i> সমস্যা সমাধান না হলে সরাসরি কৃষি কর্মকর্তার পরামর্শ নিন
-        </h4>
-        <p style="color: #bfdbfe; font-size: 0.95rem;">কৃষি কল সেন্টার ১৬১২৩ অথবা সরকারি তথ্য সেবা ৩৩৩ নম্বরে ফ্রি কল করুন।</p>
-      </div>
-      <a href="tel:16123" class="btn" style="background: #ffffff; color: #1e3a8a; font-weight: 800; border-radius: 30px; padding: 12px 24px;">
-        <i class="fa-solid fa-phone-volume"></i> কল করুন ১৬১২৩
-      </a>
-    </div>
-  `;
-}
-
-function toggleTroubleshootAccordion(header) {
-  const body = header.nextElementSibling;
-  const icon = header.querySelector('.fa-chevron-down, .fa-chevron-up');
-  if (!body) return;
-
-  const isVisible = body.style.display === 'block';
-  body.style.display = isVisible ? 'none' : 'block';
-  if (icon) {
-    icon.className = isVisible ? 'fa-solid fa-chevron-down' : 'fa-solid fa-chevron-up';
-  }
-}
-
-// ----------------------------------------------------
-// 7. VIDEO & BENGALI TUTORIALS CENTER
-// ----------------------------------------------------
-function renderTutorialsCenter(container) {
-  const tutData = guidesData.tutorials || {};
-  const videosList = (tutData.videos && Array.isArray(tutData.videos)) ? tutData.videos : [
-    {
-      id: 'vid-1',
-      title: 'আধুনিক পদ্ধতিতে ধান চাষ ও ফলন বৃদ্ধির উপায়',
-      topic: 'বাংলাদেশ ধান গবেষণা ইনস্টিটিউট (BRRI)',
-      duration: '১২:৪৫ মিনিট',
-      youtubeId: '1NSprRUHnaM',
-      thumbnail: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600'
-    },
-    {
-      id: 'vid-2',
-      title: 'বাড়িতে খুব সহজে কেঁচো সার (ভার্মিকম্পোস্ট) তৈরির নিয়ম',
-      topic: 'কৃষি সম্প্রসারণ অধিদপ্তর',
-      duration: '০৮:৩০ মিনিট',
-      youtubeId: 'hDg5UH_VrTk',
-      thumbnail: 'https://images.unsplash.com/photo-1592417817098-8f3d69109853?w=600'
-    },
-    {
-      id: 'vid-3',
-      title: 'টমেটো চাষে রোগবালাই দমন ও বাম্পার ফলন কৌশল',
-      topic: 'কৃষি বাতায়ন ভিডিও আর্কাইভ',
-      duration: '১৫:২০ মিনিট',
-      youtubeId: 'JLO6q3DsvyM',
-      thumbnail: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=600'
-    },
-    {
-      id: 'vid-4',
-      title: 'সঠিক নিয়মে কীটনাশক স্প্রে ও স্বাস্থ্য সুরক্ষা টিপস',
-      topic: 'কৃষি বিশেষজ্ঞ পরামর্শ',
-      duration: '১০:১৫ মিনিট',
-      youtubeId: 'TGmTa480pkk',
-      thumbnail: 'https://images.unsplash.com/photo-1599818816941-7647fb3ea8d4?w=600'
-    }
-  ];
-
-  const cardsHTML = videosList.map(v => {
-    const vidTitle = v.title_bn || v.title || 'কৃষি ভিডিও টিউটোরিয়াল';
-    const vidSpeaker = v.speaker_bn || v.topic || 'কৃষি সম্প্রসারণ অধিদপ্তর';
-    const vidDur = v.duration || '১০:০০ মিনিট';
-    const vidThumb = v.thumbnail || 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600';
-    const yId = v.youtubeId || '1NSprRUHnaM';
-
-    return `
-      <div class="kh-video-card">
-        <div class="kh-video-thumb" onclick="playTutorialVideo('${yId}', '${vidTitle.replace(/'/g, "\\'")}')">
-          <img src="${vidThumb}" alt="${vidTitle}" onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600'">
-          <div class="kh-play-overlay"><i class="fa-solid fa-play"></i></div>
-          <div class="kh-video-duration"><i class="fa-regular fa-clock"></i> ${vidDur}</div>
-        </div>
-        <div class="kh-video-info">
-          <h4 class="kh-video-title">${vidTitle}</h4>
-          <div class="kh-video-meta"><i class="fa-solid fa-user-tie"></i> ${vidSpeaker}</div>
-          <button class="kh-video-btn" onclick="playTutorialVideo('${yId}', '${vidTitle.replace(/'/g, "\\'")}')">
-            <i class="fa-solid fa-circle-play"></i> সরাসরি দেখুন
-          </button>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  // Comparisons (Healthy vs Diseased)
-  const comparisons = tutData.comparisons || [
-    {
-      title: 'সুস্থ ধানের পাতা বনাম ব্লাস্ট আক্রান্ত পাতা',
-      healthyImg: 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500',
-      diseasedImg: 'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=500',
-      healthyDesc: 'সতেজ ঘন সবুজ পাতা, কোনো দাগ বা পোড়া ভাব নেই।',
-      diseasedDesc: 'মাকু আকৃতির বাদামী দাগ, মাঝের অংশ ধূসর ও পাতার আগা শুকিয়ে যাওয়া।'
-    },
-    {
-      title: 'সুস্থ আলুর ক্ষেত বনাম নাবি ধসা (Late Blight) আক্রান্ত ক্ষেত',
-      healthyImg: 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=500',
-      diseasedImg: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?w=500',
-      healthyDesc: 'গাছ সতেজ খাড়া, ঘন চকচকে পাতা ও সবুজ কাণ্ড।',
-      diseasedDesc: 'ভেজা কালচে দাগ, পাতা পুড়ে তামাটে হওয়া এবং দ্রুত পচে যাওয়া।'
-    }
-  ];
-
-  const comparisonsHTML = comparisons.map(c => `
-    <div style="background: #ffffff; border: 1px solid #cbd5e1; border-radius: 14px; overflow: hidden; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-      <h4 style="color: #134e2f; font-size: 1.1rem; font-weight: 700; margin-bottom: 12px;">
-        <i class="fa-solid fa-code-compare"></i> ${c.title}
-      </h4>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
-        <div>
-          <div style="position: relative; height: 140px; border-radius: 8px; overflow: hidden; border: 2px solid #22c55e;">
-            <img src="${c.healthyImg}" style="width: 100%; height: 100%; object-fit: cover;" alt="সুস্থ">
-            <span style="position: absolute; bottom: 6px; left: 6px; background: rgba(34,197,94,0.9); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">সুস্থ</span>
-          </div>
-          <p style="font-size: 0.82rem; color: #166534; margin-top: 6px; line-height: 1.4;">${c.healthyDesc}</p>
-        </div>
-        <div>
-          <div style="position: relative; height: 140px; border-radius: 8px; overflow: hidden; border: 2px solid #ef4444;">
-            <img src="${c.diseasedImg}" style="width: 100%; height: 100%; object-fit: cover;" alt="আক্রান্ত">
-            <span style="position: absolute; bottom: 6px; left: 6px; background: rgba(239,68,68,0.9); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">আক্রান্ত</span>
-          </div>
-          <p style="font-size: 0.82rem; color: #991b1b; margin-top: 6px; line-height: 1.4;">${c.diseasedDesc}</p>
-        </div>
-      </div>
-    </div>
-  `).join('');
-
-  container.innerHTML = `
-    <div style="margin-bottom: 22px;">
-      <h3 style="font-size: 1.35rem; font-weight: 700; color: #134e2f; margin-bottom: 6px;">
-        <i class="fa-solid fa-video"></i> বাংলায় ভিডিও টিউটোরিয়াল ও কৃষক প্রশিক্ষণ
-      </h3>
-      <p style="color: #64748b; font-size: 0.95rem;">
-        পড়ার পাশাপাশি সরাসরি ভিডিও দেখে আধুনিক চাষাবাদ, রোগ দমন ও সার প্রয়োগের সঠিক নিয়ম শিখুন। যেকোনো ভিডিওতে ক্লিক করলেই তা সরাসরি চালু হবে।
-      </p>
-    </div>
-
-    <!-- In-Page Featured Video Player Container -->
-    <div id="kh-inpage-player-box" style="display: none; background: #000; border-radius: 14px; overflow: hidden; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
-      <div style="background: #1e293b; color: #ffffff; padding: 10px 18px; display: flex; justify-content: space-between; align-items: center;">
-        <span id="kh-inpage-player-title" style="font-weight: 700; font-size: 1rem;">ভিডিও প্লেয়ার</span>
-        <button onclick="document.getElementById('kh-inpage-player-box').style.display='none'" style="background: none; border: none; color: #94a3b8; font-size: 1.2rem; cursor: pointer;">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
-      </div>
-      <div style="position: relative; padding-bottom: 56.25%; height: 0;">
-        <iframe id="kh-inpage-iframe" src="" style="position: absolute; top:0; left:0; width:100%; height:100%; border:0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <!-- Video Cards Grid -->
-    <div class="kh-videos-grid" style="margin-bottom: 35px;">${cardsHTML}</div>
-
-    <!-- Comparative Healthy vs Diseased Pictures -->
-    <div style="margin-top: 25px;">
-      <h3 style="font-size: 1.25rem; font-weight: 700; color: #134e2f; margin-bottom: 14px;">
-        <i class="fa-solid fa-images"></i> ফসলের সুস্থ বনাম রোগাক্রান্ত অবস্থার তুলনামূলক চিত্র:
-      </h3>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px;">
-        ${comparisonsHTML}
-      </div>
-    </div>
-  `;
-}
-
-function playTutorialVideo(youtubeId, title) {
-  // Option 1: Modal player
-  const modal = document.getElementById('kh-video-modal');
-  const iframe = document.getElementById('kh-modal-iframe');
-  const titleEl = document.getElementById('kh-modal-video-title');
-
-  if (modal && iframe) {
-    iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
-    if (titleEl) titleEl.innerText = title || 'কৃষি ভিডিও টিউটোরিয়াল';
-    modal.style.display = 'flex';
-    return;
-  }
-
-  // Option 2: In-page player fallback
-  const inpageBox = document.getElementById('kh-inpage-player-box');
-  const inpageIframe = document.getElementById('kh-inpage-iframe');
-  const inpageTitle = document.getElementById('kh-inpage-player-title');
-  if (inpageBox && inpageIframe) {
-    inpageIframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
-    if (inpageTitle) inpageTitle.innerText = title;
-    inpageBox.style.display = 'block';
-    inpageBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
-}
-
-function closeVideoModal(event) {
-  if (event && event.target && event.target.closest('.kh-video-modal-box') && !event.target.closest('.kh-modal-close-btn')) {
-    return;
-  }
-  const modal = document.getElementById('kh-video-modal');
-  const iframe = document.getElementById('kh-modal-iframe');
-  if (modal) modal.style.display = 'none';
-  if (iframe) iframe.src = '';
 }
 
 // ----------------------------------------------------
@@ -1998,6 +1708,9 @@ function closeDetailView() {
 
   if (detailView) detailView.style.display = 'none';
   if (catalogView) catalogView.style.display = 'flex';
+
+  // Clear saved detail state
+  window.currentOpenDiseaseData = null;
 
   history.pushState(null, '', 'knowledgehub.html');
 }

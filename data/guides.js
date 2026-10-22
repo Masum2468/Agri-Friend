@@ -13,7 +13,7 @@ module.exports ={
       subtitleEn: "Cultivation Methods & Crop Care",
       tagline: "বীজ বপন থেকে ফসল সংগ্রহ পর্যন্ত সম্পূর্ণ চাষ পদ্ধতি ও দিকনির্দেশনা",
       icon: "fa-seedling",
-      image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80",
+      image: "ttps://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg",
       badge: "Must Have",
       featuredCrops: ["ধান", "গম", "ভুট্টা", "আলু", "টমেটো", "বেগুন", "পাট", "সরিষা", "মরিচ"]
     },
@@ -73,34 +73,6 @@ module.exports ={
       badge: "Farm Task Sync",
       featuredSchedules: ["বীজ বপনের সময়", "চারা রোপণের সময়", "সার ও সেচ প্রয়োগ", "আগাছা দমন", "ফসল সংগ্রহ"]
     },
-    {
-      id: "troubleshoot",
-      number: 6,
-      title: "সমস্যা ও সমাধান কেন্দ্র",
-      titleFull: "৬. কৃষি সমস্যা ও সমাধান কেন্দ্র",
-      titleEn: "Agricultural Troubleshooting Center",
-      subtitle: "সাধারণ সমস্যার সহজ সমাধান ও হটলাইন",
-      subtitleEn: "Common Issues & Helpline 16123",
-      tagline: "পাতা হলুদ হওয়া, বৃদ্ধি কম হওয়া, পানি জমে থাকা, ফল ঝরা ও পোকার আক্রমণ সমাধান",
-      icon: "fa-circle-question",
-      image: "https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=800&q=80",
-      badge: "Helpline 16123",
-      featuredProblems: ["পাতা হলুদ হয়ে যাওয়া", "গাছের বৃদ্ধি কম হওয়া", "জমিতে পানি জমে থাকা", "ফল ঝরে পড়া", "কীটপতঙ্গের আক্রমণ"]
-    },
-    {
-      id: "tutorials",
-      number: 7,
-      title: "ভিডিও ও টিউটোরিয়াল",
-      titleFull: "৭. ভিডিও, ছবি ও বাংলা টিউটোরিয়াল কেন্দ্র",
-      titleEn: "Visuals, Videos & Bangla Tutorials",
-      subtitle: "দেখে শিখুন ও ভিডিও প্লেয়ার",
-      subtitleEn: "Watch Videos & Visual Guides",
-      tagline: "বাংলায় চাষাবাদের ভিডিও, সুস্থ বনাম আক্রান্ত পাতার তুলনামূলক চিত্র, ধাপে ধাপে ফটো গাইড ও সহজ শব্দকোষ",
-      icon: "fa-circle-play",
-      image: "https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=800&q=80",
-      badge: "Watch & Learn",
-      featuredTutorials: ["বাংলা চাষাবাদ ভিডিও", "রোগের তুলনামূলক চিত্র", "চিত্রসহ ব্যবহারিক গাইড", "সহজ FAQ ও শব্দকোষ"]
-    }
   ],
 
   // 1. CROPS DATA (ফসলভিত্তিক জ্ঞান কেন্দ্র)
@@ -110,7 +82,7 @@ module.exports ={
       name: "Rice / ধান",
       scientificName: "Oryza sativa",
       type:"Cereal / দানাশস্য",
-      image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=700&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg",
       idealSoil: "Fertile Clay-Loam Soil / উর্বর এটেল ও দোআঁশ মাটি (Clay-Loam)",
       optimalPH: "5.5 - 6.5",
       waterRequirement: "High (1200-1500 mm standing water) / বেশি (১২০০-১৫০০ মিমি, দাঁড়িয়ে থাকা পানি)",
@@ -140,42 +112,42 @@ module.exports ={
           name: "জমি প্রস্তুতি (Land Preparation)",
           details: "জমি ৪-৫টি আড়াআড়ি চাষ ও মই দিয়ে থকথকে কাদা তৈরি করুন। জমিতে পানি নিষ্কাশন ও ধরে রাখার জন্য শক্ত আইল বাঁধুন। শেষ চাষে টিএসপি, জিপসাম ও পটাশের অর্ধেক প্রয়োগ করুন।",
           duration: "১০-১৫ দিন",
-          image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg"
         },
         {
           step: 2,
           name: "বীজ নির্বাচন ও শোধন (Seed Selection & Treatment)",
           details: "ইউরিয়া মিশ্রিত পানিতে সুস্থ পুষ্ট বীজ নির্বাচন করুন। প্রতি কেজি বীজে ২.৫ গ্রাম প্রভ্যাক্স বা কারবেনডাজিম দিয়ে বীজ শোধন করে জাগ দিয়ে অঙ্কুরোদগম করান।",
           duration: "২-৩ দিন",
-          image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg"
         },
         {
           step: 3,
           name: "চারা রোপণ (Transplanting)",
           details: "বীজতলার চারা ২৫-৩০ দিন বয়সে মূল জমিতে সারি করে লাগান। সারি থেকে সারির দূরত্ব ২০ সেমি (৮ ইঞ্চি) এবং গুছি থেকে গুছির দূরত্ব ১৫ সেমি (৬ ইঞ্চি)। প্রতি গুছিতে ২-৩টি সতেজ চারা দিন।",
           duration: "১-২ দিন",
-          image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg"
         },
         {
           step: 4,
           name: "সার প্রয়োগ ও সেচ (Fertilization & Irrigation)",
           details: "ইউরিয়া সমান ৩ কিস্তিতে দিন: চারা লাগানোর ১৫ দিন পর ১ম কিস্তি, কুশি আসার সময় ২য় কিস্তি এবং কাইচ থোড় আসার ৫-৭ দিন পূর্বে শেষ কিস্তি। থোড় থেকে ফুল ফোটা পর্যন্ত জমিতে ২-৩ ইঞ্চি পানি রাখুন।",
           duration: "২০-৫৫ দিন",
-          image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg"
         },
         {
           step: 5,
           name: "রোগ ও পোকা ব্যবস্থাপনা (Pest & Disease Management)",
           details: "মাজরা পোকা দমনে আলোক ফাঁদ ও পার্চিং (ডাল পোতা) করুন। ব্লাস্ট রোগের আক্রমণ ঠেকাতে অতিরিক্ত ইউরিয়া বন্ধ রাখুন এবং লক্ষণ দেখা দিলে নাটিভো বা ট্রুপার স্প্রে করুন।",
           duration: "৩০-৮০ দিন",
-          image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg"
         },
         {
           step: 6,
           name: "ফসল সংগ্রহ ও শুকানো (Harvesting & Storage)",
           details: "শীষের ৮০% ধান সোনালী বা খড়ের রঙ ধারণ করলে কেটে ফেলুন। মাড়াইয়ের পর ভালো রোদে শুকিয়ে আর্দ্রতা ১২% এ নামিয়ে বায়ুরোধী ড্রামে বা পাত্রে সংরক্ষণ করুন।",
           duration: "১১০-১৪৫ দিন",
-          image: "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-madzery-34196053.jpg"
         }
       ]
     },
@@ -480,7 +452,7 @@ module.exports ={
       name: "Eggplant (Brinjal) / বেগুন",
       scientificName: "Solanum melongena",
       type: "Vegetable / সবজি",
-      image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=700&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg",
       idealSoil: "Well-drained Fertile Silt-Loam Soil / সুনিষ্কাশিত উর্বর পলি-দোআঁশ মাটি",
       optimalPH: "5.5 - 6.8",
       waterRequirement: "Medium to High / মাঝারি থেকে বেশি",
@@ -509,42 +481,42 @@ module.exports ={
           name: "জমি প্রস্তুতি (Land Preparation)",
           details: "জমি ৪-৫ বার গভীর চাষ দিয়ে মাটি ঝুরঝুরে করুন। ড্রেনযুক্ত বেড তৈরি করে জমিতে গোবর বা ট্রাইকো-কম্পোস্ট মিশিয়ে দিন।",
           duration: "৭-১০ দিন",
-          image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg"
         },
         {
           step: 2,
           name: "বীজ শোধন ও চারা তৈরি (Seedling Prep)",
           details: "বীজতলায় বীজ বুনে ৩০-৩৫ দিনের শক্ত চারা তৈরি করুন। পোকার আক্রমণ এড়াতে বারি বিটি বেগুন জাত নির্বাচন করা উত্তম।",
           duration: "৩০ দিন",
-          image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg"
         },
         {
           step: 3,
           name: "চারা রোপণ (Transplanting)",
           details: "সারি থেকে সারি ৭৫ সেমি এবং চারা থেকে চারা ৬০ সেমি দূরত্বে লাগান। রোপণের পর হালকা সেচ দিন।",
           duration: "১ দিন",
-          image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg"
         },
         {
           step: 4,
           name: "সার প্রয়োগ ও সেচ (Fertilizer & Irrigation)",
           details: "গাছ বৃদ্ধির সাথে সাথে ৩ কিস্তিতে ইউরিয়া ও পটাশ দিন। ফুল ও ফল ধারণের সময় মাটিতে নিয়মিত রস বজায় রাখুন।",
           duration: "২০-৮০ দিন",
-          image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg"
         },
         {
           step: 5,
           name: "ডগা ও ফল ছিদ্রকারী পোকা দমন (Borer Management)",
           details: "বিঘায় ৫-৬টি সেক্স ফেরোমন ট্র্যাপ ঝুলান এবং আক্রান্ত ডগা দেখামাত্র কাঁচি দিয়ে কেটে মাটির নিচে পুঁতে ফেলুন।",
           duration: "৩০-১০০ দিন",
-          image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg"
         },
         {
           step: 6,
           name: "বেগুন সংগ্রহ ও পরিচর্যা (Harvesting)",
           details: "বেগুন পূর্ণ আকার পেলে চকচকে নরম থাকা অবস্থায় ধারালো ছুরি দিয়ে বোঁটাসহ কেটে সংগ্রহ করুন।",
           duration: "৬০-১৪০ দিন",
-          image: "https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg"
         }
       ]
     },
@@ -553,7 +525,7 @@ module.exports ={
       name: "Jute / পাট (সোনালী আঁশ)",
       scientificName: "Corchorus olitorius / Corchorus capsularis",
       type: "Fiber / আঁশ ফসল",
-      image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=700&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-ferdous-17362932.jpg",
       idealSoil: "Fertile Alluvial & Tosha Loam Soil / উর্বর পলি মাটি ও তোষা দোআঁশ মাটি",
       optimalPH: "6.0 - 7.5",
       waterRequirement: "High (Rainfall & Irrigation) / বেশি (বৃষ্টিপাত ও সেচ)",
@@ -581,35 +553,35 @@ module.exports ={
           name: "জমি প্রস্তুতি (Land Preparation)",
           details: "জমি ৫-৬ বার আড়াআড়ি চাষ ও মই দিয়ে আগাছামুক্ত ধুলিময় করে সমতল করুন।",
           duration: "৭-১০ দিন",
-          image: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-ferdous-17362932.jpg"
         },
         {
           step: 2,
           name: "বীজ শোধন (Seed Treatment)",
           details: "প্রতি কেজি তোষা পাট বীজে ২.৫ গ্রাম কারবেনডাজিম বা অটোস্টিন মিশিয়ে শোধন করুন যাতে কাণ্ড পচা না হয়।",
           duration: "১ দিন",
-          image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-ferdous-17362932.jpg"
         },
         {
           step: 3,
           name: "বীজ বপন (Sowing)",
           details: "সারিতে ৩০ সেমি দূরে দূরে লাইনে বীজ বুনে পাতলা মাটি দিয়ে ঢেকে দিন। চৈত্র-বৈশাখ মাসে বপন উত্তম।",
           duration: "১ দিন",
-          image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-ferdous-17362932.jpg"
         },
         {
           step: 4,
           name: "পাতলাকরণ ও নিড়ানি (Thinning & Weeding)",
           details: "গাছ ৩-৪ ইঞ্চি লম্বা হলে গাছ পাতলা করে ৭-৮ সেমি পর পর একটি সবল গাছ রাখুন। ইউরিয়া উপরিপ্রয়োগ করুন।",
           duration: "২০-৩৫ দিন",
-          image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-ferdous-17362932.jpg"
         },
         {
           step: 5,
-          name: "রোগ ও হলুদ মাকড় দমন (Pest Management)",
-          details: "হলুদ মাকড় দেখা দিলে ভার্টিমেক বা নিমতেল স্প্রে করুন। কাণ্ড পচা রোধে জমিতে পানি জমতে দেবেন না।",
+          name: "রোগ ও হলুদ মাকড় দমন (Pest Management)",
+          details: "হলুদ মাকড় দেখা দিলে ভার্টিমেক বা নিমতেল স্প্রে করুন। কাণ্ড পচা রোধে জমিতে পানি জমতে দেবেন না।",
           duration: "৪০-৮০ দিন",
-          image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=600&q=80"
+          image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-ferdous-17362932.jpg"
         },
         {
           step: 6,
@@ -926,7 +898,7 @@ module.exports ={
       name: "Rice Blast / ধানের ব্লাস্ট রোগ",
       pathogen: "Magnaporthe oryzae (Fungus / ছত্রাক)",
       targetCrops: "Rice (Boro, Aman, Aush) / ধান (আমন, বোরো ও আউশ ধান)",
-      image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Screenshot%202026-10-21%20024334.png",
       easySymptoms: "Eye-shaped brown lesions on leaves. Black rotted neck nodes causing empty white panicles. / পাতায় চোখের মতো বা মাকু আকৃতির বাদামি দাগ (মাঝখান ধূসর)। শীষের গোড়া বা গিরার অংশ কালো হয়ে পচে ভেঙে পড়ে এবং শীষের পুরো ধান চিটা হয়ে সাদা হয়ে যায়।",
       symptoms: "Spindle shaped leaf spots with gray centers and neck rot turning panicles white. / পাতায় চোখের মতো লম্বাটে দাগ পড়ে যার চারপাশ বাদামি ও মাঝখানটা ধূসর হয়। গিট ব্লাস্ট হলে গিরার অংশ কালো হয়ে পচে যায় এবং শীষের ধান চিটা হয়ে যায়।",
       prevention: "Avoid excess urea, use balanced potash, treat seeds with Trichoderma, grow BRRI Dhan28/89. / ১. অতিরিক্ত ইউরিয়া দেওয়া বন্ধ রাখুন। ২. সুষম পটাশ (এমওপি) সার ব্যবহার করুন। ৩. বীজ বপনের পূর্বে প্রভ্যাক্স বা ট্রাইকোডার্মা দিয়ে বীজ শোধন করুন। ৪. প্রতিরোধশীল জাত (ব্রি ধান২৮/৮৯) চাষ করুন।",
@@ -942,7 +914,7 @@ module.exports ={
       name: "Late Blight / আলু ও টমেটোর নাবি ধসা রোগ",
       pathogen: "Phytophthora infestans (Oomycete Fungus / ছত্রাক)",
       targetCrops: "Potato & Tomato / আলু, টমেটো",
-      image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Screenshot%202026-10-21%20024620.png",
       easySymptoms: "Water-soaked dark lesions on leaves with white powdery fungal growth underneath in morning fog. / কালো-বাদামি ভেজা দাগ পাতা ও কাণ্ডে ছড়ায়। ভোরে পাতার নিচে সাদা পাউডারের মতো ছাতা পড়ে এবং ১-২ দিনের মধ্যে পুরো ক্ষেত পুড়ে যাওয়ার মতো পচে যায়।",
       symptoms: "Water-soaked dark lesions on leaves, white fungal powder underneath during humid weather, rapid rot of tubers/fruits. / পাতায় ভেজা কালচে দাগ দেখা যায়, আর্দ্র ও স্যাঁতসেঁতে আবহাওয়ায় পাতার নিচে সাদা ছত্রাকের গুঁড়ো জমে এবং দ্রুত আলু বা টমেটো পচে যায়।",
       prevention: "Use disease-free seed potatoes, earthing up ridges, apply preventive Mancozeb in fog. / ১. প্রত্যয়িত নিরাময়মুক্ত বীজ আলু ব্যবহার করুন। ২. গাছের গোড়ায় মাটি উঁচু করে দিন যাতে পানি না জমে। ৩. কুয়াশাচ্ছন্ন আবহাওয়ায় আগাম প্রতিরোধমূলক ম্যানকোজেব স্প্রে করুন।",
@@ -958,7 +930,7 @@ module.exports ={
       name: "Fruit & Shoot Borer / বেগুনের ডগা ও ফল ছিদ্রকারী পোকা",
       pathogen: "Leucinodes orbonalis (Insect Pest / কীটপতঙ্গ)",
       targetCrops: "Eggplant (Brinjal) / বেগুন",
-      image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-enginakyurt-16732700.jpg",
       easySymptoms: "Tender shoots wilt and dry up. Bore holes on brinjal fruits containing frass. / কচি ডগা হেলে পড়ে ও শুকিয়ে যায়। বেগুনের গায়ে ছিদ্র দেখা যায় এবং কাটার পর ভেতরে পোকা ও মল পাওয়া যায়।",
       symptoms: "Wilted shoot tips and bored fruits packed with insect larvae and excrement. / কচি ডগা হেলে পড়ে ও শুকিয়ে যায়। বেগুনের গায়ে ছিদ্র দেখা যায় এবং কাটার পর ভেতরে পোকা ও মল পাওয়া যায়।",
       prevention: "Clip and bury infested shoots; install 5-6 sex pheromone traps per bigha. / ১. আক্রান্ত ডগা কাঁচি দিয়ে কেটে মাটির নিচে পুঁতে ফেলুন। ২. বিঘায় ৫-৬টি সেক্স ফেরোমন ট্র্যাপ (ফাঁদ) ঝুলিয়ে দিন।",
@@ -974,7 +946,7 @@ module.exports ={
       name: "Fall Armyworm / ভুট্টার ফল আর্মিওয়ার্ম পোকা",
       pathogen: "Spodoptera frugiperda (Insect Pest / কীটপতঙ্গ)",
       targetCrops: "Maize (Corn) / ভুট্টা",
-      image: "https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&w=600&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-william-lucord-942010-5645481.jpg",
       easySymptoms: "Caterpillars bore into central whorls leaving large ragged holes and frass pellets. / ভুট্টার কচি চোঙা বা মাইজ পাতার ভেতর পোকা ঢুকে গোল ছিদ্র করে পাতা চিবিয়ে ফেলে এবং চালের গুঁড়োর মতো বর্জ্য জমা করে।",
       symptoms: "Saw-toothed holes on leaf whorls with frass accumulated in central cone. / ভুট্টার মাইজ (চোঙা) পাতার গোড়ায় পোকা ঢুকে গোল গোল ছিদ্র করে পাতায় করাত কাটার দাগ ফেলে ও বর্জ্য জমা করে।",
       prevention: "Install sex pheromone traps; check young corn whorls daily. / ১. ক্ষেতে সেক্স ফেরোমন ট্র্যাপ ও হলুদ ফাঁদ দিন। ২. কচি গাছে নিয়মিত চোঙা পরীক্ষা করুন।",
@@ -990,7 +962,7 @@ module.exports ={
       name: "Anthracnose & Dieback / মরিচের ফল পচা ও ডাইব্যাক রোগ",
       pathogen: "Colletotrichum capsici (Fungus / ছত্রাক)",
       targetCrops: "Chilli (Pepper) / মরিচ",
-      image: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=600&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Anthracnose on Chili Peppers.png",
       easySymptoms: "Sunken circular dark spots on ripening chillies with black concentric rings; twigs die from tip downward. / পাকা বা কাঁচা মরিচের গায়ে গোল দেবে যাওয়া কালচে দাগ পড়ে ও মরিচ পচে শুকিয়ে যায়। গাছের ডাল আগা থেকে শুকিয়ে মারা যায়।",
       symptoms: "Circular sunken black spots on fruit turning straw color, drying up of branches from apex. / মরিচের গায়ে বাদামি-কালো দাগ হয়ে মরিচ পচে যায় এবং ডালের আগা মরে নিচের দিকে শুকিয়ে আসে।",
       prevention: "Treat seeds with Provax (2.5g/kg); prune and destroy dried twigs; ensure bed drainage. / ১. প্রভ্যাক্স দিয়ে বীজ শোধন করুন। ২. আক্রান্ত ডাল কেটে পুড়িয়ে ফেলুন। ৩. জমিতে পানি জমতে দেবেন না।",
@@ -1006,7 +978,7 @@ module.exports ={
       name: "Stem Rot & Foot Rot / পাটের কাণ্ড পচা ও গোড়া পচা রোগ",
       pathogen: "Macrophomina phaseolina (Fungus / ছত্রাক)",
       targetCrops: "Jute / পাট",
-      image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80",
+      image: "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-ferdous-17362932.jpg",
       easySymptoms: "Black spots on jute stem, black rotting at stem base with foul odor, stem breaks in wind. / পাটের কান্ডে ছোট কালো ফোটা ছোপ দাগ পড়ে, গোড়া কালো হয়ে পচে গন্ধ বের হয় এবং বাতাসে কান্ড ভেঙে পড়ে।",
       symptoms: "Black specks on stems, rotted black foot base, stem snapping in wind. / পাটের কান্ডে কালো ফোটা দাগ পড়ে, গোড়া কালো হয়ে পচে যায় এবং বাতাসে কান্ড ভেঙে পড়ে।",
       prevention: "Treat seeds with Provax/Autostin (2.5g/kg seed); ensure proper land drainage. / ১. বীজ বপনের পূর্বে অটোস্টিন বা প্রভ্যাক্স (২.৫ গ্রাম/কেজি) দিয়ে বীজ শোধন করুন। ২. সেচের পর পানি জমে থাকতে দেবেন না।",
@@ -1392,276 +1364,4 @@ module.exports ={
     }
   ],
 
-  // 6. AGRICULTURAL PROBLEM & SOLUTION CENTER (কৃষি সমস্যা ও সমাধান কেন্দ্র)
-  troubleshoot: [
-    {
-      id: "prob_yellow_leaves",
-      title: "পাতার রঙ হলুদ হয়ে যাওয়া (Leaf Yellowing / Chlorosis)",
-      image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=600&q=80",
-      icon: "fa-leaf",
-      severity: "উচ্চ (জরুরি পরিচর্যা প্রয়োজন)",
-      causes: [
-        "১. নাইট্রোজেনের (ইউরিয়া) তীব্র ঘাটতি হলে পুরনো নিচের পাতাগুলো প্রথমে হলুদ হতে শুরু করে।",
-        "২. জমিতে অতিরিক্ত পানি জমে শিকড়ে বাতাস না পেলে পাতা হলুদ হয়ে নুয়ে পড়ে।",
-        "৩. জিংক বা লোহার ঘাটতি হলে কচি ওপরের পাতার শিরা সবুজ থেকে মাঝের অংশ হলুদ হয়।",
-        "৪. মাটির নিচে শিকড় পচা রোগ বা নেমাটোড (কৃমি) আক্রমণ।"
-      ],
-      organicSolution: "গাছের গোড়া নিড়ানি দিয়ে মাটি আলগা করুন যাতে বাতাস পায়। প্রতি লিটার পানিতে ৫ মিলি নিমতেল বা ভার্মিকম্পোস্টের নির্যাস (Vermiwash) স্প্রে করুন।",
-      chemicalSolution: "ইউরিয়া ২০ গ্রাম ও চিলেটেড জিংক ১ গ্রাম প্রতি লিটার পানিতে মিশিয়ে বিকেলে গাছে ফলিয়ার স্প্রে করুন। জলাবদ্ধতা থাকলে দ্রুত ড্রেন কেটে পানি বের করে দিন।",
-      officerAdvice: "পাতা হলুদ হয়ে সাথে কিনার শুকিয়ে গেলে পটাশের ঘাটতি হতে পারে। নিকটস্থ উপসহকারী কৃষি কর্মকর্তার পরামর্শে সার পরীক্ষা করান বা কল করুন ১৬১২৩ নম্বরে।"
-    },
-    {
-      id: "prob_stunted_growth",
-      title: "গাছের স্বাভাবিক বৃদ্ধি থমকে যাওয়া বা খর্বাকৃতি হওয়া (Stunted Growth)",
-      image: "https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=600&q=80",
-      icon: "fa-arrow-down-short-wide",
-      severity: "মাঝারি",
-      causes: [
-        "১. মাটিতে ফসফরাস বা জিংক সারের ঘাটতি থাকলে শিকড় বাড়ে না ও গাছ খর্বাকৃতি থাকে।",
-        "২. মাটি অতিরিক্ত শক্ত বা এঁটেল হলে এবং জমিতে জো ছাড়া চাষ দিলে শিকড় ছড়াতে পারে না।",
-        "৩. মাটির অতিরিক্ত অম্লতা (pH ৫.০ এর নিচে) পুষ্টি উপাদান শোষণ বাধাগ্রস্ত করে।",
-        "৪. ভাইরাসজনিত রোগ (যেমন ডোয়ার্ফ ভাইরাস বা টুংরো)।"
-      ],
-      organicSolution: "জমিতে ট্রাইকো-কম্পোস্ট ও ভার্মিকম্পোস্ট দিন। চারা লাগানোর আগে শিকড় ট্রাইকোডার্মা দিয়ে শোধন করে নিন।",
-      chemicalSolution: "ডিএপি বা টিএসপি এবং জিংক সালফেট জমি তৈরিতে সুষম মাত্রায় দিন। গাছ বড় না হলে প্রতি লিটার পানিতে ২ গ্রাম ফ্লোরা (PGR) স্প্রে করতে পারেন।",
-      officerAdvice: "মাটি পরীক্ষা করে pH মান দেখুন। যদি মাটি অ্যাসিডিক হয় তবে বিঘা প্রতি ২৫ কেজি ডলোমাইট বা চুন প্রয়োগ করুন।"
-    },
-    {
-      id: "prob_waterlogging",
-      title: "জমিতে দীর্ঘক্ষণ পানি জমে থাকা ও শিকড় পচন (Waterlogging & Root Suffocation)",
-      image: "https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=600&q=80",
-      icon: "fa-water",
-      severity: "অতি উচ্চ (তাৎক্ষণিক ব্যবস্থা জরুরি)",
-      causes: [
-        "১. জমিতে উপযুক্ত পানি নিষ্কাশন নালার অভাব বা আইল উঁচু করে আটকে রাখা।",
-        "২. অতিরিক্ত সেচ বা ভারী বৃষ্টিপাতের পর পানি বের হওয়ার পথ না থাকা।",
-        "৩. মাটিতে বাতাস চলাচল বন্ধ হয়ে শিকড় পচে কালো হয়ে গন্ধ ছড়ানো।"
-      ],
-      organicSolution: "জমি শুকিয়ে যাওয়ার পর গোড়ার শক্ত মাটি আলগা করে ছাই ও ট্রাইকো-কম্পোস্ট দিন যাতে ক্ষতিকর ছত্রাক না ছড়ায়।",
-      chemicalSolution: "তাত্ক্ষণিকভাবে জমির আইল কেটে নালা তৈরি করে পানি বের করে দিন। এরপর কপার অক্সিক্লোরাইড (যেমন চ্যাম্পিয়ন ২ গ্রাম/লিটার) দিয়ে গাছের গোড়া ভিজিয়ে দিন।",
-      officerAdvice: "সবজি চাষে সমতল মাটির বদলে সবসময় ৩০ সেমি উঁচু বেড তৈরি করুন। জরুরি সহায়তার জন্য ১৬১২৩ ডায়াল করুন।"
-    },
-    {
-      id: "prob_flower_fruit_drop",
-      title: "ফুল ও কচি ফল ঝরে পড়া এবং ফল ফেটে যাওয়া (Flower & Fruit Drop)",
-      image: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80",
-      icon: "fa-burst",
-      severity: "মাঝারি থেকে উচ্চ",
-      causes: [
-        "১. বোরন ও ক্যালসিয়াম সারের তীব্র ঘাটতি থাকলে ফুল ঝরে ও টমেটো-বেগুন ফেটে যায়।",
-        "২. ফুল আসার সময় জমিতে তীব্র খরা বা হঠাৎ মাত্রাতিরিক্ত পানি সেচ।",
-        "৩. তাপমাত্রা ৩৫ ডিগ্রি সেলসিয়াসের বেশি হলে পরাগায়ন ব্যর্থ হওয়া।",
-        "৪. থ্রিপস বা চুষি পোকা ফুল চুষে খাওয়া।"
-      ],
-      organicSolution: "জৈব ছাই ও ডিমের খোসার গুঁড়ো গাছের গোড়ায় দিন। ফুল ফোটার সময় মৃদু ভোরে গাছে হালকা পানি ছিটিয়ে পরাগায়ন সহজ করুন।",
-      chemicalSolution: "ফুল আসার শুরুতে প্রতি লিটার পানিতে সোলুবোর বোরন ১.৫ গ্রাম এবং প্লানোফিক্স (আলফা ন্যাপথাইল অ্যাসিটিক অ্যাসিড) ০.৫ মিলি মিশিয়ে স্প্রে করুন।",
-      officerAdvice: "ফুল ফোটার পূর্ণ সময়ে কড়া কীটনাশক স্প্রে করবেন না, এতে উপকারী মৌমাছি ও পরাগায়নকারী কীট মারা যায়।"
-    },
-    {
-      id: "prob_pest_infestation",
-      title: "ক্ষতিকর পোকামাকড়ের উপদ্রব ও পাতা কোকড়ানো (Insect Pest Attacks)",
-      image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80",
-      icon: "fa-bug",
-      severity: "উচ্চ",
-      causes: [
-        "১. ডগা ছিদ্রকারী, ফল আর্মিওয়ার্ম বা মাজরা পোকার লার্ভা পাতার ভেতরে লুকিয়ে খাওয়া।",
-        "২. জাব পোকা, সাদা মাছি বা থ্রিপস রস চুষে খেয়ে পাতাকে তামাক পাতার মতো কোঁকড়া বানিয়ে ফেলা।",
-        "৩. জমিতে পর্যাপ্ত উপকারী বন্ধু পোকা (যেমন লেডিবার্ড বিটল) না থাকা।"
-      ],
-      organicSolution: "বিঘায় ৫-৬টি সেক্স ফেরোমন ট্র্যাপ ও ১০-১২টি হলুদ আঠালো ফাঁদ দিন। ৫ মিলি নিমতেল + ২ গ্রাম সাবান গুঁড়ো প্রতি লিটার পানিতে মিশিয়ে স্প্রে করুন।",
-      chemicalSolution: "লেদা ও ছিদ্রকারী পোকার জন্য প্রোক্লেম ১ গ্রাম/লিটার এবং চুষি পোকার জন্য এডমিয়ার ০.৫ মিলি/লিটার বিকেলের দিকে স্প্রে করুন।",
-      officerAdvice: "পোকামাকড়ের আক্রমণের ধরন বুঝতে না পারলে AgriFriend এর 'এআই রোগ ও পোকা শনাক্তকরণ' টুলে ছবি আপলোড করুন অথবা ১৬১২৩ এ কল করুন।"
-    }
-  ],
-
-  // 7. VISUALS, VIDEO & BANGLA TUTORIALS (ভিডিও, ছবি ও বাংলা টিউটোরিয়াল কেন্দ্র)
-  tutorials: {
-    videos: [
-      {
-        id: "vid_rice_cultivation",
-        title: "আধুনিক ধান চাষ ও সুষম সার ব্যবস্থাপনা",
-        titleEn: "Modern Rice Cultivation & Balanced Fertilization",
-        duration: "০৮:৪৫ মিনিট",
-        thumbnail: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
-        youtubeId: "1NSprRUHnaM",
-        topic: "ধান চাষ ও বীজ শোধন",
-        description: "বীজতলা তৈরি, সুষম ইউরিয়া-পটাশ কিস্তিবন্দী প্রয়োগ এবং ব্লাস্ট রোগ প্রতিরোধের সহজ কৌশল।"
-      },
-      {
-        id: "vid_vermicompost",
-        title: "সহজে কেঁচো সার (ভার্মিকম্পোস্ট) তৈরি ও ব্যবহার",
-        titleEn: "How to Make Vermicompost at Home",
-        duration: "০৬:২০ মিনিট",
-        thumbnail: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80",
-        youtubeId: "hDg5UH_VrTk",
-        topic: "জৈব সার উৎপাদন",
-        description: "গোবর ও খড়কুটা দিয়ে উন্নতমানের কেঁচো সার তৈরি ও ফসলের জমিতে সঠিক প্রয়োগ মাত্রা।"
-      },
-      {
-        id: "vid_tomato_pruning",
-        title: "উন্নত পদ্ধতিতে টমেটো চাষ ও মাচা তৈরি",
-        titleEn: "Tomato Staking, Pruning & Disease Care",
-        duration: "০৭:১৫ মিনিট",
-        thumbnail: "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80",
-        youtubeId: "JLO6q3DsvyM",
-        topic: "টমেটো চাষাবাদ",
-        description: "টমেটো গাছের সাকার ছাঁটাই, মালচিং ব্যবহার ও ফুল-ফল ঝরা বন্ধে বোরন প্রয়োগের নিয়ম।"
-      },
-      {
-        id: "vid_spray_safety",
-        title: "কীটনাশক স্প্রে করার সঠিক ও নিরাপদ নিয়ম",
-        titleEn: "Safe and Effective Pesticide Spraying Techniques",
-        duration: "০৫:৫০ মিনিট",
-        thumbnail: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=600&q=80",
-        youtubeId: "TGmTa480pkk",
-        topic: "কৃষক স্বাস্থ্য ও সুরক্ষা",
-        description: "বাতাসের বিপরীতে স্প্রে না করা, মাস্ক পরা এবং স্প্রে করার কতদিন পর ফসল তোলা নিরাপদ।"
-      }
-    ],
-    comparisons: [
-      {
-        id: "comp_blast",
-        title: "সুস্থ ধানের পাতা বনাম ব্লাস্ট আক্রান্ত পাতা",
-        healthyImg: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=500&q=80",
-        diseasedImg: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=500&q=80",
-        healthyDesc: "সতেজ ঘন সবুজ পাতা, সমান কিনার, কোনো দাগ বা পচন নেই।",
-        diseasedDesc: "চোখের মতো মাকু আকৃতির বাদামি দাগ, মাঝখান ধূসর এবং পাতার ডগা শুকিয়ে সাদা।"
-      },
-      {
-        id: "comp_blight",
-        title: "সুস্থ আলুর ক্ষেত বনাম নাবি ধসা (Late Blight) আক্রান্ত ক্ষেত",
-        healthyImg: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=500&q=80",
-        diseasedImg: "https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=500&q=80",
-        healthyDesc: "গাছ সতেজ খাড়া, চকচকে সবুজ পাতা ও সুস্থ কাণ্ড।",
-        diseasedDesc: "পাতায় ভেজা কালচে দাগ, পোড়া পোড়া ভাব এবং ভোরে পাতার নিচে সাদা ছাতা।"
-      },
-      {
-        id: "comp_chilli",
-        title: "সুস্থ সতেজ মরিচ বনাম অ্যানথ্রাকনোজ (ফল পচা) আক্রান্ত মরিচ",
-        healthyImg: "https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=500&q=80",
-        diseasedImg: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=500&q=80",
-        diseasedDesc: "মরিচের গায়ে বৃত্তাকার দেবে যাওয়া কালো দাগ, শুকিয়ে চামড়ার মতো হয়ে যাওয়া।"
-      }
-    ],
-    stepGuides: [
-      {
-        title: "ট্রাইকোডার্মা দিয়ে বীজ শোধন পদ্ধতি",
-        image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=600&q=80",
-        steps: [
-          "১. প্রতি কেজি বীজের জন্য ২-৩ গ্রাম ট্রাইকোডার্মা বা প্রভ্যাক্স পাউডার নিন।",
-          "২. সামান্য চিটাগুড়ের পানি দিয়ে বীজ হালকা ভিজিয়ে নিন যাতে পাউডার লেগে থাকে।",
-          "৩. বীজের সাথে ভালো করে মিশিয়ে ছায়াযুক্ত স্থানে ২০ মিনিট শুকিয়ে নিয়ে জমিতে বা বীজতলায় বুনে দিন।"
-        ]
-      },
-      {
-        title: "সেক্স ফেরোমন ট্র্যাপ (পোকার ফাঁদ) স্থাপনের নিয়ম",
-        image: "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?auto=format&fit=crop&w=600&q=80",
-        steps: [
-          "১. প্লাস্টিকের বয়ামের দুই পাশে ত্রিকোণাকার জানালা কেটে সাবান পানি দিয়ে ভরাট করুন।",
-          "২. ঢাকনার ঠিক নিচে লিয়ুরেল ফেরোমন টিউব ঝুলিয়ে দিন।",
-          "৩. ফাঁদটি ফসলের গাছের উচ্চতা বরাবর খুঁটি দিয়ে বেঁধে দিন। পুরুষ পোকা আকর্ষিত হয়ে সাবান পানিতে পড়ে মারা যাবে।"
-        ]
-      }
-    ],
-    glossary: [
-      { term: "কুশি (Tillering)", meaning: "ধান বা গমের মূল চারা থেকে পাশে নতুন যে ডালপালা বা কুশি গজায়।" },
-      { term: "কাইচ থোড় (Booting Stage)", meaning: "ধান গাছের পেটের ভেতর যখন শীষ তৈরি হতে শুরু করে এবং কাণ্ড ফুলে ওঠে।" },
-      { term: "টপড্রেসিং (Top-dressing)", meaning: "ফসল মাঠে থাকা অবস্থায় উপরিভাগে সার ছড়িয়ে দেওয়া।" },
-      { term: "পিএইচআই (PHI - Pre-Harvest Interval)", meaning: "কীটনাশক স্প্রে করার পর কতদিন পর্যন্ত ওই ফসল তোলা বা খাওয়া নিষেধ, সেই অপেক্ষার সময়কাল।" },
-      { term: "মালচিং (Mulching)", meaning: "মাটির আর্দ্রতা ধরে রাখতে ও আগাছা রোধে গাছের গোড়ায় খড় বা পলিথিনের ঢাকনা দেওয়া।" },
-      { term: "বালাইনাশক (Pesticides)", meaning: "ক্ষতিকর পোকা, রোগজীবাণু বা আগাছা দমনের জন্য ব্যবহৃত উপাদান।" }
-    ],
-    faqs: [
-      {
-        q: "ধানের পাতায় পোকা লাগলে কখন স্প্রে করা সবচেয়ে ভালো?",
-        a: "কীটনাশক বা ছত্রাকনাশক সবসময় বিকেলে রোদ পড়ে এলে স্প্রে করা সবচেয়ে কার্যকর। সকালে শিশির ভেজা পাতায় স্প্রে করলে ওষুধ ধুয়ে যায় এবং দুপুরের কড়া রোদে ওষুধের কার্যকারিতা কমে যেতে পারে।"
-      },
-      {
-        q: "একই জমিতে প্রতি বছর একই ফসল চাষ করলে কী ক্ষতি হয়?",
-        a: "মাটির নির্দিষ্ট পুষ্টি উপাদান দ্রুত নিঃশেষ হয়ে যায় এবং ওই ফসলের বিশেষ রোগজীবাণু ও পোকার বংশবৃদ্ধি ঘটে। তাই শস্য পর্যায় (Crop Rotation) মেনে ডাল বা তেলবীজ চাষ করা উচিত।"
-      },
-      {
-        q: "ইউরিয়া ও পটাশ সার কি একসাথে প্রয়োগ করা যায়?",
-        a: "হ্যাঁ, ইউরিয়া ও এমওপি পটাশ সার একসাথে মিশিয়ে দ্রুত প্রয়োগ করা যায়। তবে টিএসপি ও জিংক সার একসাথে মেশানো যাবে না।"
-      },
-      {
-        q: "জরুরি কৃষি পরামর্শের জন্য কোথায় যোগাযোগ করব?",
-        a: "যেকোনো মোবাইল থেকে টোল-ফ্রি নম্বর ১৬১২৩ এ কল করে সরাসরি সরকারি কৃষি বিশেষজ্ঞের সাথে বিনামূল্যে পরামর্শ নেওয়া যায়।"
-      }
-    ]
-  },
-
-  // Retain fertilizers & pesticides for backwards compatibility
-  fertilizers: [
-    {
-      id: "fert_urea",
-      name: "Urea / ইউরিয়া সার",
-      type: "Chemical (Inorganic) / রাসায়নিক সার",
-      composition: "46% Nitrogen (N) / ৪৬% নাইট্রোজেন",
-      purpose: "Promotes rapid vegetative leaf growth and green chlorophyll pigmentation. / উদ্ভিদের দ্রুত শারীরিক বৃদ্ধি ও পাতা সবুজ রাখতে সহায়তা করে।",
-      applicationRate: "15-20 kg/bigha in 2-3 splits. / বিঘা প্রতি ১৫-২০ কেজি (২-৩ কিস্তিতে)।",
-      method: "Top-dressing on moist soil. Never apply on dry cracked ground. / মাটির পর্যাপ্ত আর্দ্রতায় উপরিপ্রয়োগ করুন।",
-      targetCrops: "Rice, Wheat, Corn, Vegetables, Jute / ধান, গম, ভুট্টা, সবজি, পাট"
-    },
-    {
-      id: "fert_tsp",
-      name: "TSP (Triple Super Phosphate) / টিএসপি সার",
-      type: "Chemical (Inorganic) / রাসায়নিক সার",
-      composition: "46% Phosphorus (P2O5) / ৪৬% ফসফরাস",
-      purpose: "Strong root development, tillering, and timely maturity. / শক্তিশালী শিকড় গঠন ও ফুল-ফল ধারণে সহায়তা করে।",
-      applicationRate: "12-15 kg/bigha at final land preparation. / বিঘা প্রতি ১২-১৫ কেজি (জমি তৈরির শেষ চাষে)।",
-      method: "Basal application mixed into soil before sowing. / বপনের পূর্বে মাটির সাথে মিশিয়ে দিন।",
-      targetCrops: "All field crops / সব ধরনের মাঠ ফসল"
-    },
-    {
-      id: "fert_mop",
-      name: "MOP (Muriate of Potash) / এমওপি (পটাশ) সার",
-      type: "Chemical (Inorganic) / রাসায়নিক সার",
-      composition: "60% Potassium (K2O) / ৬০% পটাশিয়াম",
-      purpose: "Disease resistance, grain filling, drought tolerance. / রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি ও দানা পুষ্ট করতে সহায়ক।",
-      applicationRate: "10-15 kg/bigha (split or basal). / বিঘা প্রতি ১০-১৫ কেজি।",
-      method: "Half at land preparation, half at boot/flowering stage. / অর্ধেক জমি তৈরিতে, বাকি অর্ধেক থোড় আসার পূর্বে।",
-      targetCrops: "Rice, Potato, Tomato, Wheat, Corn / ধান, আলু, টমেটো, গম, ভুট্টা"
-    },
-    {
-      id: "fert_vermicompost",
-      name: "Vermicompost / কেঁচো সার (জৈব সার)",
-      type: "Organic / জৈব সার",
-      composition: "Rich in humus, N, P, K, and beneficial microbial flora. / হিউমাস, নাইট্রোজেন, ফসফরাস ও অণুজীব সমৃদ্ধ।",
-      purpose: "Restores soil biological health and water retention. / মাটির উর্বরতা ও পানি ধারণক্ষমতা বৃদ্ধি করে।",
-      applicationRate: "150-200 kg/bigha. / বিঘা প্রতি ১৫০-২০০ কেজি।",
-      method: "Broadcast evenly during primary tilling. / জমি তৈরির সময় সমানভাবে ছিটিয়ে চাষ দিন।",
-      targetCrops: "Vegetables, Fruit Orchards, Potato / সবজি, ফলবাগান, আলু"
-    }
-  ],
-
-  pesticides: [
-    {
-      id: "pest_nativo",
-      tradeName: "Nativo 75WG / নাটিভো ৭৫ ডব্লিউজি",
-      activeIngredient: "Tebuconazole 50% + Trifloxystrobin 25%",
-      targetPests: "Rice Blast, Sheath Blight, Fruit Rot / ধানের ব্লাস্ট, খোলা পোড়া, মরিচের ফল পচা",
-      recommendedDose: "0.6 g/L water (10g per 16L spray tank) / প্রতি লিটার পানিতে ০.৬ গ্রাম।",
-      waitingPeriod: "14 Days (PHI) / ফসল তোলার ১৪ দিন আগে প্রয়োগ বন্ধ করুন।",
-      safetyInstructions: "Wear gloves and face mask. Do not spray against the wind. / মুখে মাস্ক ও হাতে গ্লাভস পরে বিকেলের দিকে স্প্রে করুন।"
-    },
-    {
-      id: "pest_proclaim",
-      tradeName: "Proclaim 5SG / প্রোক্লেম ৫ এসজি",
-      activeIngredient: "Emamectin Benzoate 5%",
-      targetPests: "Fruit & Shoot Borer, Armyworm, Caterpillars / ডগা ও ফল ছিদ্রকারী পোকা, লেদা পোকা",
-      recommendedDose: "1 g/L water (16g per 16L spray tank) / প্রতি লিটার পানিতে ১ গ্রাম।",
-      waitingPeriod: "7 Days (PHI) / ফসল তোলার ৭ দিন আগে প্রয়োগ বন্ধ করুন।",
-      safetyInstructions: "Spray during late afternoon when caterpillars emerge. / বিকেলের দিকে লার্ভা বের হলে স্প্রে করুন।"
-    },
-    {
-      id: "pest_admire",
-      tradeName: "Admire 200SL / এডমিয়ার ২০০ এসএল",
-      activeIngredient: "Imidacloprid 20%",
-      targetPests: "Aphids, Jassids, Whiteflies, Thrips / জাব পোকা, সাদা মাছি, চুষি পোকা",
-      recommendedDose: "0.5 ml/L water (8ml per 16L tank) / প্রতি লিটার পানিতে ০.৫ মিলি।",
-      waitingPeriod: "10 Days (PHI) / ফসল তোলার ১০ দিন আগে প্রয়োগ বন্ধ করুন।",
-      safetyInstructions: "Do not spray in morning during active honeybee pollination. / সকালে মৌমাছির পরাগায়নের সময় স্প্রে করবেন না।"
-    }
-  ]
 };

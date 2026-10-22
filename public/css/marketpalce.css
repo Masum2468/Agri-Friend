@@ -282,7 +282,7 @@ section.module {
 }
 
 .section-header p {
-  color: var(--text-light);
+  color: rgb(17, 99, 32);
   font-size: 1.1rem;
 }
 /* Cards Grid */
@@ -1047,4 +1047,5 @@ footer {
     font-size: 0.92rem;
     padding: 10px 16px;
   }
+  
 }
