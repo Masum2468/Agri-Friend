@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFriend - অ্যাডমিন ম্যানেজমেন্ট প্যানেল (Admin Panel)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/knowledge.css">
+  <link rel="stylesheet" href="/css/guide-pages.css">
+  <style>
+    .admin-container {
+      max-width: 1200px;
+      margin: 30px auto 60px auto;
+      padding: 0 20px;
+    }
+    .admin-auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .admin-auth-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 35px 30px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+    .admin-auth-card i.shield-icon {
+      font-size: 3rem;
+      color: #1b5f43;
+      margin-bottom: 15px;
+    }
+    .admin-auth-card input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      margin: 15px 0;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .admin-nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 12px;
+      margin-bottom: 25px;
+    }
+    .admin-tab-btn {
+      padding: 10px 18px;
+      border: none;
+      background: #ffffff;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+      border: 1px solid #e2e8f0;
+    }
+    .admin-tab-btn:hover, .admin-tab-btn.active {
+      background: #1b5f43;
+      color: #ffffff;
+      border-color: #1b5f43;
+    }
+    .admin-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+    .admin-section-header h2 {
+      margin: 0;
+      color: #1b5f43;
+      font-size: 1.5rem;
+    }
+    .admin-card-row {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 15px 20px;
+      border: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 15px;
+      transition: all 0.2s;
+    }
+    .admin-card-row:hover {
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    }
+    .admin-card-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .admin-card-thumb {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #e2e8f0;
+    }
+    .btn-delete-item {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fca5a5;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .btn-delete-item:hover {
+      background: #b91c1c;
+      color: #ffffff;
+    }
+    /* Add Item Form Modal */
+    .admin-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .admin-modal-box {
+      background: #ffffff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    }
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+    .form-group-admin {
+      margin-bottom: 15px;
+    }
+    .form-group-admin label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.88rem;
+      margin-bottom: 5px;
+      color: #334155;
+    }
+    .form-group-admin input, .form-group-admin textarea, .form-group-admin select {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 0.92rem;
+      box-sizing: border-box;
+      outline: none;
+    }
+    .form-group-admin input:focus, .form-group-admin textarea:focus {
+      border-color: #1b5f43;
+    }
+    .lang-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      margin-left: 6px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+    .badge-bn { background: #dcfce7; color: #166534; }
+    .badge-en { background: #e0f2fe; color: #0369a1; }
+  </style>
+</head>
+<body>
+
+  <!-- Admin Passkey Prompt Overlay -->
+  <div class="admin-auth-overlay" id="admin-auth-overlay">
+    <div class="admin-auth-card">
+      <i class="fa-solid fa-shield-halved shield-icon"></i>
+      <h2 style="margin: 0 0 8px 0; color: #1e293b;">অ্যাডমিন প্যানেল ভেরিফিকেশন</h2>
+      <p style="color: #64748b; font-size: 0.92rem; margin: 0;">দয়া করে সিকিউরিটি অ্যাডমিন পাসওয়ার্ড প্রদান করুন।</p>
+      <form onsubmit="handleAdminAuth(event)">
+        <input type="password" id="admin-passkey" placeholder="Enter Admin Passkey" required autofocus autocomplete="current-password">
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; justify-content: center;">
+          <i class="fa-solid fa-key"></i> প্রবেশ করুন (Login)
+        </button>
+      </form>
+      <div id="auth-err-msg" style="color: #dc2626; font-size: 0.88rem; margin-top: 10px; display: none;"></div>
+      <a href="/" style="display: inline-block; margin-top: 16px; color: #64748b; font-size: 0.85rem; text-decoration: none;">
+        <i class="fa-solid fa-arrow-left"></i> ওয়েবসাইটে ফিরে যান
+      </a>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriFriend Admin</span>
+    </a>
+    <div style="display: flex; gap: 10px; align-items: center;">
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">English</span>
+      </button>
+      <a href="/knowledgehub.html" class="btn btn-outline" style="padding: 6px 12px;"><i class="fa-solid fa-book-open"></i> Knowledge Hub</a>
+      <button onclick="handleAdminLogout()" class="btn btn-outline" style="padding: 6px 12px; color: #dc2626; border-color: #fca5a5;"><i class="fa-solid fa-right-from-bracket"></i> Exit Admin</button>
+    </div>
+  </header>
+
+  <main class="admin-container" id="admin-main-panel" style="display: none;">
+    <!-- Welcome Banner -->
+    <div style="background: #ffffff; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+      <div>
+        <h1 style="margin: 0; font-size: 1.8rem; color: #1b5f43;"><i class="fa-solid fa-sliders"></i> কৃষি তথ্য ভান্ডার পরিচালনা প্যানেল</h1>
+        <p style="margin: 6px 0 0 0; color: #64748b;">ফসলের গাইড, রোগবালাই, সার তালিকা, মৌসুমভিত্তিক পরামর্শ ও ক্যালেন্ডার তথ্য সংযোজন ও অপসারণ করুন।</p>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <span class="badge" style="background: #dcfce7; color: #166534; padding: 6px 14px; border-radius: 20px; font-weight: 700;">
+          <i class="fa-solid fa-circle-check"></i> Admin Mode Active
+        </span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-nav-tabs">
+      <button class="admin-tab-btn active" data-tab="crops" onclick="switchAdminTab('crops', this)"><i class="fa-solid fa-seedling"></i> ফসলের গাইড (Crops)</button>
+      <button class="admin-tab-btn" data-tab="diseases" onclick="switchAdminTab('diseases', this)"><i class="fa-solid fa-bug"></i> রোগবালাই ও কীটনাশক (Diseases)</button>
+      <button class="admin-tab-btn" data-tab="fertilizers" onclick="switchAdminTab('fertilizers', this)"><i class="fa-solid fa-flask-vial"></i> সার ও উপকরণ (Fertilizers)</button>
+      <button class="admin-tab-btn" data-tab="seasonal" onclick="switchAdminTab('seasonal', this)"><i class="fa-solid fa-cloud-sun-rain"></i> মৌসুমভিত্তিক পরামর্শ (Seasonal)</button>
+      <button class="admin-tab-btn" data-tab="calendar" onclick="switchAdminTab('calendar', this)"><i class="fa-solid fa-calendar-check"></i> ফসলের ক্যালেন্ডার (Calendar)</button>
+    </div>
+
+    <!-- Active Management Section -->
+    <div style="background: #ffffff; border-radius: 16px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+      <div class="admin-section-header">
+        <div>
+          <h2 id="section-title">ফসলের গাইড কার্ডসমূহ</h2>
+          <span style="font-size: 0.9rem; color: #64748b;" id="section-item-count">মোট আইটেম: ০</span>
+        </div>
+        <button class="btn btn-primary" onclick="openAddModal()"><i class="fa-solid fa-plus-circle"></i> নতুন তথ্য যোগ করুন (Add Card)</button>
+      </div>
+
+      <!-- Item List Container -->
+      <div id="admin-items-list">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+  </main>
+
+  <!-- Add Card Modal -->
+  <div class="admin-modal" id="admin-modal">
+    <div class="admin-modal-box">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px;">
+        <h3 id="modal-form-title" style="margin: 0; color: #1b5f43;">নতুন কার্ড যুক্ত করুন</h3>
+        <button onclick="closeAddModal()" style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #94a3b8;">&times;</button>
+      </div>
+      
+      <form id="add-guide-form" onsubmit="handleSaveItem(event)">
+        <div id="dynamic-form-fields">
+          <!-- Dynamically populated based on active tab -->
+        </div>
+
+        <div style="display: flex; gap: 12px; margin-top: 25px;">
+          <button type="submit" class="btn btn-primary" style="flex: 1; justify-content: center; padding: 12px;"><i class="fa-solid fa-check"></i> ডাটাবেসে সেভ করুন</button>
+          <button type="button" class="btn btn-outline" onclick="closeAddModal()" style="padding: 12px 20px;">বাতিল</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    let activeCategory = 'crops';
+    let allGuidesData = {};
+
+    function checkAdminSession() {
+      const isAuth = sessionStorage.getItem('agri_admin_auth');
+      if (isAuth === 'true') {
+        document.getElementById('admin-auth-overlay').style.display = 'none';
+        document.getElementById('admin-main-panel').style.display = 'block';
+        loadAdminData();
+      } else {
+        document.getElementById('admin-auth-overlay').style.display = 'flex';
+        document.getElementById('admin-main-panel').style.display = 'none';
+      }
+    }
+
+    async function handleAdminAuth(e) {
+      e.preventDefault();
+      const passkey = document.getElementById('admin-passkey').value.trim();
+      const errBox = document.getElementById('auth-err-msg');
+      errBox.style.display = 'none';
+
+      try {
+        const res = await fetch('/api/public/admin/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ passkey })
+        });
+        const data = await res.json();
+        if (data.success) {
+          sessionStorage.setItem('agri_admin_auth', 'true');
+          checkAdminSession();
+        } else {
+          errBox.innerText = data.message || 'ভুল অ্যাডমিন পাসওয়ার্ড';
+          errBox.style.display = 'block';
+        }
+      } catch (err) {
+        errBox.innerText = 'সার্ভার যোগাযোগে ত্রুটি';
+        errBox.style.display = 'block';
+      }
+    }
+
+    function handleAdminLogout() {
+      sessionStorage.removeItem('agri_admin_auth');
+      window.location.href = '/knowledgehub.html';
+    }
+
+    async function loadAdminData() {
+      try {
+        const res = await fetch('/api/public/guides/all-centers');
+        allGuidesData = await res.json();
+        renderAdminCategoryList();
+      } catch (err) {
+        console.error('Failed to load admin data:', err);
+      }
+    }
+
+    function switchAdminTab(cat, btn) {
+      activeCategory = cat;
+      document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+
+      const titles = {
+        crops: 'ফসলের গাইড কার্ডসমূহ (Crop Guides)',
+        diseases: 'রোগবালাই ও কীটনাশক কার্ডসমূহ (Disease Diagnostics)',
+        fertilizers: 'সার ও উপকরণ কার্ডসমূহ (Fertilizers & Inputs)',
+        seasonal: 'মৌসুমভিত্তিক পরামর্শ কার্ডসমূহ (Seasonal Advisories)',
+        calendar: 'ফসলের ক্যালেন্ডার কার্ডসমূহ (Crop Calendar)'
+      };
+      document.getElementById('section-title').innerText = titles[cat] || 'কার্ডসমূহ';
+      renderAdminCategoryList();
+    }
+
+    function renderAdminCategoryList() {
+      const container = document.getElementById('admin-items-list');
+      const countLabel = document.getElementById('section-item-count');
+      container.innerHTML = '';
+
+      const items = allGuidesData[activeCategory] || [];
+      countLabel.innerText = `মোট আইটেম: ${items.length}`;
+
+      if (items.length === 0) {
+        container.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 40px;">এই বিভাগে কোনো কার্ড নেই। "নতুন তথ্য যোগ করুন" বাটনে ক্লিক করে কার্ড যোগ করুন।</div>';
+        return;
+      }
+
+      items.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'admin-card-row';
+
+        const title = item.name || item.name_bn || item.title || item.title_bn || item.crop || item.crop_bn || item.month || 'আইটেম';
+        const subtitle = item.scientificName || item.season || item.period || item.englishMonths || item.type || '';
+        const img = item.image || 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=200';
+
+        row.innerHTML = `
+          <div class="admin-card-info">
+            <img src="${img}" alt="${title}" class="admin-card-thumb" onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=200'">
+            <div>
+              <div style="font-weight: 700; font-size: 1.05rem; color: #1e293b;">${title}</div>
+              <div style="font-size: 0.85rem; color: #64748b;">${subtitle}</div>
+            </div>
+          </div>
+          <div>
+            <button class="btn-delete-item" onclick="deleteAdminItem('${item.id}')"><i class="fa-solid fa-trash-can"></i> ডিলিট করুন</button>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    async function deleteAdminItem(id) {
+      if (!confirm('আপনি কি নিশ্চিত যে এই কার্ডটি মুছে ফেলতে চান?')) return;
+      try {
+        const res = await fetch(`/api/public/admin/guide/${activeCategory}/${id}`, {
+          method: 'DELETE'
+        });
+        const result = await res.json();
+        if (result.success) {
+          await loadAdminData();
+        } else {
+          alert('মুছতে ব্যর্থ হয়েছে: ' + (result.message || ''));
+        }
+      } catch (err) {
+        alert('সার্ভার এরর');
+      }
+    }
+
+    function openAddModal() {
+      const modal = document.getElementById('admin-modal');
+      const formFields = document.getElementById('dynamic-form-fields');
+      const modalTitle = document.getElementById('modal-form-title');
+      modal.style.display = 'flex';
+
+      const fieldTemplates = {
+        crops: `
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>ফসলের নাম (বাংলা)<span class="lang-badge badge-bn">BN</span></label>
+              <input type="text" name="name_bn" placeholder="যেমন: গম, সরিষা" required>
+            </div>
+            <div class="form-group-admin">
+              <label>Crop Name (English)<span class="lang-badge badge-en">EN</span></label>
+              <input type="text" name="name_en" placeholder="e.g. Wheat, Mustard" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>বৈজ্ঞানিক নাম (Scientific Name)</label>
+              <input type="text" name="scientificName" placeholder="e.g. Triticum aestivum">
+            </div>
+            <div class="form-group-admin">
+              <label>ফসলের ধরন (Type)</label>
+              <select name="type">
+                <option value="Cereal / দানাশস্য">দানাশস্য (Cereal)</option>
+                <option value="Tuber / কন্দজাতীয়">কন্দজাতীয় (Tuber)</option>
+                <option value="Vegetable / সবজি">শাকসবজি (Vegetable)</option>
+                <option value="Cash / অর্থকরী">অর্থকরী (Cash Crop)</option>
+                <option value="Oilseed / তেলবীজ">তেলবীজ (Oilseed)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>জীবনকাল / মেয়াদ (Duration)</label>
+              <input type="text" name="growthDuration" placeholder="যেমন: ১০০-১২০ দিন">
+            </div>
+            <div class="form-group-admin">
+              <label>মাটির pH ও ধরন</label>
+              <input type="text" name="optimalPH" placeholder="pH 6.0 - 7.0, দোআঁশ মাটি">
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label>উন্নত জাতসমূহ (Varieties)</label>
+            <input type="text" name="varieties" placeholder="যেমন: বারি গম-৩৩, শতাব্দী">
+          </div>
+          <div class="form-group-admin">
+            <label>ছবি URL (Image Link)</label>
+            <input type="url" name="image" placeholder="https://images.unsplash.com/...">
+          </div>
+        `,
+        diseases: `
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>রোগের নাম (বাংলা)<span class="lang-badge badge-bn">BN</span></label>
+              <input type="text" name="name_bn" placeholder="যেমন: ধানের ব্লাস্ট রোগ" required>
+            </div>
+            <div class="form-group-admin">
+              <label>Disease Name (English)<span class="lang-badge badge-en">EN</span></label>
+              <input type="text" name="name_en" placeholder="e.g. Rice Blast Disease" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>আক্রান্ত ফসল (Crop Name)</label>
+              <input type="text" name="crop_bn" placeholder="যেমন: ধান, আলু, টমেটো" required>
+            </div>
+            <div class="form-group-admin">
+              <label>তীব্রতা মাত্রা (Severity)</label>
+              <select name="severity">
+                <option value="High">উচ্চ (High)</option>
+                <option value="Medium">মাঝারি (Medium)</option>
+                <option value="Low">স্বাভাবিক (Low)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label>লক্ষণসমূহ (Symptoms) - বাংলা ও ইংরেজি<span class="lang-badge badge-bn">BN</span></label>
+            <textarea name="symptoms_bn" rows="2" placeholder="পাতায় চোখের মতো দাগ তৈরি হয়..."></textarea>
+          </div>
+          <div class="form-group-admin">
+            <label>প্রতিরোধমূলক ব্যবস্থা (Prevention)</label>
+            <textarea name="prevention_bn" rows="2" placeholder="সুষম সার ব্যবহার করুন, আক্রান্ত গাছ তুলে ধ্বংস করুন..."></textarea>
+          </div>
+          <div class="form-group-admin">
+            <label>অনুমোদিত কীটনাশক প্রেসক্রিপশন ও মাত্রা (Pesticide)</label>
+            <textarea name="pesticide_bn" rows="2" placeholder="ট্রাইসাইক্লাজোল (যেমন ট্রপার) প্রতি লিটার পানিতে ০.৭৫ গ্রাম হারে স্প্রে করুন।"></textarea>
+          </div>
+          <div class="form-group-admin">
+            <label>ছবি URL (Disease Image Link)</label>
+            <input type="url" name="image" placeholder="https://images.unsplash.com/...">
+          </div>
+        `,
+        fertilizers: `
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>ফসলের নাম (বাংলা)<span class="lang-badge badge-bn">BN</span></label>
+              <input type="text" name="crop_bn" placeholder="যেমন: গম, ভুট্টা" required>
+            </div>
+            <div class="form-group-admin">
+              <label>Crop Name (English)<span class="lang-badge badge-en">EN</span></label>
+              <input type="text" name="crop_en" placeholder="e.g. Wheat, Maize" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>ইউরিয়া প্রয়োগ মাত্রা (বিঘা প্রতি)</label>
+              <input type="text" name="urea" placeholder="৩৫-৪০ কেজি">
+            </div>
+            <div class="form-group-admin">
+              <label>টিএসপি প্রয়োগ মাত্রা (বিঘা প্রতি)</label>
+              <input type="text" name="tsp" placeholder="২০-২৫ কেজি">
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>এমওপি / পটাশ মাত্রা (বিঘা প্রতি)</label>
+              <input type="text" name="mop" placeholder="১৫-২০ কেজি">
+            </div>
+            <div class="form-group-admin">
+              <label>জিপসাম / সালফার মাত্রা</label>
+              <input type="text" name="gypsum" placeholder="১০-১২ কেজি">
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label>বিশেষ প্রয়োগ পরামর্শ ও কিস্তির নিয়ম</label>
+            <textarea name="advice_bn" rows="2" placeholder="ইউরিয়া ৩ কিস্তিতে দিন, বাকি সব সার জমি তৈরিতে শেষ চাষে মিশিয়ে দিন।"></textarea>
+          </div>
+        `,
+        seasonal: `
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>পরামর্শের শিরোনাম (বাংলা)<span class="lang-badge badge-bn">BN</span></label>
+              <input type="text" name="title_bn" placeholder="যেমন: রবি মৌসুমের আগাম চাষাবাদ" required>
+            </div>
+            <div class="form-group-admin">
+              <label>Title (English)<span class="lang-badge badge-en">EN</span></label>
+              <input type="text" name="title_en" placeholder="e.g. Early Rabi Season Guide" required>
+            </div>
+          </div>
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>মৌসুম ক্যাটাগরি</label>
+              <select name="season">
+                <option value="রবি">রবি মৌসুম (Rabi)</option>
+                <option value="খরিপ-১">খরিপ-১ মৌসুম (Kharif-1)</option>
+                <option value="খরিপ-২">খরিপ-২ মৌসুম (Kharif-2)</option>
+                <option value="দুর্যোগ">দুর্যোগ প্রস্তুতি (Disaster)</option>
+              </select>
+            </div>
+            <div class="form-group-admin">
+              <label>সময়কাল (Period)</label>
+              <input type="text" name="period_bn" placeholder="কার্তিক - ফাল্গুন">
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label>উপযুক্ত প্রধান ফসলসমূহ (Recommended Crops)</label>
+            <input type="text" name="crops_bn" placeholder="বোরো ধান, গম, আলু, সরিষা">
+          </div>
+          <div class="form-group-admin">
+            <label>বিস্তারিত পরামর্শ ও দিকনির্দেশনা</label>
+            <textarea name="description_bn" rows="2" placeholder="শৈত্যপ্রবাহে বীজতলা পলিথিন দিয়ে ঢেকে রাখুন..."></textarea>
+          </div>
+          <div class="form-group-admin">
+            <label>জরুরি দুর্যোগ প্রস্তুতি পরামর্শ</label>
+            <textarea name="prep_bn" rows="2" placeholder="বন্যার পানি নামার সাথে সাথে ভাসমান বীজতলা তৈরি করুন..."></textarea>
+          </div>
+        `,
+        calendar: `
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label>বাংলা মাস (Month BN)<span class="lang-badge badge-bn">BN</span></label>
+              <input type="text" name="month_bn" placeholder="যেমন: বৈশাখ, আষাঢ়" required>
+            </div>
+            <div class="form-group-admin">
+              <label>English Months<span class="lang-badge badge-en">EN</span></label>
+              <input type="text" name="englishMonths" placeholder="e.g. April - May" required>
+            </div>
+          </div>
+          <div class="form-group-admin">
+            <label>চলতি মাসের আবাদযোগ্য ফসল (Crops)</label>
+            <textarea name="crops_bn" rows="2" placeholder="আউশ ধান, পাট, গ্রীষ্মকালীন শাকসবজি"></textarea>
+          </div>
+          <div class="form-group-admin">
+            <label>প্রধান করণীয় কৃষি কাজ (Key Actions/Tasks)</label>
+            <textarea name="tasks_bn" rows="3" placeholder="বোরো ধান কর্তন, পাটের জমিতে আগাছা পরিষ্কার, রোগবালাই দমন।"></textarea>
+          </div>
+        `
+      };
+
+      formFields.innerHTML = fieldTemplates[activeCategory] || '<p>ফর্ম লোড করা সম্ভব হয়নি।</p>';
+      modalTitle.innerText = `নতুন কার্ড যুক্ত করুন (${activeCategory.toUpperCase()})`;
+    }
+
+    function closeAddModal() {
+      document.getElementById('admin-modal').style.display = 'none';
+      document.getElementById('add-guide-form').reset();
+    }
+
+    async function handleSaveItem(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const payload = {};
+      formData.forEach((val, key) => {
+        payload[key] = val;
+      });
+
+      // Normalize crop name fields
+      if (activeCategory === 'crops') {
+        payload.name = payload.name_en ? `${payload.name_en} / ${payload.name_bn}` : payload.name_bn;
+        payload.seedInfo = { popularVarieties: payload.varieties || 'উন্নত অনুমোদিত জাত' };
+      }
+
+      try {
+        const res = await fetch(`/api/public/admin/guide/${activeCategory}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await res.json();
+        if (result.success) {
+          closeAddModal();
+          await loadAdminData();
+          alert('কার্ড সফলভাবে যুক্ত হয়েছে!');
+        } else {
+          alert('যুক্ত করতে সমস্যা হয়েছে: ' + (result.message || ''));
+        }
+      } catch (err) {
+        alert('সার্ভার যোগাযোগে ত্রুটি');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkAdminSession();
+    });
+  </script>
+  <script src="/js/lang.js"></script>
+</body>
+</html>

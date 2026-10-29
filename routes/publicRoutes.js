@@ -7,6 +7,7 @@ const multer = require('multer');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const guides = require('../data/guides');
+const guideStore = require('../models/guideStore');
 const dbManager = require('../models/dbManager');
 const { protect } = require('../middleware/auth');
 
@@ -77,19 +78,60 @@ async function deleteFromGridFS(fileId) {
 }
 
 // @route   GET /api/public/guides/all-centers
-router.get('/guides/all-centers', (req, res) => {
-  res.json({
-    knowledgeCenters: guides.knowledgeCenters,
-    crops: guides.crops,
-    diseases: guides.diseases,
-    inputs: guides.inputs,
-    seasonal: guides.seasonal,
-    calendar: guides.calendar,
-    troubleshoot: guides.troubleshoot,
-    tutorials: guides.tutorials,
-    fertilizers: guides.fertilizers,
-    pesticides: guides.pesticides
-  });
+router.get('/guides/all-centers', async (req, res) => {
+  try {
+    const data = await guideStore.getAll();
+    res.json(data);
+  } catch (err) {
+    res.json({
+      knowledgeCenters: guides.knowledgeCenters,
+      crops: guides.crops,
+      diseases: guides.diseases,
+      inputs: guides.inputs,
+      seasonal: guides.seasonal,
+      calendar: guides.calendar,
+      troubleshoot: guides.troubleshoot,
+      tutorials: guides.tutorials,
+      fertilizers: guides.fertilizers,
+      pesticides: guides.pesticides
+    });
+  }
+});
+
+// Admin Verification Route
+router.post('/admin/verify', (req, res) => {
+  const { passkey } = req.body;
+  const adminSecret = process.env.ADMIN_KEY || 'admin123';
+  if (passkey === adminSecret) {
+    return res.json({ success: true, token: 'agri-admin-authorized-session' });
+  }
+  return res.status(401).json({ success: false, message: 'ভুল অ্যাডমিন পাসওয়ার্ড (Invalid admin key)' });
+});
+
+// Admin Add Guide Item
+router.post('/admin/guide/:type', async (req, res) => {
+  try {
+    const { type } = req.params;
+    const allowed = ['crops', 'diseases', 'fertilizers', 'seasonal', 'calendar'];
+    if (!allowed.includes(type)) {
+      return res.status(400).json({ message: 'Invalid guide category' });
+    }
+    const item = await guideStore.addItem(type, req.body);
+    res.status(201).json({ success: true, item });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Admin Delete Guide Item
+router.delete('/admin/guide/:type/:id', async (req, res) => {
+  try {
+    const { type, id } = req.params;
+    await guideStore.deleteItem(type, id);
+    res.json({ success: true, message: 'Guide card deleted successfully' });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 // @route   POST /api/public/guides/diagnose

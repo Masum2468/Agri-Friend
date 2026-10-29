@@ -1,0 +1,832 @@
+/* Dedicated Responsive Styling for Crop Guides, Diseases, Fertilizers, Seasonal & Calendar Pages */
+/* Optimized for all Mobile Phones (Samsung, iPhone, Android), Tablets (iPad), and Desktops */
+
+:root {
+  --primary-color: #1b5f43;
+  --primary-light: #2d8a63;
+  --accent-color: #f59e0b;
+  --bg-color: #f8fafc;
+  --card-bg: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-light: #e2e8f0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Hind Siliguri', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f1f5f9;
+  color: var(--text-main);
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Header & Mobile Navigation */
+header.glass {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  padding: 14px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+header .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header .logo i {
+  color: #10b981;
+  font-size: 1.8rem;
+}
+
+.nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.nav-toggle:hover {
+  background: rgba(27, 95, 67, 0.1);
+}
+
+header nav#main-nav {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+header nav#main-nav a {
+  text-decoration: none;
+  color: var(--text-main);
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+header nav#main-nav a:hover {
+  color: var(--primary-light);
+}
+
+/* Page Hero */
+.page-hero {
+  background: linear-gradient(135deg, #12402d 0%, #1b5f43 100%);
+  color: #ffffff;
+  padding: clamp(30px, 5vw, 50px) 16px clamp(28px, 4vw, 38px) 16px;
+  text-align: center;
+  position: relative;
+  width: 100%;
+}
+
+.page-hero h1 {
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-weight: 800;
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  line-height: 1.25;
+}
+
+.page-hero p {
+  font-size: clamp(0.88rem, 2vw, 1.05rem);
+  max-width: 720px;
+  margin: 0 auto;
+  opacity: 0.92;
+  line-height: 1.5;
+}
+
+/* Page Controls (Search & Filter Pills) */
+.page-controls {
+  max-width: 960px;
+  margin: -24px auto 28px auto;
+  padding: 0 16px;
+  position: relative;
+  z-index: 10;
+  width: 100%;
+}
+
+.search-bar-wrap {
+  position: relative;
+  background: #ffffff;
+  border-radius: 50px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  padding: 4px 10px;
+  border: 2px solid #e2e8f0;
+  transition: all 0.25s ease;
+  width: 100%;
+}
+
+.search-bar-wrap:focus-within {
+  border-color: var(--primary-color);
+  box-shadow: 0 10px 30px rgba(27, 95, 67, 0.2);
+}
+
+.search-bar-wrap i.search-icon {
+  margin-left: 12px;
+  color: var(--primary-color);
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.search-bar-wrap input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  padding: 10px 12px;
+  font-size: 1rem;
+  outline: none;
+  color: var(--text-main);
+  min-width: 0;
+}
+
+.search-clear-btn {
+  background: #e2e8f0;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.filter-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 14px;
+  width: 100%;
+}
+
+.filter-pill {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  padding: 7px 16px;
+  border-radius: 50px;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  touch-action: manipulation;
+}
+
+.filter-pill:hover, .filter-pill.active {
+  background: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(27, 95, 67, 0.25);
+}
+
+/* Guide Cards Grid */
+.guides-grid-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px 60px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 22px;
+  width: 100%;
+}
+
+.guide-card {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-light);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
+}
+
+.guide-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: #cbd5e1;
+}
+
+.guide-card-img-wrap {
+  position: relative;
+  height: 190px;
+  overflow: hidden;
+  background: #cbd5e1;
+  width: 100%;
+}
+
+.guide-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.guide-card:hover .guide-card-img-wrap img {
+  transform: scale(1.04);
+}
+
+.card-badge-top {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(27, 95, 67, 0.92);
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  backdrop-filter: blur(4px);
+}
+
+.card-badge-top.badge-danger {
+  background: rgba(220, 38, 38, 0.92);
+}
+
+.card-badge-top.badge-warning {
+  background: rgba(217, 119, 6, 0.92);
+}
+
+.card-badge-top.badge-success {
+  background: rgba(5, 150, 105, 0.92);
+}
+
+.guide-card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
+.crop-header h3 {
+  font-size: 1.35rem;
+  margin: 0 0 4px 0;
+  color: var(--primary-color);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.crop-scientific {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.crop-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 16px 0;
+  background: #f8fafc;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  width: 100%;
+}
+
+.meta-item {
+  font-size: 0.86rem;
+  color: #334155;
+  line-height: 1.45;
+  word-break: break-word;
+}
+
+.meta-item i {
+  color: var(--primary-color);
+  margin-right: 4px;
+}
+
+.varieties-box {
+  background: #fffbeb;
+  border-left: 4px solid #f59e0b;
+  padding: 10px 12px;
+  border-radius: 6px;
+  font-size: 0.86rem;
+  color: #78350f;
+  margin-bottom: 16px;
+  line-height: 1.45;
+}
+
+.card-action-links {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-sub-link {
+  flex: 1;
+  text-align: center;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: #ecfdf5;
+  color: var(--primary-color);
+  border: 1px solid #a7f3d0;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-sub-link:hover {
+  background: var(--primary-color);
+  color: #ffffff;
+}
+
+.btn-sub-link.btn-danger-link {
+  background: #fef2f2;
+  color: #b91c1c;
+  border-color: #fecaca;
+}
+
+.btn-sub-link.btn-danger-link:hover {
+  background: #b91c1c;
+  color: #ffffff;
+}
+
+/* Info blocks for Diseases and Prescriptions */
+.info-block {
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+.info-block h4 {
+  font-size: 0.94rem;
+  margin: 0 0 4px 0;
+  font-weight: 700;
+}
+
+.info-block p {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.prescription-box {
+  background: #f0fdf4;
+  border-left: 4px solid var(--primary-color);
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.prescription-box h4 {
+  color: var(--primary-color);
+  font-size: 0.92rem;
+  margin: 0 0 6px 0;
+}
+
+/* Fertilizer Table Styles */
+.fertilizer-table-box {
+  overflow-x: auto;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+}
+
+.fert-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  min-width: 280px;
+}
+
+.fert-table th, .fert-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.fert-table th {
+  background: #f8fafc;
+  color: #475569;
+}
+
+.fert-dose {
+  color: #047857;
+  font-weight: 700;
+}
+
+/* Calendar Card Header */
+.calendar-card-header {
+  background: #ecfdf5;
+  padding: 14px 18px;
+  border-bottom: 1px solid #d1fae5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.calendar-month-badge {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary-color);
+}
+
+.cal-eng-sub {
+  font-size: 0.85rem;
+  color: #059669;
+  font-weight: 600;
+}
+
+/* Interactive Calculator Box */
+.calc-banner {
+  max-width: 960px;
+  margin: 0 auto 30px auto;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid #cbd5e1;
+  width: 100%;
+}
+
+.calc-banner h3 {
+  color: var(--primary-color);
+  margin-top: 0;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.18rem;
+}
+
+.calc-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 14px;
+  align-items: flex-end;
+  width: 100%;
+}
+
+.calc-field label {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #334155;
+}
+
+.calc-field select, .calc-field input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+  outline: none;
+  background: #ffffff;
+}
+
+.calc-res-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+  background: #f8fafc;
+  padding: 14px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.res-item span {
+  display: block;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.res-item strong {
+  font-size: 1.05rem;
+  color: var(--primary-color);
+}
+
+/* Footer & Admin Link */
+.footer-admin-link {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.86rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.12);
+  transition: all 0.2s ease;
+}
+
+.footer-admin-link:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ==========================================================================
+   COMPREHENSIVE RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+/* 1. TABLETS / IPAD LANDSCAPE & SMALL LAPTOPS (901px to 1024px) */
+@media (max-width: 1024px) {
+  header.glass {
+    padding: 12px 4%;
+  }
+  .guides-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    padding: 0 16px 50px 16px;
+  }
+  .calc-form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+  .calc-form-row > div:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 2. TABLETS / IPAD PORTRAIT (768px to 900px) */
+@media (max-width: 900px) {
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  header nav#main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: #ffffff;
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.12);
+    border-bottom: 2px solid var(--border-light);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px 24px;
+    gap: 12px;
+    display: none;
+    z-index: 999;
+  }
+
+  header nav#main-nav.nav-open {
+    display: flex;
+    animation: slideDownMenu 0.25s ease-out;
+  }
+
+  @keyframes slideDownMenu {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  header nav#main-nav a {
+    padding: 10px 0;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 1rem;
+  }
+
+  header nav#main-nav #lang-toggle-btn {
+    align-self: flex-start;
+    margin-left: 0 !important;
+    margin-top: 6px;
+  }
+
+  header nav#main-nav #auth-buttons {
+    width: 100%;
+    margin-top: 6px;
+  }
+
+  header nav#main-nav #auth-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .guides-grid-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .page-hero h1 {
+    font-size: 1.8rem;
+  }
+}
+
+/* 3. MOBILE PHONES (361px to 767px - Samsung Galaxy, Android, iPhone 12/13/14/15/16) */
+@media (max-width: 767px) {
+  header.glass {
+    padding: 10px 14px;
+  }
+
+  header .logo {
+    font-size: 1.25rem;
+    gap: 8px;
+  }
+
+  header .logo i {
+    font-size: 1.5rem;
+  }
+
+  .page-hero {
+    padding: 28px 14px 24px 14px;
+  }
+
+  .page-hero h1 {
+    font-size: 1.4rem;
+    gap: 8px;
+  }
+
+  .page-hero p {
+    font-size: 0.88rem;
+  }
+
+  .page-controls {
+    margin: -18px auto 20px auto;
+    padding: 0 10px;
+  }
+
+  .search-bar-wrap {
+    padding: 2px 8px;
+  }
+
+  .search-bar-wrap input {
+    padding: 9px 8px;
+    font-size: 0.92rem;
+  }
+
+  .filter-pills-row {
+    gap: 6px;
+    margin-top: 10px;
+  }
+
+  .filter-pill {
+    padding: 6px 12px;
+    font-size: 0.82rem;
+  }
+
+  .guides-grid-container {
+    grid-template-columns: 1fr;
+    padding: 0 12px 40px 12px;
+    gap: 15px;
+  }
+
+  .guide-card {
+    border-radius: 14px;
+  }
+
+  .guide-card-img-wrap {
+    height: 165px;
+  }
+
+  .guide-card-content {
+    padding: 16px;
+  }
+
+  .crop-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .crop-meta-grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin: 12px 0;
+    padding: 10px;
+  }
+
+  .card-action-links {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .btn-sub-link {
+    width: 100%;
+    padding: 9px;
+  }
+
+  .calc-banner {
+    padding: 16px;
+    margin-bottom: 24px;
+    border-radius: 14px;
+  }
+
+  .calc-banner h3 {
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+  }
+
+  .calc-form-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .calc-form-row button {
+    width: 100%;
+  }
+
+  .calc-res-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    padding: 10px;
+  }
+
+  footer {
+    padding: 24px 14px !important;
+  }
+
+  footer > div {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+  }
+
+  .footer-admin-link {
+    margin-left: 0;
+  }
+}
+
+/* 4. EXTRA SMALL PHONES (<= 360px - iPhone SE, small Samsung devices) */
+@media (max-width: 360px) {
+  header.glass {
+    padding: 8px 10px;
+  }
+
+  header .logo {
+    font-size: 1.15rem;
+  }
+
+  .page-hero h1 {
+    font-size: 1.22rem;
+  }
+
+  .page-hero p {
+    font-size: 0.82rem;
+  }
+
+  .filter-pill {
+    padding: 5px 10px;
+    font-size: 0.78rem;
+  }
+
+  .calc-res-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-card-content {
+    padding: 12px;
+  }
+
+  .guide-card-img-wrap {
+    height: 150px;
+  }
+
+  .calendar-card-header {
+    padding: 10px 12px;
+  }
+
+  .calendar-month-badge {
+    font-size: 1.05rem;
+  }
+}

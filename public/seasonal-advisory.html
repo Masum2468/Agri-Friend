@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFriend - মৌসুমভিত্তিক কৃষি পরামর্শ (Seasonal Advisory)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/knowledge.css">
+  <link rel="stylesheet" href="/css/guide-pages.css?v=2">
+</head>
+<body data-page-type="seasonal">
+
+  <!-- Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriFriend</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <nav id="main-nav">
+      <a href="/#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather</a>
+      <a href="/knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Knowledge Hub</a>
+      <a href="/crop-guides.html" data-i18n="nav_crop_guides"><i class="fa-solid fa-seedling"></i> Crops</a>
+      <a href="/disease-guide.html" data-i18n="nav_disease_guides"><i class="fa-solid fa-bug"></i> Diseases</a>
+      <a href="/fertilizer-guide.html" data-i18n="nav_fert_guides"><i class="fa-solid fa-flask-vial"></i> Fertilizers & Inputs</a>
+      <a href="/crop-calendar.html" data-i18n="nav_cal_guides"><i class="fa-solid fa-calendar-check"></i> Crop Calendar</a>
+      <a href="/marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">English</span>
+      </button>
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="page-hero" style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);">
+    <h1><i class="fa-solid fa-cloud-sun-rain"></i> <span data-i18n="seasonal_page_title">মৌসুমভিত্তিক কৃষি পরামর্শ ও দুর্যোগ প্রস্তুতি</span></h1>
+    <p data-i18n="seasonal_page_desc">রবি, খরিপ-১, খরিপ-২ মৌসুমের উপযুক্ত ফসল এবং বন্যা, খরা ও দুর্যোগের পূর্বপ্রস্তুতি।</p>
+  </section>
+
+  <!-- Controls: Search and Filter Pills -->
+  <section class="page-controls">
+    <div class="search-bar-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon" style="color: #2563eb;"></i>
+      <input type="text" id="search-input" placeholder="মৌসুম বা বিষয় দিয়ে খুঁজুন (যেমন: রবি, খরিপ, বন্যা, খরা)..." data-i18n-placeholder="search_seasonal_placeholder" oninput="handleSearchInput(this.value)">
+      <button id="search-clear-btn" class="search-clear-btn" style="display: none;" onclick="resetSearch()">&times;</button>
+    </div>
+
+    <div class="filter-pills-row">
+      <button class="filter-pill active" data-tab="all" onclick="setFilterTab('all', this)"><i class="fa-solid fa-border-all"></i> <span data-i18n="filter_all_seasons">সকল মৌসুম</span></button>
+      <button class="filter-pill" data-tab="রবি" onclick="setFilterTab('রবি', this)"><i class="fa-solid fa-snowflake"></i> <span data-i18n="filter_rabi">রবি মৌসুম</span></button>
+      <button class="filter-pill" data-tab="খরিপ-১" onclick="setFilterTab('খরিপ-১', this)"><i class="fa-solid fa-sun"></i> <span data-i18n="filter_kharif1">খরিপ-১ মৌসুম</span></button>
+      <button class="filter-pill" data-tab="খরিপ-২" onclick="setFilterTab('খরিপ-২', this)"><i class="fa-solid fa-cloud-rain"></i> <span data-i18n="filter_kharif2">খরিপ-২ মৌসুম</span></button>
+      <button class="filter-pill" data-tab="দুর্যোগ" onclick="setFilterTab('দুর্যোগ', this)"><i class="fa-solid fa-triangle-exclamation"></i> <span data-i18n="filter_disaster">দুর্যোগ প্রস্তুতি</span></button>
+    </div>
+  </section>
+
+  <!-- Seasonal Cards Grid -->
+  <main class="guides-grid-container" id="seasonal-grid">
+    <!-- Populated dynamically via JS -->
+  </main>
+
+  <!-- Footer with Admin Panel Link -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); background: #0f3626; color: #ffffff;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; gap: 15px;">
+      <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+        © 2026 AgriFriend Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+      </div>
+      <div>
+        <a href="/admin.html" class="footer-admin-link" data-i18n="footer_admin_link"><i class="fa-solid fa-user-shield"></i> Admin Portal</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/lang.js"></script>
+  <script src="/js/guides-page.js?v=3"></script>
+</body>
+</html>

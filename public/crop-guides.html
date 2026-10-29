@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFriend - ফসলের গাইড (Crop Cultivation Guide)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/knowledge.css">
+  <link rel="stylesheet" href="/css/guide-pages.css?v=2">
+</head>
+<body data-page-type="crops">
+
+  <!-- Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriFriend</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <nav id="main-nav">
+      <a href="/#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather</a>
+      <a href="/knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Knowledge Hub</a>
+      <a href="/marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">English</span>
+      </button>
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="page-hero">
+    <h1><i class="fa-solid fa-seedling"></i> <span data-i18n="crops_page_title">ফসলের গাইড ও চাষ পদ্ধতি</span></h1>
+    <p data-i18n="crops_page_desc">বীজ নির্বাচন, সঠিক নিয়মে বপন, চারার যত্ন ও ফলন বৃদ্ধির সম্পূর্ণ বৈজ্ঞানিক কৃষি নির্দেশিকা।</p>
+  </section>
+
+  <!-- Controls: Search and Filter Pills -->
+  <section class="page-controls">
+    <div class="search-bar-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="search-input" placeholder="ফসলের নাম দিয়ে খুঁজুন (যেমন: ধান, গম, আলু)..." data-i18n-placeholder="search_crops_placeholder" oninput="handleSearchInput(this.value)">
+      <button id="search-clear-btn" class="search-clear-btn" style="display: none;" onclick="resetSearch()">&times;</button>
+    </div>
+
+    <div class="filter-pills-row">
+      <button class="filter-pill active" data-tab="all" onclick="setFilterTab('all', this)"><i class="fa-solid fa-border-all"></i> <span data-i18n="filter_all_crops">সকল ফসল</span></button>
+      <button class="filter-pill" data-tab="Cereal" onclick="setFilterTab('Cereal', this)"><i class="fa-solid fa-wheat-awn"></i> <span data-i18n="filter_cereal">দানাশস্য</span></button>
+      <button class="filter-pill" data-tab="Tuber" onclick="setFilterTab('Tuber', this)"><i class="fa-solid fa-cookie"></i> <span data-i18n="filter_tuber">কন্দজাতীয়</span></button>
+      <button class="filter-pill" data-tab="Vegetable" onclick="setFilterTab('Vegetable', this)"><i class="fa-solid fa-carrot"></i> <span data-i18n="filter_vegetable">শাকসবজি</span></button>
+      <button class="filter-pill" data-tab="Cash" onclick="setFilterTab('Cash', this)"><i class="fa-solid fa-sack-dollar"></i> <span data-i18n="filter_cash">অর্থকরী</span></button>
+      <button class="filter-pill" data-tab="Oilseed" onclick="setFilterTab('Oilseed', this)"><i class="fa-solid fa-droplet"></i> <span data-i18n="filter_oilseed">তেলবীজ</span></button>
+    </div>
+  </section>
+
+  <!-- Crops Cards Grid -->
+  <main class="guides-grid-container" id="crops-grid">
+    <!-- Populated dynamically via JS -->
+  </main>
+
+  <!-- Footer with Admin Panel Link -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); background: #0f3626; color: #ffffff;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; gap: 15px;">
+      <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+        © 2026 AgriFriend Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/lang.js"></script>
+  <script src="/js/guides-page.js?v=3"></script>
+</body>
+</html>

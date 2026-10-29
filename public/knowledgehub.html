@@ -6,6 +6,7 @@
     <title>AgriFriend - Agricultural Knowledge Hub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="/css/knowledge.css">
+    <link rel="stylesheet" href="/css/guide-pages.css">
 </head>
 <body>
   <!-- Premium Header -->
@@ -19,10 +20,10 @@
     </button>
     <nav id="main-nav">
       <a href="/#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather Advisory</a>
-      <a href="knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Ag-Guides</a>
-      <a href="marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <a href="/knowledgehub.html" data-i18n="nav_guides" style="color: #10b981; font-weight: 700;"><i class="fa-solid fa-book-open"></i> Knowledge Hub</a>
+      <a href="/marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
       <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
-        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">English</span>
       </button>
       <div id="auth-buttons">
         <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In / Register</a>
@@ -35,46 +36,23 @@
     <!-- 1. Header Forest Green Banner (Matches Mockup) -->
     <div class="kh-header-hero">
       <h1 data-i18n="kh_banner_title"></i> কৃষি তথ্য ও জ্ঞান কেন্দ্র</h1>
-      <p data-i18n="kh_banner_subtitle">কৃষি শিখুন, সমস্যা বুঝুন, সঠিক সিদ্ধান্ত নিন।</p>
+      <p data-i18n="kh_banner_subtitle">কৃষি শিখুন, সমস্যা বুঝুন, সঠিক সিদ্ধান্ত নিন। প্রতিটি বিষয়ে পূর্ণাঙ্গ তথ্যের জন্য কার্ডে ক্লিক করুন।</p>
     </div>
 
     <!-- 2. Search Box (Matches Mockup) -->
     <div class="kh-search-wrapper">
       <div class="kh-search-box">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" id="guide-search-input" placeholder="ফসল, রোগ বা কৃষি সমস্যা খুঁজুন..." data-i18n-placeholder="kh_search_placeholder" oninput="searchKnowledgeHub()">
+        <input type="text" id="guide-search-input" placeholder="ফসল, রোগ বা কৃষি কেন্দ্র খুঁজুন..." data-i18n-placeholder="kh_search_placeholder" oninput="searchKnowledgeHub()">
         <button id="kh-search-clear" class="kh-search-clear-btn" style="display:none;" onclick="clearKnowledgeSearch()" title="মুছে ফেলুন"><i class="fa-solid fa-xmark"></i></button>
       </div>
     </div>
 
     <!-- MAIN CATALOG BROWSER VIEW -->
     <div id="catalog-browser-view">
-      <!-- 3. The 7 Knowledge Centers Grid (2 Columns Like Mockup Image) -->
+      <!-- 3. The 7 Knowledge Centers Grid -->
       <div class="kh-centers-grid" id="kh-centers-cards-container">
-        <!-- Dynamically rendered or pre-populated by JS -->
-      </div>
-
-      <!-- 4. Interactive Active Center Workspace -->
-      <section id="kh-active-workspace" class="kh-active-workspace">
-        <div class="kh-workspace-header">
-          <div class="kh-workspace-title-group">
-            <h2 id="kh-workspace-heading"><i class="fa-solid fa-seedling"></i> ১. ফসলভিত্তিক জ্ঞান কেন্দ্র</h2>
-            <p id="kh-workspace-desc">ফসলের বীজ বপন থেকে ফসল সংগ্রহ পর্যন্ত ধাপে ধাপে চাষ পদ্ধতি নির্দেশিকা।</p>
-          </div>
-          <div class="kh-center-selector-pills" id="kh-center-selector-pills">
-            <!-- Pill navigation to quickly switch centers -->
-          </div>
-        </div>
-
-        <!-- Dynamic Content Area for the Selected Center -->
-        <div id="kh-workspace-body">
-          <!-- Populated by JS based on active center -->
-        </div>
-      </section>
-
-      <!-- Legacy / Drilldown Guide Catalog View (Optional fallback tabs) -->
-      <div id="legacy-guides-section" style="margin-top: 50px; display: none;">
-        <div class="cards-grid" id="guides-grid"></div>
+        <!-- Dynamically rendered by JS -->
       </div>
     </div>
 
@@ -104,10 +82,12 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
-    <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
-      © 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+  <!-- Footer with Admin Link -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); background: #0f3626; color: #ffffff;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; gap: 15px;">
+      <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+        © 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+      </div>
     </div>
   </footer>
 

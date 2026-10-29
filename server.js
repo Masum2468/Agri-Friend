@@ -41,6 +41,38 @@ app.get('/dashboard', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'admin.html'));
+});
+
+app.get(['/crop-guides', '/crops'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'crop-guides.html'));
+});
+
+app.get(['/disease-guide', '/diseases'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'disease-guide.html'));
+});
+
+app.get(['/fertilizer-guide', '/fertilizers'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'fertilizer-guide.html'));
+});
+
+app.get(['/seasonal-advisory', '/seasonal'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'seasonal-advisory.html'));
+});
+
+app.get(['/crop-calendar', '/calendar'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'crop-calendar.html'));
+});
+
+app.get(['/knowledgehub', '/knowledge-hub'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'knowledgehub.html'));
+});
+
+app.get(['/marketplace', '/marketpalce'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'marketpalce.html'));
+});
+
 // Default fallback for SPA-like navigation or home
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

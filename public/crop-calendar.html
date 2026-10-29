@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFriend - ফসলের ক্যালেন্ডার ও সময়সূচি (Crop Calendar)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/knowledge.css">
+  <link rel="stylesheet" href="/css/guide-pages.css?v=2">
+</head>
+<body data-page-type="calendar">
+
+  <!-- Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriFriend</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <nav id="main-nav">
+      <a href="/#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather</a>
+      <a href="/knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Knowledge Hub</a>
+      <a href="/marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">English</span>
+      </button>
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="page-hero" style="background: linear-gradient(135deg, #047857 0%, #10b981 100%);">
+    <h1><i class="fa-solid fa-calendar-check"></i> <span data-i18n="cal_page_title">ফসলের বাৎসরিক ক্যালেন্ডার ও সময়সূচি</span></h1>
+    <p data-i18n="cal_page_desc">১২ মাসের বীজ বপন, চারা রোপণ, সেচ-সার প্রয়োগ, বালাই দমন ও ফসল সংগ্রহের পূর্ণাঙ্গ গাইড।</p>
+  </section>
+
+  <!-- Controls: Search and Filter Pills -->
+  <section class="page-controls">
+    <div class="search-bar-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon" style="color: #047857;"></i>
+      <input type="text" id="search-input" placeholder="মাস বা ফসলের কাজ দিয়ে খুঁজুন (যেমন: বৈশাখ, কার্তিক, ধান, আলু)..." data-i18n-placeholder="search_cal_placeholder" oninput="handleSearchInput(this.value)">
+      <button id="search-clear-btn" class="search-clear-btn" style="display: none;" onclick="resetSearch()">&times;</button>
+    </div>
+
+    <div class="filter-pills-row">
+      <button class="filter-pill active" data-tab="all" onclick="setFilterTab('all', this)"><i class="fa-solid fa-calendar-days"></i> <span data-i18n="filter_all_months">১২ মাস</span></button>
+      <button class="filter-pill" data-tab="বৈশাখ" onclick="setFilterTab('বৈশাখ', this)"><span data-i18n="month_boishakh">বৈশাখ</span></button>
+      <button class="filter-pill" data-tab="জ্যৈষ্ঠ" onclick="setFilterTab('জ্যৈষ্ঠ', this)"><span data-i18n="month_jaishtha">জ্যৈষ্ঠ</span></button>
+      <button class="filter-pill" data-tab="আষাঢ়" onclick="setFilterTab('আষাঢ়', this)"><span data-i18n="month_ashar">আষাঢ়</span></button>
+      <button class="filter-pill" data-tab="শ্রাবণ" onclick="setFilterTab('শ্রাবণ', this)"><span data-i18n="month_shrabon">শ্রাবণ</span></button>
+      <button class="filter-pill" data-tab="ভাদ্র" onclick="setFilterTab('ভাদ্র', this)"><span data-i18n="month_bhadro">ভাদ্র</span></button>
+      <button class="filter-pill" data-tab="আশ্বিন" onclick="setFilterTab('আশ্বিন', this)"><span data-i18n="month_ashwin">আশ্বিন</span></button>
+      <button class="filter-pill" data-tab="কার্তিক" onclick="setFilterTab('কার্তিক', this)"><span data-i18n="month_kartik">কার্তিক</span></button>
+      <button class="filter-pill" data-tab="অগ্রহায়ণ" onclick="setFilterTab('অগ্রহায়ণ', this)"><span data-i18n="month_ogrohayon">অগ্রহায়ণ</span></button>
+      <button class="filter-pill" data-tab="পৌষ" onclick="setFilterTab('পৌষ', this)"><span data-i18n="month_poush">পৌষ</span></button>
+      <button class="filter-pill" data-tab="মাঘ" onclick="setFilterTab('মাঘ', this)"><span data-i18n="month_magh">মাঘ</span></button>
+      <button class="filter-pill" data-tab="ফাল্গুন" onclick="setFilterTab('ফাল্গুন', this)"><span data-i18n="month_falgun">ফাল্গুন</span></button>
+      <button class="filter-pill" data-tab="চৈত্র" onclick="setFilterTab('চৈত্র', this)"><span data-i18n="month_choitro">চৈত্র</span></button>
+      <button class="filter-pill" data-tab="milestones" onclick="setFilterTab('milestones', this)"><i class="fa-solid fa-timeline"></i> <span data-i18n="filter_crop_milestones">ফসলভিত্তিক সময়সূচি</span></button>
+    </div>
+  </section>
+
+  <!-- Calendar Cards Grid -->
+  <main class="guides-grid-container" id="calendar-grid">
+    <!-- Populated dynamically via JS -->
+  </main>
+
+  <!-- Footer with Admin Panel Link -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); background: #0f3626; color: #ffffff;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; gap: 15px;">
+      <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+        © 2026 AgriFriend Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/lang.js"></script>
+  <script src="/js/guides-page.js?v=3"></script>
+</body>
+</html>

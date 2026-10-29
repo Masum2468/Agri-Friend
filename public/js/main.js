@@ -340,16 +340,16 @@ function renderKnowledgeCenters(filterQuery = '') {
   if (!container) return;
   container.innerHTML = '';
 
+  const isEn = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en') || localStorage.getItem('language') === 'en';
   const centers = guidesData.knowledgeCenters || [];
   const query = (filterQuery || '').toLowerCase().trim();
 
   const filtered = centers.filter(c => {
-    
     if (!query) return true;
-    const title = (c.title || c.titleFull || c.title_bn || '').toLowerCase();
-    const sub = (c.subtitle || c.subtitle_bn || '').toLowerCase();
-    const desc = (c.tagline || c.description_bn || c.description || '').toLowerCase();
-    const tags = ((c.featuredCrops || c.features || []).join(' ')).toLowerCase();
+    const title = (c.title || c.titleFull || c.titleEn || '').toLowerCase();
+    const sub = (c.subtitle || c.subtitleEn || '').toLowerCase();
+    const desc = (c.tagline || c.taglineEn || '').toLowerCase();
+    const tags = ((c.featuredCrops || []).concat(c.featuredCropsEn || [])).join(' ').toLowerCase();
     return title.includes(query) || sub.includes(query) || desc.includes(query) || tags.includes(query);
   });
 
@@ -357,9 +357,9 @@ function renderKnowledgeCenters(filterQuery = '') {
     container.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #ffffff; border-radius: 16px; border: 1px dashed #cbd5e1;">
         <i class="fa-solid fa-magnifying-glass" style="font-size: 2.5rem; color: #94a3b8; margin-bottom: 12px;"></i>
-        <h3 style="color: #334155;">"${filterQuery}" এর সাথে মিলে এমন কোনো জ্ঞান কেন্দ্র পাওয়া যায়নি</h3>
-        <p style="color: #64748b; margin-top: 6px;">দয়া করে অন্য কোনো ফসল, রোগ বা বিষয় অনুসন্ধান করুন অথবা অনুসন্ধান মুছে দিন।</p>
-        <button class="btn btn-outline" style="margin-top: 15px;" onclick="clearKnowledgeSearch()">অনুসন্ধান রিসেট করুন</button>
+        <h3 style="color: #334155;">${isEn ? `No center found matching "${filterQuery}"` : `"${filterQuery}" এর সাথে মিলে এমন কোনো জ্ঞান কেন্দ্র পাওয়া যায়নি`}</h3>
+        <p style="color: #64748b; margin-top: 6px;">${isEn ? 'Please try searching for another topic or reset the search.' : 'দয়া করে অন্য কোনো ফসল, রোগ বা বিষয় অনুসন্ধান করুন অথবা অনুসন্ধান মুছে দিন।'}</p>
+        <button class="btn btn-outline" style="margin-top: 15px;" onclick="clearKnowledgeSearch()">${isEn ? 'Reset Search' : 'অনুসন্ধান রিসেট করুন'}</button>
       </div>
     `;
     return;
@@ -371,38 +371,59 @@ function renderKnowledgeCenters(filterQuery = '') {
     const isSelected = activeKnowledgeCenterId === cleanId || activeKnowledgeCenterId === center.id;
     card.className = `kh-card ${isSelected ? 'active-selected' : ''}`;
     card.id = `kh-card-${cleanId}`;
-    card.onclick = () => selectKnowledgeCenter(cleanId, true);
 
-    const titleBn = center.title || center.titleFull || 'জ্ঞান কেন্দ্র';
-    const subBn = center.subtitle || center.subtitle_bn || 'কৃষি তথ্য ও প্রযুক্তি';
-    const descBn = center.tagline || center.description_bn || center.description || '';
-    const tagsList = center.featuredCrops || center.features || [];
+    const pageMap = {
+      'crops': '/crop-guides.html',
+      'diseases': '/disease-guide.html',
+      'inputs': '/fertilizer-guide.html',
+      'fertilizers': '/fertilizer-guide.html',
+      'seasonal': '/seasonal-advisory.html',
+      'calendar': '/crop-calendar.html'
+    };
+
+    if (pageMap[cleanId]) {
+      card.onclick = () => {
+        window.location.href = pageMap[cleanId];
+      };
+    } else if (cleanId === 'tutorials') {
+      card.onclick = () => openVideoModal('https://www.youtube.com/embed/dQw4w9WgXcQ', isEn ? 'Agricultural Video Tutorials' : 'কৃষি ভিডিও টিউটোরিয়াল');
+    } else {
+      card.onclick = () => {
+        window.location.href = '/crop-guides.html';
+      };
+    }
+
+    const titleText = isEn ? (center.titleEn || center.title) : (center.title || center.titleFull);
+    const subText = isEn ? (center.subtitleEn || center.subtitle) : (center.subtitle || center.subtitle_bn);
+    const descText = isEn ? (center.taglineEn || center.tagline) : (center.tagline || center.description_bn);
+    const badgeText = isEn ? (center.badgeEn || center.badge) : (center.badgeBn || center.badge);
+    const tagsList = isEn && center.featuredCropsEn ? center.featuredCropsEn : (center.featuredCrops || center.features || []);
     const tagsHTML = tagsList.map(f => `<span class="kh-tag">${f}</span>`).join('');
 
     card.innerHTML = `
       <div class="kh-card-img-wrap">
-        <img src="${center.image}" alt="${titleBn}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&auto=format&fit=crop&q=80'">
+        <img src="${center.image}" alt="${titleText}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&auto=format&fit=crop&q=80'">
         <div class="kh-bookmark-badge">
           <i class="fa-solid fa-bookmark"></i>
-          <span>সংরক্ষণ</span>
+          <span>${isEn ? 'Bookmark' : 'সংরক্ষণ'}</span>
         </div>
       </div>
       <div class="kh-card-body">
         <div class="kh-card-header">
           <div class="kh-card-title">
-            <span>${titleBn}</span>
-            <span class="number-badge">${center.badge || 'Must Have'}</span>
+            <span>${titleText}</span>
+            <span class="number-badge">${badgeText || 'Must Have'}</span>
           </div>
-          <div class="kh-card-subtitle">${subBn}</div>
+          <div class="kh-card-subtitle">${subText}</div>
         </div>
-        <p class="kh-card-desc">${descBn}</p>
+        <p class="kh-card-desc">${descText}</p>
         <div class="kh-card-tags">${tagsHTML}</div>
         <div class="kh-card-footer">
           <span style="font-size: 0.85rem; color: #166534; font-weight: 600;">
-            <i class="fa-solid fa-circle-check"></i> সম্পূর্ণ গাইড ও টুলস
+            <i class="fa-solid fa-circle-check"></i> ${isEn ? 'Complete Guides & Tools' : 'সম্পূর্ণ গাইড ও টুলস'}
           </span>
           <span class="kh-explore-btn">
-            টুলস ব্যবহার করুন <i class="fa-solid fa-arrow-right"></i>
+            ${isEn ? 'Explore & Tools' : 'টুলস ব্যবহার করুন'} <i class="fa-solid fa-arrow-right"></i>
           </span>
         </div>
       </div>

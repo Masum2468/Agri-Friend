@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AgriFriend - সার ও উপকরণ গাইড (Fertilizers & Inputs)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/css/knowledge.css">
+  <link rel="stylesheet" href="/css/guide-pages.css?v=2">
+</head>
+<body data-page-type="fertilizers">
+
+  <!-- Header -->
+  <header class="glass">
+    <a href="/" class="logo">
+      <i class="fa-solid fa-seedling"></i>
+      <span>AgriFriend</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle Navigation">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <nav id="main-nav">
+      <a href="/#weather" data-i18n="nav_weather"><i class="fa-solid fa-cloud-sun"></i> Weather</a>
+      <a href="/knowledgehub.html" data-i18n="nav_guides"><i class="fa-solid fa-book-open"></i> Knowledge Hub</a>
+      <a href="/marketpalce.html" data-i18n="nav_marketplace"><i class="fa-solid fa-store"></i> Marketplace</a>
+      <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px; margin-left: 5px;">
+        <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">English</span>
+      </button>
+      <div id="auth-buttons">
+        <a href="/login" class="btn btn-primary" id="login-nav-btn" data-i18n="nav_signin"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="page-hero" style="background: linear-gradient(135deg, #065f46 0%, #047857 100%);">
+    <h1><i class="fa-solid fa-flask-vial"></i> <span data-i18n="fert_page_title">সার ও কৃষি উপকরণ গাইড</span></h1>
+    <p data-i18n="fert_page_desc">সুষম সার প্রয়োগ মাত্রা, কিস্তিভিত্তিক শিডিউল, কীটনাশক প্রয়োগের সঠিক নিয়ম ও মাটির স্বাস্থ্য বৃদ্ধি।</p>
+  </section>
+
+  <!-- Interactive Fertilizer Calculator Banner -->
+  <div style="padding: 0 16px;">
+    <div class="calc-banner">
+      <h3><i class="fa-solid fa-calculator"></i> <span data-i18n="calc_title">সার প্রয়োগ মাত্রা ক্যালকুলেটর</span></h3>
+      <div class="calc-form-row">
+        <div class="calc-field">
+          <label data-i18n="calc_crop_label">ফসল নির্বাচন করুন:</label>
+          <select id="calc-crop" onchange="calculateFertilizer()">
+            <option value="rice">ধান (Rice)</option>
+            <option value="wheat">গম (Wheat)</option>
+            <option value="potato">আলু (Potato)</option>
+            <option value="maize">ভুট্টা (Maize)</option>
+            <option value="tomato">টমেটো (Tomato)</option>
+          </select>
+        </div>
+        <div class="calc-field">
+          <label data-i18n="calc_land_label">জমির পরিমাণ (বিঘা):</label>
+          <input type="number" id="calc-size" value="1" min="0.1" step="0.1" oninput="calculateFertilizer()">
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary" onclick="calculateFertilizer()" style="padding: 10px 18px;" data-i18n="calc_btn"><i class="fa-solid fa-check"></i> হিসাব করুন</button>
+        </div>
+      </div>
+      <div id="calc-results">
+        <div class="calc-res-grid">
+          <div class="res-item"><span>ইউরিয়া (Urea):</span> <strong>33.0 কেজি</strong></div>
+          <div class="res-item"><span>টিএসপি (TSP):</span> <strong>18.0 কেজি</strong></div>
+          <div class="res-item"><span>এমওপি (MOP):</span> <strong>22.0 কেজি</strong></div>
+          <div class="res-item"><span>জিপসাম (Gypsum):</span> <strong>10.0 কেজি</strong></div>
+          <div class="res-item"><span>জিঙ্ক সালফেট:</span> <strong>1.5 কেজি</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls: Search and Filter Pills (Fertilizer, Organic, Pesticide, Fungicide) -->
+  <section class="page-controls" style="margin-top: 0;">
+    <div class="search-bar-wrap">
+      <i class="fa-solid fa-magnifying-glass search-icon" style="color: #047857;"></i>
+      <input type="text" id="search-input" placeholder="সার বা কীটনাশকের নাম দিয়ে খুঁজুন (যেমন: ইউরিয়া, ইমিডাক্লোপ্রিড, ম্যানকোজেব)..." data-i18n-placeholder="search_fert_placeholder" oninput="handleSearchInput(this.value)">
+      <button id="search-clear-btn" class="search-clear-btn" style="display: none;" onclick="resetSearch()">&times;</button>
+    </div>
+
+    <div class="filter-pills-row" style="margin-top: 15px;">
+      <button class="filter-pill active" data-tab="all" onclick="setFilterTab('all', this)"><i class="fa-solid fa-border-all"></i> <span data-i18n="filter_all_inputs">সকল উপকরণ (২০+)</span></button>
+      <button class="filter-pill" data-tab="fertilizer" onclick="setFilterTab('fertilizer', this)"><i class="fa-solid fa-flask"></i> <span data-i18n="filter_chemical_fert">রাসায়নিক সার</span></button>
+      <button class="filter-pill" data-tab="organic" onclick="setFilterTab('organic', this)"><i class="fa-solid fa-leaf"></i> <span data-i18n="filter_organic_fert">জৈব সার</span></button>
+      <button class="filter-pill" data-tab="pesticide" onclick="setFilterTab('pesticide', this)"><i class="fa-solid fa-bug"></i> <span data-i18n="filter_pesticides">কীটনাশক</span></button>
+      <button class="filter-pill" data-tab="fungicide" onclick="setFilterTab('fungicide', this)"><i class="fa-solid fa-shield-virus"></i> <span data-i18n="filter_fungicides">ছত্রাকনাশক</span></button>
+    </div>
+  </section>
+
+  <!-- Fertilizers & Pesticides Cards Grid (20+ Detailed Cards) -->
+  <main class="guides-grid-container" id="fertilizers-grid">
+    <!-- Populated dynamically via JS -->
+  </main>
+
+  <!-- Footer with Admin Panel Link -->
+  <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1); background: #0f3626; color: #ffffff;">
+    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; gap: 15px;">
+      <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
+        © 2026 AgriFriend Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/lang.js"></script>
+  <script src="/js/guides-page.js?v=3"></script>
+</body>
+</html>
