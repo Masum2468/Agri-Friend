@@ -34,6 +34,10 @@
       marketplace_section_desc: "Buy, sell, and explore agricultural products with ease through a marketplace",
       marketplace_community_title: "Community Listings",
       marketplace_post_btn: "Post a Listing",
+      marketplace_search_placeholder: "Search items by name (e.g. Tractor, Seed, Rice)...",
+      filter_all: "All Items",
+      no_search_results: "No items found matching your search.",
+      view_all_listings: "View All Listings",
       
       // Marketplace Modal Form
       modal_title: "Create Marketplace Listing",
@@ -282,6 +286,10 @@
       marketplace_section_desc: "সহজেই কৃষিপণ্য কিনুন, বিক্রি করুন এবং বিভিন্ন কৃষিপণ্য ঘুরে দেখুন।",
       marketplace_community_title: "সম্প্রদায় লিস্টিং সমূহ",
       marketplace_post_btn: "একটি লিস্টিং পোস্ট করুন",
+      marketplace_search_placeholder: "আইটেমের নাম দিয়ে খুঁজুন (যেমন: ট্রাক্টর, বীজ, ধান)...",
+      filter_all: "সকল আইটেম",
+      no_search_results: "আপনার অনুসন্ধানের সাথে কোনো পণ্য বা সরঞ্জাম মিলেনি।",
+      view_all_listings: "সকল আইটেম দেখুন",
       
       // Marketplace Modal Form
       modal_title: "বাজার লিস্টিং তৈরি করুন",
@@ -546,6 +554,9 @@
     'Contact': 'যোগাযোগ',
     'Delete Post': 'পোস্টটি ডিলিট করুন',
     'No listings active in the marketplace.': 'বাজারক্ষেত্রে কোনো সক্রিয় লিস্টিং নেই।',
+    'No listings match your search criteria.': 'আপনার অনুসন্ধানের সাথে কোনো পণ্য বা সরঞ্জাম মিলেনি।',
+    'View All Listings': 'সকল আইটেম দেখুন',
+    'All Items': 'সকল আইটেম',
     'Are you sure you want to delete this listing?': 'আপনি কি নিশ্চিত যে আপনি এই লিস্টিংটি ডিলিট করতে চান?',
     'Listing Title': 'লিস্টিং শিরোনাম',
     

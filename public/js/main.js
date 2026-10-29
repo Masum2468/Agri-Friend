@@ -1827,6 +1827,61 @@ function getItemTypeIcon(itemType) {
   return 'fa-store';
 }
 
+
+let marketplaceSearchQuery = '';
+let marketplaceActiveType = 'all';
+
+function handleMarketSearchInput(val) {
+  marketplaceSearchQuery = (val || '').trim();
+  const clearBtn = document.getElementById('market-search-clear');
+  if (clearBtn) {
+    clearBtn.style.display = marketplaceSearchQuery ? 'flex' : 'none';
+  }
+  renderMarketplace();
+}
+
+function clearMarketplaceSearch() {
+  marketplaceSearchQuery = '';
+  const searchInput = document.getElementById('market-search-input');
+  if (searchInput) {
+    searchInput.value = '';
+    searchInput.focus();
+  }
+  const clearBtn = document.getElementById('market-search-clear');
+  if (clearBtn) {
+    clearBtn.style.display = 'none';
+  }
+  renderMarketplace();
+}
+
+function setMarketplaceFilter(type, btnElement) {
+  marketplaceActiveType = type || 'all';
+  const chips = document.querySelectorAll('.market-chip');
+  chips.forEach(chip => chip.classList.remove('active'));
+  if (btnElement) {
+    btnElement.classList.add('active');
+  }
+  renderMarketplace();
+}
+
+function resetMarketplaceFilters() {
+  marketplaceSearchQuery = '';
+  marketplaceActiveType = 'all';
+  const searchInput = document.getElementById('market-search-input');
+  if (searchInput) searchInput.value = '';
+  const clearBtn = document.getElementById('market-search-clear');
+  if (clearBtn) clearBtn.style.display = 'none';
+  const chips = document.querySelectorAll('.market-chip');
+  chips.forEach(chip => {
+    if (chip.getAttribute('data-filter') === 'all') {
+      chip.classList.add('active');
+    } else {
+      chip.classList.remove('active');
+    }
+  });
+  renderMarketplace();
+}
+
 async function fetchMarketplace(){
   try {
     const res = await fetch('/api/public/marketplace', { credentials: 'include' });
@@ -1842,13 +1897,53 @@ function renderMarketplace() {
   if (!grid) return;
   grid.innerHTML = '';
 
-  if (marketplaceData.length === 0) {
-    const emptyText = window.translateText ? window.translateText('No listings active in the marketplace.') : 'No listings active in the marketplace.';
-    grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${emptyText}</div>`;
+  const query = (marketplaceSearchQuery || '').toLowerCase();
+  const activeType = marketplaceActiveType || 'all';
+
+  let filtered = marketplaceData.filter(item => {
+    if (activeType !== 'all') {
+      const itType = (item.itemType || '').toLowerCase();
+      if (itType !== activeType.toLowerCase()) return false;
+    }
+
+    if (query) {
+      const title = (item.title || '').toLowerCase();
+      const desc = (item.description || '').toLowerCase();
+      const seller = (item.sellerName || '').toLowerCase();
+      const deal = (item.dealType || '').toLowerCase();
+      const type = (item.itemType || '').toLowerCase();
+      return title.includes(query) || desc.includes(query) || seller.includes(query) || deal.includes(query) || type.includes(query);
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    if (query || activeType !== 'all') {
+      const notFoundText = window.translateText 
+        ? window.translateText('No listings match your search criteria.') 
+        : 'No listings match your search criteria.';
+      const resetBtnText = window.translateText 
+        ? window.translateText('View All Listings') 
+        : 'View All Listings';
+      const safeQuery = (query || activeType).replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      grid.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 45px 20px; background: rgba(255,255,255,0.7); border-radius: 16px; border: 1px dashed var(--border-color); margin: 15px 0;">
+          <i class="fa-solid fa-magnifying-glass" style="font-size: 2.2rem; color: var(--primary); margin-bottom: 12px; opacity: 0.65;"></i>
+          <h4 style="font-size: 1.15rem; color: var(--text-dark); margin-bottom: 6px;">${notFoundText}</h4>
+          <p style="font-size: 0.92rem; margin-bottom: 16px; color: var(--text-light);">"${safeQuery}"</p>
+          <button class="btn btn-outline" onclick="resetMarketplaceFilters()" style="margin: 0 auto; display: inline-flex; align-items: center; gap: 8px; padding: 8px 18px;">
+            <i class="fa-solid fa-rotate-left"></i> ${resetBtnText}
+          </button>
+        </div>
+      `;
+    } else {
+      const emptyText = window.translateText ? window.translateText('No listings active in the marketplace.') : 'No listings active in the marketplace.';
+      grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 40px;">${emptyText}</div>`;
+    }
     return;
   }
 
-  marketplaceData.forEach(item => {
+  filtered.forEach(item => {
     const card = document.createElement('div');
     card.className = 'market-card glass';
 

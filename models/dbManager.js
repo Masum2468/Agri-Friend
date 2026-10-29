@@ -295,8 +295,10 @@ const dbManager = {
               let targetVal = item[subKey];
               let matchVal = subQuery[subKey];
               if (targetVal !== undefined && targetVal !== null) {
-                if (typeof targetVal === 'string' && typeof matchVal === 'string') {
-                  if (targetVal.toLowerCase() === matchVal.toLowerCase()) return true;
+                if (matchVal instanceof RegExp) {
+                  if (matchVal.test(String(targetVal))) return true;
+                } else if (typeof targetVal === 'string' && typeof matchVal === 'string') {
+                  if (targetVal.toLowerCase().includes(matchVal.toLowerCase())) return true;
                 } else if (String(targetVal) === String(matchVal)) {
                   return true;
                 }

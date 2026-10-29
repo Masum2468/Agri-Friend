@@ -2,29 +2,22 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const fs = require('fs');
+const stream = require('stream');
 const multer = require('multer');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 const guides = require('../data/guides');
 const dbManager = require('../models/dbManager');
 const { protect } = require('../middleware/auth');
 
-// Ensure uploads directory exists
+// Ensure uploads directory exists for disk fallback
 const uploadsDir = path.join(__dirname, '../public/uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-// Multer disk storage setup (saves uploaded images to public/uploads directory)
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadsDir);
-  },
-  filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const ext = path.extname(file.originalname) || '.jpg';
-    cb(null, 'listing-' + uniqueSuffix + ext.toLowerCase());
-  }
-});
+// Multer in-memory storage (allows streaming images directly to MongoDB Atlas GridFS)
+const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
@@ -38,6 +31,50 @@ const upload = multer({
     cb(new Error('Only image files (JPG, PNG, WEBP, GIF) are allowed.'));
   }
 });
+
+// Helper to stream file buffer to MongoDB Atlas GridFS
+async function saveToGridFS(buffer, filename, mimetype, metadata = {}) {
+  const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: 'marketplace_images'
+  });
+
+  const uploadStream = bucket.openUploadStream(filename, {
+    contentType: mimetype || 'image/jpeg',
+    metadata: {
+      ...metadata,
+      uploadedAt: new Date()
+    }
+  });
+
+  return new Promise((resolve, reject) => {
+    const readable = new stream.Readable();
+    readable.push(buffer);
+    readable.push(null);
+    readable.pipe(uploadStream)
+      .on('error', reject)
+      .on('finish', () => resolve(uploadStream.id));
+  });
+}
+
+// Helper to delete an image from MongoDB Atlas GridFS
+async function deleteFromGridFS(fileId) {
+  try {
+    if (!mongoose.connection || mongoose.connection.readyState !== 1 || !mongoose.connection.db) {
+      return false;
+    }
+    if (!mongoose.Types.ObjectId.isValid(fileId)) {
+      return false;
+    }
+    const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+      bucketName: 'marketplace_images'
+    });
+    await bucket.delete(new mongoose.Types.ObjectId(fileId));
+    return true;
+  } catch (err) {
+    console.warn(`GridFS deletion notice for ID ${fileId}:`, err.message);
+    return false;
+  }
+}
 
 // @route   GET /api/public/guides/all-centers
 router.get('/guides/all-centers', (req, res) => {
@@ -77,7 +114,17 @@ router.post('/guides/diagnose', upload.single('diseaseImage'), (req, res) => {
       matches = guides.diseases.slice(0, 3);
     }
 
-    const uploadedImagePath = req.file ? `/uploads/${req.file.filename}` : null;
+    let uploadedImagePath = null;
+    if (req.file) {
+      if (req.file.buffer) {
+        const ext = path.extname(req.file.originalname) || '.jpg';
+        const diagFilename = 'diag-' + Date.now() + ext.toLowerCase();
+        fs.writeFileSync(path.join(uploadsDir, diagFilename), req.file.buffer);
+        uploadedImagePath = `/uploads/${diagFilename}`;
+      } else if (req.file.filename) {
+        uploadedImagePath = `/uploads/${req.file.filename}`;
+      }
+    }
 
     res.json({
       success: true,
@@ -321,16 +368,110 @@ function generateAgriAdvice(temp, humidity, condition, windSpeed) {
 }
 
 // @route   GET /api/public/marketplace
-// @desc    Get all active marketplace listings
+// @desc    Get all active marketplace listings with optional search by item name/description and category filtering
 router.get('/marketplace', async (req, res) => {
   try {
-    const listings = await dbManager.find('MarketListing', {});
+    const { search, q, itemType, dealType } = req.query;
+    let query = {};
+
+    const searchQuery = (search || q || '').trim();
+    if (searchQuery) {
+      const searchRegex = new RegExp(searchQuery, 'i');
+      query.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { sellerName: searchRegex }
+      ];
+    }
+
+    if (itemType && itemType !== 'all') {
+      query.itemType = itemType;
+    }
+
+    if (dealType && dealType !== 'all') {
+      query.dealType = dealType;
+    }
+
+    const listings = await dbManager.find('MarketListing', query);
     // Sort descending by date
     listings.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     res.json(listings);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
+});
+
+// @route   GET /api/public/marketplace/image/:id
+// @desc    Stream permanently stored marketplace pictures directly from MongoDB Atlas GridFS
+router.get('/marketplace/image/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Check if database is connected
+    if (mongoose.connection && mongoose.connection.readyState === 1 && mongoose.connection.db) {
+      const bucket = new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+        bucketName: 'marketplace_images'
+      });
+
+      let objectId = null;
+      let file = null;
+
+      if (mongoose.Types.ObjectId.isValid(id)) {
+        try {
+          objectId = new mongoose.Types.ObjectId(id);
+          const files = await bucket.find({ _id: objectId }).toArray();
+          if (files && files.length > 0) {
+            file = files[0];
+          }
+        } catch (e) {}
+      }
+
+      // If not found by ObjectId, attempt lookup by filename
+      if (!file) {
+        const filesByName = await bucket.find({ filename: id }).toArray();
+        if (filesByName && filesByName.length > 0) {
+          file = filesByName[0];
+          objectId = file._id;
+        }
+      }
+
+      if (file && objectId) {
+        res.setHeader('Content-Type', file.contentType || 'image/jpeg');
+        if (file.length) res.setHeader('Content-Length', file.length);
+        // Cache for 1 year in browser/CDN
+        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        res.setHeader('Accept-Ranges', 'bytes');
+
+        const downloadStream = bucket.openDownloadStream(objectId);
+        downloadStream.on('error', (streamErr) => {
+          console.error('GridFS streaming error:', streamErr);
+          if (!res.headersSent) {
+            res.status(404).json({ message: 'Error streaming image from GridFS' });
+          }
+        });
+
+        return downloadStream.pipe(res);
+      }
+    }
+
+    // Disk fallback if GridFS doesn't have it or local mode
+    const diskFallback = path.join(uploadsDir, id);
+    if (fs.existsSync(diskFallback)) {
+      return res.sendFile(diskFallback);
+    }
+
+    res.status(404).json({ message: 'Image not found' });
+  } catch (err) {
+    console.error('Error fetching GridFS image:', err);
+    if (!res.headersSent) {
+      res.status(500).json({ message: 'Server error retrieving image' });
+    }
+  }
+});
+
+// Alias for plural /images/:id
+router.get('/marketplace/images/:id', (req, res) => {
+  res.redirect(301, `/api/public/marketplace/image/${req.params.id}`);
 });
 
 // Optional Auth Middleware for marketplace creation
@@ -364,7 +505,7 @@ const handleUpload = (req, res, next) => {
 };
 
 // @route   POST /api/public/marketplace
-// @desc    Create a new listing (Authorized Farmer/Admin only)
+// @desc    Create a new listing with permanent picture storage in MongoDB Atlas GridFS
 router.post('/marketplace', protect, handleUpload, async (req, res) => {
   try {
     const body = req.body || {};
@@ -389,13 +530,41 @@ router.post('/marketplace', protect, handleUpload, async (req, res) => {
     const description = (body.description || '').trim();
     let imageUrl = (body.imageUrl || '').trim();
 
-    if (req.file) {
-      if (req.file.filename) {
-        imageUrl = `/uploads/${req.file.filename}`;
-      } else if (req.file.buffer) {
-        const mimeType = req.file.mimetype || 'image/jpeg';
-        const base64Data = req.file.buffer.toString('base64');
-        imageUrl = `data:${mimeType};base64,${base64Data}`;
+    // Handle Uploaded Picture: Permanently save to MongoDB Atlas GridFS
+    if (req.file && req.file.buffer) {
+      const isMongoConnected = mongoose.connection && mongoose.connection.readyState === 1 && mongoose.connection.db;
+
+      if (isMongoConnected) {
+        try {
+          const ext = path.extname(req.file.originalname) || '.jpg';
+          const gfsFilename = `listing-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext.toLowerCase()}`;
+          
+          const fileId = await saveToGridFS(
+            req.file.buffer,
+            gfsFilename,
+            req.file.mimetype || 'image/jpeg',
+            {
+              originalName: req.file.originalname,
+              sellerId: req.user ? (req.user.id || req.user._id) : null,
+              size: req.file.size
+            }
+          );
+
+          imageUrl = `/api/public/marketplace/image/${fileId}`;
+          console.log(`✅ Marketplace picture permanently stored in MongoDB Atlas GridFS: ${imageUrl}`);
+        } catch (gfsErr) {
+          console.error('GridFS upload failed, using disk fallback:', gfsErr);
+          const ext = path.extname(req.file.originalname) || '.jpg';
+          const fallbackFilename = `listing-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext.toLowerCase()}`;
+          fs.writeFileSync(path.join(uploadsDir, fallbackFilename), req.file.buffer);
+          imageUrl = `/uploads/${fallbackFilename}`;
+        }
+      } else {
+        // Fallback for local testing without active MongoDB Atlas connection
+        const ext = path.extname(req.file.originalname) || '.jpg';
+        const fallbackFilename = `listing-${Date.now()}-${Math.round(Math.random() * 1e9)}${ext.toLowerCase()}`;
+        fs.writeFileSync(path.join(uploadsDir, fallbackFilename), req.file.buffer);
+        imageUrl = `/uploads/${fallbackFilename}`;
       }
     }
 
@@ -434,7 +603,7 @@ router.post('/marketplace', protect, handleUpload, async (req, res) => {
 });
 
 // @route   DELETE /api/public/marketplace/:id
-// @desc    Delete marketplace listing (Only listing owner or admin)
+// @desc    Delete marketplace listing and clean up GridFS picture if present
 router.delete('/marketplace/:id', protect, async (req, res) => {
   try {
     const listing = await dbManager.findById('MarketListing', req.params.id);
@@ -454,6 +623,15 @@ router.delete('/marketplace/:id', protect, async (req, res) => {
 
     if (!isAuthorized) {
       return res.status(403).json({ message: 'Unauthorized: Only the creator of this listing or an admin can delete it.' });
+    }
+
+    // Clean up GridFS image if this listing had one
+    if (listing.imageUrl && listing.imageUrl.includes('/marketplace/image/')) {
+      const parts = listing.imageUrl.split('/marketplace/image/');
+      const fileId = parts[1] ? parts[1].split('?')[0] : null;
+      if (fileId) {
+        await deleteFromGridFS(fileId);
+      }
     }
 
     await dbManager.findByIdAndDelete('MarketListing', req.params.id);
