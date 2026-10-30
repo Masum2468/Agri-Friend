@@ -38,8 +38,7 @@
 
       // Marketplace section
       marketplace_section_title: "Equipment and Seed Marketplace",
-      marketplace_section_desc: "Buy, sell, and explore agricultural products with ease through a marketplace built for farmers.",
-      marketplace_community_title: "Community Listings",
+      marketplace_section_desc: "Buy, sell, and explore agricultural products.",
       marketplace_post_btn: "Post a Listing",
       marketplace_search_placeholder: "Search items by name (e.g. Tractor, Seed, Rice)...",
       filter_all: "All Items",
@@ -388,8 +387,7 @@
 
       // Marketplace section
       marketplace_section_title: "কৃষি যন্ত্রপাতি, বীজ ও ফসল কেনাবেচা",
-      marketplace_section_desc: "স্থানীয় কৃষক ও ব্যবসায়ীদের সাথে সরাসরি যোগাযোগ করে সুলভ মূল্যে কৃষি উপকরণ কেনাবেচা ও ভাড়া নিন।",
-      marketplace_community_title: "সাম্প্রতিক বিজ্ঞাপনের তালিকা",
+      marketplace_section_desc: "কৃষিপণ্য ক্রয় করুন, বিক্রয় করুন এবং বিভিন্ন কৃষিপণ্য সম্পর্কে জানুন",
       marketplace_post_btn: "বিজ্ঞাপন পোস্ট করুন",
       marketplace_search_placeholder: "পণ্যের নাম দিয়ে খুঁজুন (যেমন: পাওয়ার টিলার, বীজ, ধান)...",
       filter_all: "সকল পণ্য",

@@ -101,7 +101,6 @@ header nav#main-nav a:hover {
 
 /* Page Hero */
 .page-hero {
-  background: linear-gradient(135deg, #12402d 0%, #1b5f43 100%);
   color: #ffffff;
   padding: clamp(30px, 5vw, 50px) 16px clamp(28px, 4vw, 38px) 16px;
   text-align: center;

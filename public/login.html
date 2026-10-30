@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/css/style.css">
   <style>
-    
-      body{
-        background-image: url('pic3.jpg');
-        background-size: cover;
-      }
+    body {
+      background-image: url('pic3.jpg');
+      background-size: cover;
+    }
+
     .auth-wrapper {
       min-height: 90vh;
       display: flex;
@@ -20,7 +21,7 @@
       justify-content: center;
       padding: 40px 20px;
       background: radial-gradient(circle at 10% 20%, rgba(82, 183, 136, 0.1) 0%, transparent 50%),
-                  radial-gradient(circle at 90% 80%, rgba(45, 106, 79, 0.15) 0%, transparent 60%);
+        radial-gradient(circle at 90% 80%, rgba(45, 106, 79, 0.15) 0%, transparent 60%);
     }
 
     .auth-card {
@@ -32,8 +33,15 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .auth-tabs {
@@ -43,6 +51,7 @@
       border-bottom: 2px solid var(--border-color);
       padding-bottom: 8px;
     }
+
     .auth-tab {
       background: transparent;
       border: none;
@@ -70,8 +79,13 @@
     }
 
     @keyframes tabFade {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
 
     .form-header {
@@ -107,22 +121,28 @@
         padding: 24px 14px;
         min-height: 85vh;
       }
+
       .auth-card {
         padding: 26px 18px;
         border-radius: var(--radius-md);
       }
+
       .form-header h2 {
         font-size: 1.5rem;
       }
+
       header {
         padding: 12px 16px;
       }
+
       header .logo {
         font-size: 1.3rem;
       }
+
       header nav a {
         font-size: 0.9rem;
       }
+
       .form-group input {
         font-size: 16px !important;
         min-height: 44px;
@@ -133,26 +153,69 @@
       .auth-card {
         padding: 20px 14px;
       }
+
       .auth-tab {
         font-size: 1rem;
       }
+
       .form-header h2 {
         font-size: 1.35rem;
       }
+
       .form-header p {
         font-size: 0.85rem;
+      }
+
+      header .logo {
+        font-size: 1.1rem;
+      }
+
+
+      header nav {
+        display: flex;
+        gap:10px;
+        align-items: center;
+        flex-direction: row;
+      }
+
+      header nav a {
+        text-decoration: none;
+        color: var(--text-dark);
+        font-weight: 500;
+        transition: var(--transition);
+        position: relative;
+      }
+
+      header nav a::after {
+        content: '';
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--accent);
+        transition: var(--transition);
+      }
+
+      header nav a:hover {
+        color: var(--primary-light);
+      }
+
+      header nav a:hover::after {
+        width: 100%;
       }
     }
   </style>
 </head>
+
 <body>
   <!-- Header -->
   <header class="glass">
     <a href="/" class="logo">
       <i class="fa-solid fa-seedling"></i>
-      <span>AgriSphere</span>
+      <span>AgriFriend</span>
     </a>
-    <nav style="display: flex; align-items: center; gap: 10px;">
+    <nav style="display: flex; align-items: center; gap:10px;">
       <button onclick="toggleLanguage()" class="btn btn-outline" id="lang-toggle-btn" style="padding: 6px 12px;">
         <i class="fa-solid fa-globe"></i> <span id="lang-toggle-label">বাংলা</span>
       </button>
@@ -163,11 +226,13 @@
   <!-- Auth Card Module -->
   <div class="auth-wrapper">
     <div class="auth-card glass">
-      
+
       <!-- Toggle Tabs -->
       <div class="auth-tabs">
-        <button class="auth-tab active" id="tab-login" onclick="toggleAuthTab('login')" data-i18n="auth_tab_login">Sign In</button>
-        <button class="auth-tab" id="tab-register" onclick="toggleAuthTab('register')" data-i18n="auth_tab_register">Register Farm</button>
+        <button class="auth-tab active" id="tab-login" onclick="toggleAuthTab('login')" data-i18n="auth_tab_login">Sign
+          In</button>
+        <button class="auth-tab" id="tab-register" onclick="toggleAuthTab('register')"
+          data-i18n="auth_tab_register">Register Farm</button>
       </div>
 
       <!-- General Error Box -->
@@ -190,7 +255,8 @@
             <label for="login-password" data-i18n="login_password_label">Password</label>
             <input type="password" id="login-password" required placeholder="••••••••">
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" data-i18n="login_submit_btn">
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;"
+            data-i18n="login_submit_btn">
             <i class="fa-solid fa-right-to-bracket"></i> Sign In
           </button>
         </form>
@@ -217,7 +283,8 @@
             <label for="reg-contact" data-i18n="register_contact_label">Contact Phone</label>
             <input type="text" id="reg-contact" required placeholder="e.g. 01844776321">
           </div>
-          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;" data-i18n="register_submit_btn">
+          <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 10px;"
+            data-i18n="register_submit_btn">
             <i class="fa-solid fa-user-plus"></i> Submit
           </button>
         </form>
@@ -229,7 +296,8 @@
   <!-- Footer -->
   <footer style="padding: 30px; border-top: 1px solid rgba(255,255,255,0.1);">
     <div class="copyright" style="border:none; padding: 0;" data-i18n="footer_copyright">
-      © 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur Science and Technology University. All rights reserved.
+      © 2026 AgriSphere Digital Agriculture Systems. Developed By Masum Reza, Department of Computer Science, Pirojpur
+      Science and Technology University. All rights reserved.
     </div>
   </footer>
 
@@ -248,7 +316,7 @@
     function toggleAuthTab(tabName) {
       // Clear alert box
       document.getElementById('error-alert').style.display = 'none';
-      
+
       // Toggle tab classes
       const tabs = document.querySelectorAll('.auth-tab');
       tabs.forEach(t => t.classList.remove('active'));
@@ -259,7 +327,7 @@
       containers.forEach(c => c.classList.remove('active'));
       document.getElementById(`${tabName}-container`).classList.add('active');
     }
-    
+
     function showError(msg) {
       const box = document.getElementById('error-alert');
       const text = document.getElementById('error-message');
@@ -321,4 +389,5 @@
     }
   </script>
 </body>
+
 </html>
