@@ -42,7 +42,7 @@
       <h1><span data-i18n="hero_title_1">Empowering Farmers with</span> <br><span data-i18n="hero_title_2">Smart Digital
           Agriculture</span></h1>
       <div class="hero-actions">
-        <a href="#weather" class="btn btn-primary" data-i18n="hero_weather_btn"><i
+        <a href="#weather" class="btn btn-primary" id="nai" data-i18n="hero_weather_btn"><i
             class="fa-solid fa-cloud-showers-water"></i> Check Weather Advice</a>
         <a href="/login" class="btn btn-outline" id="hero-dashboard-btn" data-i18n="hero_dashboard_btn"><i
             class="fa-solid fa-chalkboard-user"></i> Go to My Farm Dashboard</a>
@@ -174,17 +174,17 @@
             <div class="district-chips" style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;">
               <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-light); align-self: center;"
                 data-i18n="quick_districts_label">Popular Districts:</span>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Dhaka')">Dhaka</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Naogaon')">Naogaon</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Chattogram')">Chattogram</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Rajshahi')">Rajshahi</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Khulna')">Khulna</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Barishal')">Barishal</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Sylhet')">Sylhet</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Rangpur')">Rangpur</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Mymensingh')">Mymensingh</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Bogura')">Bogura</button>
-              <button type="button" class="btn-chip" onclick="quickSelectDistrict('Pirojpur')">Pirojpur</button>
+              <button type="button" class="btn-chip" data-district="Dhaka" onclick="quickSelectDistrict('Dhaka')">ঢাকা</button>
+              <button type="button" class="btn-chip" data-district="Naogaon" onclick="quickSelectDistrict('Naogaon')">নওগাঁ</button>
+              <button type="button" class="btn-chip" data-district="Chattogram" onclick="quickSelectDistrict('Chattogram')">চট্টগ্রাম</button>
+              <button type="button" class="btn-chip" data-district="Rajshahi" onclick="quickSelectDistrict('Rajshahi')">রাজশাহী</button>
+              <button type="button" class="btn-chip" data-district="Khulna" onclick="quickSelectDistrict('Khulna')">খুলনা</button>
+              <button type="button" class="btn-chip" data-district="Barishal" onclick="quickSelectDistrict('Barishal')">বরিশাল</button>
+              <button type="button" class="btn-chip" data-district="Sylhet" onclick="quickSelectDistrict('Sylhet')">সিলেট</button>
+              <button type="button" class="btn-chip" data-district="Rangpur" onclick="quickSelectDistrict('Rangpur')">রংপুর</button>
+              <button type="button" class="btn-chip" data-district="Mymensingh" onclick="quickSelectDistrict('Mymensingh')">ময়মনসিংহ</button>
+              <button type="button" class="btn-chip" data-district="Bogura" onclick="quickSelectDistrict('Bogura')">বগুড়া</button>
+              <button type="button" class="btn-chip" data-district="Pirojpur" onclick="quickSelectDistrict('Pirojpur')">পিরোজপুর</button>
             </div>
 
             <div id="weather-status-label" style="font-size: 0.9rem; opacity: 0.8; margin-top: 5px;"></div>
@@ -233,7 +233,7 @@
         <ul>
           <li><a href="/login" data-i18n="footer_farmer_signin">Farmer Sign In</a></li>
           <li><a href="/login?tab=register" data-i18n="footer_register_farm">Register Farm</a></li>
-          <li><a href="/admin.html" style="color: #bfc6c1;"></i> Admin Panel</a></li>
+          <li><a href="/admin.html"  data-i18n="footer_admin_link" style="color: #bfc6c1;"></i> Admin Panel</a></li>
         </ul>
       </div>
     </div>
@@ -243,8 +243,8 @@
     </div>
   </footer>
 
-  <script src="/js/lang.js?v=10"></script>
-  <script src="/js/main.js?v=10"></script>
+  <script src="/js/lang.js?v=11"></script>
+  <script src="/js/main.js?v=11"></script>
 </body>
 
 </html>

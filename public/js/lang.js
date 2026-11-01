@@ -35,6 +35,14 @@
       weather_humidity_label: "Humidity",
       weather_wind_label: "Wind Speed",
       weather_advice_title: "Farming Recommendations",
+      weather_fetching: "Fetching weather data...",
+      weather_live: "Live weather data loaded.",
+      weather_mock: "Simulated offline weather. Connect to the internet for live data.",
+      weather_failed: "Weather lookup failed. Try another district.",
+      weather_error: "Could not load weather",
+      dash_weather_loading: "Loading location...",
+      dash_weather_checking: "Checking agricultural advice...",
+      dash_weather_clear: "Clear sky. Proceed with normal farm work.",
 
       // Marketplace section
       marketplace_section_title: "Equipment and Seed Marketplace",
@@ -88,7 +96,7 @@
       diseases_page_desc: "Crop disease symptoms, organic remedies, and approved chemical pesticide dosages per spray tank.",
       fert_page_title: "Fertilizers & Crop Inputs Guide",
       fert_page_desc: "Balanced fertilizer dosing, application methods, safety precautions, and pesticide guidelines.",
-      seasonal_page_title: "Seasonal Advisory & Disaster Preparation",
+      seasonal_page_title: "Snpm steasonal Advisory & Disaster Preparation",
       seasonal_page_desc: "Optimal crops for Rabi, Kharif-1, Kharif-2 seasons and proactive disaster management.",
       cal_page_title: "Crop Calendar & Farm Task Timeline",
       cal_page_desc: "12-month guide for sowing, planting, irrigation, fertilizing, pest control, and harvesting.",
@@ -384,6 +392,14 @@
       weather_humidity_label: "বাতাসের আর্দ্রতা",
       weather_wind_label: "বাতাসের গতি",
       weather_advice_title: "কৃষকের করণীয় পরামর্শ",
+      weather_fetching: "আবহাওয়ার তথ্য আনা হচ্ছে...",
+      weather_live: "লাইভ আবহাওয়ার তথ্য লোড হয়েছে।",
+      weather_mock: "অফলাইন সিমুলেটেড আবহাওয়া। লাইভ তথ্যের জন্য ইন্টারনেট সংযোগ দিন।",
+      weather_failed: "আবহাওয়া খুঁজে পাওয়া যায়নি। অন্য জেলা চেষ্টা করুন।",
+      weather_error: "আবহাওয়া লোড করা যায়নি",
+      dash_weather_loading: "অবস্থান লোড হচ্ছে...",
+      dash_weather_checking: "কৃষি পরামর্শ যাচাই করা হচ্ছে...",
+      dash_weather_clear: "আকাশ পরিষ্কার। নিয়মিত কৃষিকাজ চালিয়ে যান।",
 
       // Marketplace section
       marketplace_section_title: "কৃষি যন্ত্রপাতি, বীজ ও ফসল কেনাবেচা",
@@ -714,7 +730,7 @@
     }
   };
 
-  // Helper dictionary for common agricultural translation words
+  // Helper dictionary for common agricultural, district, and weather phrases
   const translationDictionary = {
     'Rice': 'ধান', 'Wheat': 'গম', 'Maize': 'ভুট্টা', 'Potato': 'আলু',
     'Tomato': 'টমেটো', 'Eggplant': 'বেগুন', 'Jute': 'পাট', 'Mustard': 'সরিষা',
@@ -725,41 +741,158 @@
     'Herbicide': 'আগাছানাশক', 'Bio-fertilizer': 'জৈব সার',
     'Equipment': 'যন্ত্রপাতি', 'Seed': 'বীজ', 'Sale': 'বিক্রয়', 'Rent': 'ভাড়া',
     'Rabi': 'রবি', 'Kharif-1': 'খরিপ-১', 'Kharif-2': 'খরিপ-২',
-    'Dhaka': 'ঢাকা', 'Bogura': 'বগুড়া', 'Naogaon': 'নওগাঁ', 'Rajshahi': 'রাজশাহী',
-    'Chattogram': 'চট্টগ্রাম', 'Khulna': 'খুলনা', 'Barishal': 'বরিশাল',
-    'Sylhet': 'সিলেট', 'Rangpur': 'রংপুর', 'Mymensingh': 'ময়মনসিংহ', 'Pirojpur': 'পিরোজপুর'
+    'Bangladesh': 'বাংলাদেশ',
+    'Humidity': 'বাতাসের আর্দ্রতা',
+    'Wind Speed': 'বাতাসের গতি',
+    'Fetching weather data...': 'আবহাওয়ার তথ্য আনা হচ্ছে...',
+    'Weather lookup failed': 'আবহাওয়া খুঁজে পাওয়া যায়নি',
+    '(Simulated offline weather. Configure OPENWEATHER_API_KEY for real data.)': 'অফলাইন সিমুলেটেড আবহাওয়া। লাইভ তথ্যের জন্য ইন্টারনেট সংযোগ দিন।',
+    '(Live weather data loaded!)': 'লাইভ আবহাওয়ার তথ্য লোড হয়েছে।',
+    'Loading Location...': 'অবস্থান লোড হচ্ছে...',
+    'Checking agricultural advice...': 'কৃষি পরামর্শ যাচাই করা হচ্ছে...',
+    'Clear sky. Proceed with normal scheduling.': 'আকাশ পরিষ্কার। নিয়মিত কৃষিকাজ চালিয়ে যান।',
+    'Sunny': 'রৌদ্রোজ্জ্বল',
+    'Mainly Clear': 'প্রধানত পরিষ্কার',
+    'Partly Cloudy': 'আংশিক মেঘলা',
+    'Cloudy': 'মেঘলা',
+    'Overcast': 'ঘন মেঘলা',
+    'Overcast with Rain': 'মেঘলা ও বৃষ্টি',
+    'Foggy': 'কুয়াশাচ্ছন্ন',
+    'Drizzle': 'গুঁড়ি গুঁড়ি বৃষ্টি',
+    'Dense Drizzle': 'ঘন গুঁড়ি গুঁড়ি বৃষ্টি',
+    'Freezing Drizzle': 'হিমশীতল গুঁড়ি বৃষ্টি',
+    'Light Rain': 'হালকা বৃষ্টি',
+    'Moderate Rain': 'মাঝারি বৃষ্টি',
+    'Heavy Rain': 'ভারী বৃষ্টি',
+    'Freezing Rain': 'হিমশীতল বৃষ্টি',
+    'Slight Snow': 'হালকা তুষারপাত',
+    'Moderate Snow': 'মাঝারি তুষারপাত',
+    'Heavy Snow': 'ভারী তুষারপাত',
+    'Snow Grains': 'তুষারকণা',
+    'Rain Showers': 'ঝড়ো বৃষ্টি',
+    'Heavy Rain Showers': 'ভারী ঝড়ো বৃষ্টি',
+    'Violent Rain Showers': 'প্রবল ঝড়ো বৃষ্টি',
+    'Snow Showers': 'তুষারবৃষ্টি',
+    'Heavy Snow Showers': 'ভারী তুষারবৃষ্টি',
+    'Thunderstorm': 'বজ্রসহ বৃষ্টি',
+    'Thunderstorm with Hail': 'শিলাবৃষ্টিসহ বজ্রঝড়',
+    'Severe Thunderstorm': 'প্রবল বজ্রঝড়',
+    'Windy': 'ঝোড়ো বাতাস',
+    'Clear': 'পরিষ্কার আকাশ',
+    'Natural irrigation active. Postpone scheduled field watering.': 'প্রাকৃতিক সেচ চলছে। নির্ধারিত সেচ স্থগিত রাখুন।',
+    'Avoid applying foliar spray pesticides or chemical fertilizers since rain will wash them away.': 'পাতায় স্প্রে বা রাসায়নিক সার দেবেন না; বৃষ্টিতে ধুয়ে যাবে।',
+    'Ensure proper drainage in fields to prevent waterlogging and root rot.': 'জলাবদ্ধতা ও শিকড় পচা রোধে নালা খোলা রাখুন।',
+    'Standard irrigation schedule recommended.': 'নিয়মিত সেচের সময়সূচি অনুসরণ করুন।',
+    'High temperature detected. Increase watering frequency for shallow-rooted crops.': 'তাপমাত্রা বেশি। অগভীর শিকড়ের ফসলে সেচ বাড়ান।',
+    'Excellent conditions for soil drying and land clearing.': 'মাটি শুকানো ও জমি পরিষ্কারের জন্য অনুকূল সময়।',
+    'Avoid transplanting delicate seedlings during mid-day heat to prevent transplant shock.': 'দুপুরের তীব্র গরমে নাজুক চারা রোপণ করবেন না।',
+    'Favorable ambient temperature for sowing and crop maintenance.': 'বপন ও পরিচর্যার জন্য তাপমাত্রা অনুকূল।',
+    'High humidity levels. Monitor susceptible plants for fungal leaf spots or Powdery Mildew.': 'আর্দ্রতা বেশি। ছত্রাকজনিত দাগ ও পাউডারি মিলডিউ নজরদারি করুন।',
+    'Limit morning watering; water closer to the soil to avoid wet leaves.': 'সকালে পাতায় পানি না দিয়ে মাটির গোড়ায় সেচ দিন।',
+    'Strong winds alert. Avoid spraying liquid chemicals as drift will reduce efficiency and harm surrounding areas.': 'ঝোড়ো হাওয়া। তরল স্প্রে করবেন না; উড়ে গিয়ে ক্ষতি হতে পারে।',
+    'Inspect tall crop stakes or netting supports for wind stability.': 'লম্বা ফসলের খুঁটি ও জালের ভিত্তি পরীক্ষা করুন।',
+    'Calm winds, but postpone spraying pesticides or fertilizers until active precipitation stops.': 'বাতাস শান্ত, তবে বৃষ্টি থামার আগে স্প্রে করবেন না।',
+    'Calm winds. Perfect time for spraying organic pesticides or foliar feeds.': 'বাতাস শান্ত। জৈব কীটনাশক বা পাতার সার স্প্রে করার উপযুক্ত সময়।',
+    'Dhaka': 'ঢাকা', 'Gazipur': 'গাজীপুর', 'Narayanganj': 'নারায়ণগঞ্জ',
+    'Tangail': 'টাঙ্গাইল', 'Narsingdi': 'নরসিংদী', 'Manikganj': 'মানিকগঞ্জ',
+    'Munshiganj': 'মুন্সীগঞ্জ', 'Faridpur': 'ফরিদপুর', 'Gopalganj': 'গোপালগঞ্জ',
+    'Madaripur': 'মাদারীপুর', 'Rajbari': 'রাজবাড়ী', 'Shariatpur': 'শরীয়তপুর',
+    'Kishoreganj': 'কিশোরগঞ্জ', 'Chattogram': 'চট্টগ্রাম', "Cox's Bazar": 'কক্সবাজার',
+    'Cumilla': 'কুমিল্লা', 'Feni': 'ফেনী', 'Brahmanbaria': 'ব্রাহ্মণবাড়িয়া',
+    'Noakhali': 'নোয়াখালী', 'Chandpur': 'চাঁদপুর', 'Lakshmipur': 'লক্ষ্মীপুর',
+    'Rangamati': 'রাঙ্গামাটি', 'Bandarban': 'বান্দরবান', 'Khagrachhari': 'খাগড়াছড়ি',
+    'Rajshahi': 'রাজশাহী', 'Bogura': 'বগুড়া', 'Pabna': 'পাবনা',
+    'Sirajganj': 'সিরাজগঞ্জ', 'Naogaon': 'নওগাঁ', 'Natore': 'নাটোর',
+    'Chapainawabganj': 'চাঁপাইনবাবগঞ্জ', 'Joypurhat': 'জয়পুরহাট', 'Khulna': 'খুলনা',
+    'Jashore': 'যশোর', 'Satkhira': 'সাতক্ষীরা', 'Bagerhat': 'বাগেরহাট',
+    'Kushtia': 'কুষ্টিয়া', 'Chuadanga': 'চুয়াডাঙ্গা', 'Meherpur': 'মেহেরপুর',
+    'Jhenaidah': 'ঝিনাইদহ', 'Magura': 'মাগুরা', 'Narail': 'নড়াইল',
+    'Barishal': 'বরিশাল', 'Patuakhali': 'পটুয়াখালী', 'Bhola': 'ভোলা',
+    'Pirojpur': 'পিরোজপুর', 'Barguna': 'বরগুনা', 'Jhalokathi': 'ঝালকাঠি',
+    'Sylhet': 'সিলেট', 'Moulvibazar': 'মৌলভীবাজার', 'Habiganj': 'হবিগঞ্জ',
+    'Sunamganj': 'সুনামগঞ্জ', 'Rangpur': 'রংপুর', 'Dinajpur': 'দিনাজপুর',
+    'Gaibandha': 'গাইবান্ধা', 'Kurigram': 'কুড়িগ্রাম', 'Lalmonirhat': 'লালমনিরহাট',
+    'Nilphamari': 'নীলফামারী', 'Panchagarh': 'পঞ্চগড়', 'Thakurgaon': 'ঠাকুরগাঁও',
+    'Mymensingh': 'ময়মনসিংহ', 'Jamalpur': 'জামালপুর', 'Netrokona': 'নেত্রকোণা',
+    'Sherpur': 'শেরপুর'
   };
+
+  const reverseDictionary = {};
+  Object.keys(translationDictionary).forEach((en) => {
+    reverseDictionary[translationDictionary[en]] = en;
+  });
+
+  function foldBangla(text) {
+    return String(text || '')
+      .replace(/য়/g, 'য়')
+      .replace(/ড়/g, 'ড়')
+      .replace(/ঢ়/g, 'ঢ়')
+      .replace(/র়/g, 'ড়');
+  }
+
+  function lookupPhrase(text, currentLang) {
+    const trimmed = String(text || '').trim();
+    if (!trimmed) return trimmed;
+
+    if (currentLang === 'en') {
+      if (reverseDictionary[trimmed]) return reverseDictionary[trimmed];
+      const folded = foldBangla(trimmed);
+      if (reverseDictionary[folded]) return reverseDictionary[folded];
+      for (const [en, bn] of Object.entries(translationDictionary)) {
+        if (foldBangla(bn) === folded || en.toLowerCase() === trimmed.toLowerCase()) return en;
+      }
+      return trimmed;
+    }
+
+    if (translationDictionary[trimmed]) return translationDictionary[trimmed];
+    for (const [en, bn] of Object.entries(translationDictionary)) {
+      if (en.toLowerCase() === trimmed.toLowerCase()) return bn;
+      if (foldBangla(bn) === foldBangla(trimmed)) return bn;
+    }
+    return trimmed;
+  }
 
   // Get current active language ('bn' is default)
   window.getCurrentLanguage = function() {
     return localStorage.getItem('language') || 'bn';
   };
 
+  window.tKey = function(key, fallback) {
+    const lang = window.getCurrentLanguage();
+    if (translations[lang] && translations[lang][key]) return translations[lang][key];
+    if (translations.en && translations.en[key]) return translations.en[key];
+    return fallback || key;
+  };
+
+  // Convert typed Bangla/English district names to the English key used by the weather API
+  window.resolveDistrictName = function(input) {
+    if (!input || typeof input !== 'string') return input;
+    let trimmed = input.trim()
+      .replace(/,?\s*(Bangladesh|বাংলাদেশ)\s*$/i, '')
+      .trim();
+    if (trimmed.includes(' / ')) trimmed = trimmed.split(' / ')[0].trim();
+    return lookupPhrase(trimmed, 'en') || trimmed;
+  };
+
   // Intelligent text translator for bilingual format like "English / বাংলা"
   window.translateText = function(text) {
     if (!text || typeof text !== 'string') return text;
     const currentLang = window.getCurrentLanguage();
+    const trimmed = text.trim();
 
-    // Check if string contains " / " separating English and Bengali
-    if (text.includes(' / ')) {
-      const parts = text.split(' / ');
+    if (trimmed.includes(' / ')) {
+      const parts = trimmed.split(' / ');
       if (parts.length >= 2) {
         return currentLang === 'en' ? parts[0].trim() : parts[parts.length - 1].trim();
       }
     }
 
-    if (currentLang === 'en') {
-      // Find reverse match if text is Bengali
-      for (const [en, bn] of Object.entries(translationDictionary)) {
-        if (text.trim() === bn) return en;
-      }
-      return text;
-    } else {
-      // Find Bengali translation
-      const trimmed = text.trim();
-      if (translationDictionary[trimmed]) return translationDictionary[trimmed];
-      return text;
+    // Short "City, Country" labels
+    if (/^[^,]{2,40},\s*[^,]{2,40}$/.test(trimmed)) {
+      return trimmed.split(',').map((part) => lookupPhrase(part.trim(), currentLang)).join(', ');
     }
+
+    return lookupPhrase(trimmed, currentLang);
   };
 
   // Apply translations to all DOM elements
@@ -819,6 +952,18 @@
     const toggleLabels = document.querySelectorAll('#lang-toggle-label');
     toggleLabels.forEach(label => {
       label.textContent = currentLang === 'bn' ? 'English' : 'বাংলা';
+    });
+
+    // 5. Weather district chips (English <-> Bangla)
+    document.querySelectorAll('.btn-chip[data-district]').forEach((btn) => {
+      const en = btn.getAttribute('data-district');
+      btn.textContent = window.translateText(en);
+    });
+
+    document.querySelectorAll('#dash-weather-district-select option').forEach((opt) => {
+      const en = opt.getAttribute('data-district') || opt.value;
+      const bn = translationDictionary[en] || en;
+      opt.textContent = currentLang === 'bn' ? `${bn} (${en})` : `${en} / ${bn}`;
     });
   };
 

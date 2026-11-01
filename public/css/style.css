@@ -31,7 +31,7 @@
 }
 
 body {
-  width:auto;
+  width: auto;
   background-color: var(--background);
   color: var(--text-dark);
   line-height: 1.6;
@@ -43,13 +43,16 @@ body {
 ::-webkit-scrollbar {
   width: 10px;
 }
+
 ::-webkit-scrollbar-track {
   background: var(--background);
 }
+
 ::-webkit-scrollbar-thumb {
   background: var(--primary-light);
   border-radius: 5px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: var(--accent);
 }
@@ -101,14 +104,14 @@ body {
 }
 
 .btn-outline {
-  background:var(--primary-light);
+  background: var(--primary-light);
   border: 2px solid var(--primary-light);
-  color:white;
+  color: white;
 }
 
 .btn-outline:hover {
   background: var(--primary-light);
-  color:antiquewhite;
+  color: antiquewhite;
 }
 
 .btn-delete-listing {
@@ -218,6 +221,15 @@ header nav a {
   font-weight: 500;
   transition: var(--transition);
   position: relative;
+}
+header nav#main-nav a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.0rem;
+  transition: color 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
 header nav a::after {
@@ -485,9 +497,17 @@ section.module {
 }
 
 @keyframes floatWeather {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-  100% { transform: translateY(0px); }
+  0% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .weather-meta {
@@ -617,8 +637,15 @@ section.module {
 }
 
 @keyframes slideInAdvice {
-  from { opacity: 0; transform: translateX(15px); }
-  to { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .advice-card:hover {
@@ -651,6 +678,7 @@ section.module {
   border-top: 1px solid rgba(42, 111, 151, 0.3);
   border-bottom: 1px solid rgba(42, 111, 151, 0.3);
 }
+
 .advice-info .advice-icon-box {
   background: rgba(42, 111, 151, 0.25);
   color: #8ac9ff;
@@ -663,6 +691,7 @@ section.module {
   border-top: 1px solid rgba(230, 95, 43, 0.3);
   border-bottom: 1px solid rgba(230, 95, 43, 0.3);
 }
+
 .advice-warning .advice-icon-box {
   background: rgba(230, 95, 43, 0.25);
   color: #ffaa80;
@@ -675,6 +704,7 @@ section.module {
   border-top: 1px solid rgba(82, 183, 136, 0.25);
   border-bottom: 1px solid rgba(82, 183, 136, 0.25);
 }
+
 .advice-success .advice-icon-box {
   background: rgba(82, 183, 136, 0.22);
   color: var(--accent);
@@ -876,7 +906,7 @@ section.module {
   border-radius: 20px;
   font-size: 0.78rem;
   font-weight: 700;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   backdrop-filter: blur(8px);
 }
 
@@ -891,7 +921,7 @@ section.module {
   gap: 5px;
   background: rgba(27, 67, 50, 0.85);
   color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
   backdrop-filter: blur(8px);
 }
 
@@ -997,7 +1027,7 @@ section.module {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   transition: var(--transition);
   pointer-events: auto;
 }
@@ -1404,8 +1434,15 @@ footer {
   }
 
   @keyframes mobileNavFade {
-    from { opacity: 0; transform: translateY(-8px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   header nav a {
@@ -1494,7 +1531,9 @@ footer {
    4. MOBILE DEVICES (max-width: 767px)
    ---------------------------------------------------- */
 @media (max-width: 767px) {
-  html, body {
+
+  html,
+  body {
     max-width: 100%;
     overflow-x: hidden;
   }
@@ -1798,7 +1837,9 @@ footer {
   }
 
   /* Prevent auto-zoom on iOS */
-  input, select, textarea {
+  input,
+  select,
+  textarea {
     font-size: 16px !important;
   }
 
@@ -1894,7 +1935,9 @@ footer {
     hyphens: auto;
   }
 
-} /* end @media (max-width: 767px) */
+}
+
+/* end @media (max-width: 767px) */
 
 /* ----------------------------------------------------
    5. SMALL PHONES (max-width: 480px)
@@ -1916,9 +1959,14 @@ footer {
     margin-bottom: 10px;
   }
 
+   .hero-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  } 
   .hero-actions .btn {
-    padding: 8px 10px;
-    font-size: 0.8rem;
+    padding: 8px 1px;
+    font-size: 0.7rem;
   }
 
   .weather-stats-grid {

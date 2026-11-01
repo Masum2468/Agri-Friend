@@ -1,6 +1,5 @@
 // AgriFriend Dedicated Knowledge Hub Pages Logic
 // Fully bilingual (Bangla & English) rendering with live search & category filters
-
 let guidesData = {
   crops: [],
   diseases: [],
@@ -600,7 +599,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-
   // Parse URL search parameters if any
   try {
     const params = new URLSearchParams(window.location.search);

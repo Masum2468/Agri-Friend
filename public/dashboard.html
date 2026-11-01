@@ -169,17 +169,17 @@
             <div class="dash-card-header">
               <h2 data-i18n="overview_weather_title">Quick Weather</h2>
               <select id="dash-weather-district-select" onchange="fetchDashboardWeather(this.value)" style="padding: 4px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-surface); font-size: 0.82rem; color: var(--text-main); outline: none;">
-                <option value="Dhaka">Dhaka / ঢাকা</option>
-                <option value="Naogaon">Naogaon / নওগাঁ</option>
-                <option value="Rajshahi">Rajshahi / রাজশাহী</option>
-                <option value="Bogura">Bogura / বগুড়া</option>
-                <option value="Chattogram">Chattogram / চট্টগ্রাম</option>
-                <option value="Khulna">Khulna / খুলনা</option>
-                <option value="Barishal">Barishal / বরিশাল</option>
-                <option value="Sylhet">Sylhet / সিলেট</option>
-                <option value="Rangpur">Rangpur / রংপুর</option>
-                <option value="Mymensingh">Mymensingh / ময়মনসিংহ</option>
-                <option value="Pirojpur">Pirojpur / পিরোজপুর</option>
+                <option value="Dhaka" data-district="Dhaka">ঢাকা (Dhaka)</option>
+                <option value="Naogaon" data-district="Naogaon">নওগাঁ (Naogaon)</option>
+                <option value="Rajshahi" data-district="Rajshahi">রাজশাহী (Rajshahi)</option>
+                <option value="Bogura" data-district="Bogura">বগুড়া (Bogura)</option>
+                <option value="Chattogram" data-district="Chattogram">চট্টগ্রাম (Chattogram)</option>
+                <option value="Khulna" data-district="Khulna">খুলনা (Khulna)</option>
+                <option value="Barishal" data-district="Barishal">বরিশাল (Barishal)</option>
+                <option value="Sylhet" data-district="Sylhet">সিলেট (Sylhet)</option>
+                <option value="Rangpur" data-district="Rangpur">রংপুর (Rangpur)</option>
+                <option value="Mymensingh" data-district="Mymensingh">ময়মনসিংহ (Mymensingh)</option>
+                <option value="Pirojpur" data-district="Pirojpur">পিরোজপুর (Pirojpur)</option>
               </select>
             </div>
             <div style="background-color: var(--primary); color: white; border-radius: var(--radius-sm); padding: 20px; display:flex; flex-direction:column; gap:12px;">
@@ -815,7 +815,7 @@
     </div>
   </div>
 
-  <script src="/js/lang.js"></script>
-  <script src="/js/dashboard.js"></script>
+  <script src="/js/lang.js?v=11"></script>
+  <script src="/js/dashboard.js?v=11"></script>
 </body>
 </html>

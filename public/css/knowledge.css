@@ -180,7 +180,7 @@ header nav a::after {
   width: 0;
   height: 2px;
   background: var(--accent);
-  transition: var(--transition);
+  /* transition: var(--transition); */
 }
 
 header nav a:hover {
@@ -224,12 +224,12 @@ header nav a:hover::after {
   -webkit-text-fill-color: transparent;
 }
 
-/* .hero-content p {
+.hero-content p {
   font-size: 1.2rem;
   color:#9d131c;
   margin-bottom: 35px;
   max-width: 550px;
-} */
+}
 
 .hero-actions {
   display: flex;
@@ -802,11 +802,13 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 12px;
+  background-color: #556d5e;
+  border-radius: 300px;
 }
 
 .kh-header-hero p {
   font-size: 1.15rem;
-  color: #a5b7af;
+  color: #e2e4e9;
   font-weight: 400;
   max-width: 650px;
   margin: 0 auto;

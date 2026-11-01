@@ -191,28 +191,36 @@ async function handleLogout() {
 // ----------------------------------------------------
 // WEATHER API INTEGRATION
 // ----------------------------------------------------
+function weatherLabel(key, fallback) {
+  if (window.tKey) return window.tKey(key, fallback);
+  const t = window.translateText || ((x) => x);
+  return t(fallback);
+}
+
 async function fetchWeather(city) {
-  currentCity = city;
+  const queryCity = window.resolveDistrictName ? window.resolveDistrictName(city) : city;
+  currentCity = queryCity;
   const weatherStatus = document.getElementById('weather-status-label');
-  const t = window.translateText || (x => x);
-  if (weatherStatus) weatherStatus.innerText = t('Fetching weather data...');
+  const t = window.translateText || ((x) => x);
+  if (weatherStatus) weatherStatus.innerText = weatherLabel('weather_fetching', 'Fetching weather data...');
 
   try {
-    const res = await fetch(`/api/public/weather?city=${encodeURIComponent(city)}`);
+    const res = await fetch(`/api/public/weather?city=${encodeURIComponent(queryCity)}`);
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message || t('Weather lookup failed'));
+      throw new Error(data.message || weatherLabel('weather_failed', 'Weather lookup failed'));
     }
 
     // Helper to get weather icon
     const getWeatherIcon = (condition) => {
       const cond = (condition || '').toLowerCase();
-      if (cond.includes('sun') || cond.includes('clear')) return 'fa-sun';
-      if (cond.includes('rain') || cond.includes('drizzle') || cond.includes('shower')) return 'fa-cloud-showers-heavy';
-      if (cond.includes('thunderstorm')) return 'fa-cloud-bolt';
-      if (cond.includes('wind')) return 'fa-wind';
-      if (cond.includes('cloud') || cond.includes('overcast')) return 'fa-cloud';
+      if (cond.includes('sun') || cond.includes('clear') || cond.includes('রৌদ্র') || cond.includes('পরিষ্কার')) return 'fa-sun';
+      if (cond.includes('thunder') || cond.includes('বজ্র')) return 'fa-cloud-bolt';
+      if (cond.includes('rain') || cond.includes('drizzle') || cond.includes('shower') || cond.includes('বৃষ্টি')) return 'fa-cloud-showers-heavy';
+      if (cond.includes('wind') || cond.includes('ঝোড়ো')) return 'fa-wind';
+      if (cond.includes('fog') || cond.includes('কুয়াশা')) return 'fa-smog';
+      if (cond.includes('cloud') || cond.includes('overcast') || cond.includes('মেঘ')) return 'fa-cloud';
       return 'fa-cloud-sun';
     };
 
@@ -238,14 +246,14 @@ async function fetchWeather(city) {
           <div class="weather-stat-card">
             <div class="stat-icon-wrapper humidity-icon"><i class="fa-solid fa-droplet"></i></div>
             <div class="stat-detail">
-              <span class="stat-label">${t('Humidity')}</span>
+              <span class="stat-label" data-i18n="weather_humidity_label">${weatherLabel('weather_humidity_label', 'Humidity')}</span>
               <span class="stat-val" id="weather-humidity">${data.humidity}%</span>
             </div>
           </div>
           <div class="weather-stat-card">
             <div class="stat-icon-wrapper wind-icon"><i class="fa-solid fa-wind"></i></div>
             <div class="stat-detail">
-              <span class="stat-label">${t('Wind Speed')}</span>
+              <span class="stat-label" data-i18n="weather_wind_label">${weatherLabel('weather_wind_label', 'Wind Speed')}</span>
               <span class="stat-val" id="weather-wind">${data.windSpeed} km/h</span>
             </div>
           </div>
@@ -257,7 +265,7 @@ async function fetchWeather(city) {
     const adviceList = document.getElementById('weather-advice-list');
     if (adviceList) {
       adviceList.innerHTML = '';
-      data.recommendation.forEach(rec => {
+      (data.recommendation || []).forEach(rec => {
         let icon = 'fa-circle-info';
         let cardClass = 'advice-info';
         const text = rec.toLowerCase();
@@ -298,13 +306,15 @@ async function fetchWeather(city) {
     }
 
     if (weatherStatus) {
-      weatherStatus.innerText = data.isMock 
-        ? (window.translateText ? window.translateText('(Simulated offline weather. Configure OPENWEATHER_API_KEY for real data.)') : '(Simulated offline weather. Configure OPENWEATHER_API_KEY for real data.)') 
-        : (window.translateText ? window.translateText('(Live weather data loaded!)') : '(Live weather data loaded!)');
+      weatherStatus.innerText = data.isMock
+        ? weatherLabel('weather_mock', 'Simulated offline weather. Connect to the internet for live data.')
+        : weatherLabel('weather_live', 'Live weather data loaded.');
     }
 
   } catch (err) {
-    if (weatherStatus) weatherStatus.innerText = `Error: ${err.message}`;
+    if (weatherStatus) {
+      weatherStatus.innerText = `${weatherLabel('weather_error', 'Could not load weather')}: ${err.message}`;
+    }
   }
 }
 

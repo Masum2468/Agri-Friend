@@ -73,12 +73,6 @@ async function checkDashboardAuth() {
     }
     
     currentUser = await res.json();
-    
-    // if (currentUser.role !== 'farmer') {
-    //   window.location.href = '/admin'; // Redirect admins to admin console
-    //   return;
-    // }
-
     // Set User Profile UI values
     document.getElementById('user-display-name').innerText = currentUser.username;
     
@@ -960,7 +954,8 @@ async function clearAllNotifications() {
 // ----------------------------------------------------
 async function fetchDashboardWeather(city) {
   try {
-    const res = await fetch(`/api/public/weather?city=${encodeURIComponent(city)}`);
+    const queryCity = window.resolveDistrictName ? window.resolveDistrictName(city) : city;
+    const res = await fetch(`/api/public/weather?city=${encodeURIComponent(queryCity)}`);
     const data = await res.json();
     if (res.ok) {
       currentDashboardWeatherData = data;
@@ -993,7 +988,10 @@ function renderDashboardWeatherCard() {
   
   if (advEl && data.recommendation) {
     const adviseStr = data.recommendation.slice(0, 2).map(r => t(r)).join(' ');
-    advEl.innerText = adviseStr || t('Clear sky. Proceed with normal scheduling.');
+    const fallback = window.tKey
+      ? window.tKey('dash_weather_clear', 'Clear sky. Proceed with normal farm work.')
+      : t('Clear sky. Proceed with normal scheduling.');
+    advEl.innerText = adviseStr || fallback;
   }
 }
 
