@@ -802,7 +802,7 @@ footer {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  background-color: #556d5e;
+  /* background-color: #556d5e; */
   border-radius: 300px;
 }
 

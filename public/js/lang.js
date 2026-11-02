@@ -183,7 +183,7 @@
 
       // Login & Register
       auth_tab_login: "Sign In",
-      auth_tab_register: "Register Farm",
+      auth_tab_register: "Register",
       login_title: "Welcome Back",
       login_subtitle: "Access your crop scheduler and farm management records",
       login_username_label: "Username",
@@ -553,7 +553,7 @@
 
       // Login & Register
       auth_tab_login: "প্রবেশ করুন",
-      auth_tab_register: "খামার নিবন্ধন",
+      auth_tab_register: "নিবন্ধন করুন",
       login_title: "স্বাগতম",
       login_subtitle: "আপনার খামার ড্যাশবোর্ড ও কৃষি তথ্য পরিচালনা করতে প্রবেশ করুন",
       login_username_label: "ব্যবহারকারীর নাম (Username)",
