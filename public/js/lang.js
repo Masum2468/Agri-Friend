@@ -368,7 +368,7 @@
       nav_fert_guides: "সার ও উপকরণ",
       nav_cal_guides: "ফসলের ক্যালেন্ডার",
       nav_seasonal_guides: "মৌসুমী পরামর্শ",
-      nav_marketplace: "কৃষি হাটবাজার",
+      nav_marketplace: "কৃষি বাজার",
       nav_back: "হোমপেজে ফিরুন",
       nav_dashboard: "খামার ড্যাশবোর্ড",
       nav_admin: "অ্যাডমিন প্যানেল",
