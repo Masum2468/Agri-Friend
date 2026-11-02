@@ -402,7 +402,7 @@
       dash_weather_clear: "আকাশ পরিষ্কার। নিয়মিত কৃষিকাজ চালিয়ে যান।",
 
       // Marketplace section
-      marketplace_section_title: "কৃষি যন্ত্রপাতি,পণ্য ক্রয়-বিক্রয় কেন্দ্র",
+      marketplace_section_title: "কৃষি পণ্য ক্রয়-বিক্রয় কেন্দ্র",
       marketplace_section_desc: "কৃষিপণ্য ক্রয় করুন, বিক্রয় করুন এবং বিভিন্ন কৃষিপণ্য সম্পর্কে জানুন",
       marketplace_post_btn: "বিজ্ঞাপন পোস্ট করুন",
       marketplace_search_placeholder: "পণ্যের নাম দিয়ে খুঁজুন (যেমন: পাওয়ার টিলার, বীজ, ধান)...",
