@@ -683,7 +683,7 @@ module.exports = {
       "typeBn": "রাসায়নিক সার (নাইট্রোজেন)",
       "typeEn": "Chemical Fertilizer (Nitrogen)",
       "targetCrops": "ধান, গম, ভুট্টা, আলু, সবজি ও সকল ফসল / Rice, Wheat, Maize, Potato & All Crops",
-      "image": "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-kkwritesofficial-31673795.jpg",
+      "image": "https://i.postimg.cc/bwmwyS4v/sar.jpg",
       "purpose": "গাছের পাতা ও কাণ্ডের দ্রুত বৃদ্ধি ঘটায়, পাতার সবুজ ক্লোরোফিল বৃদ্ধি করে এবং ফলন বাড়ায়।",
       "purposeBn": "গাছের পাতা ও কাণ্ডের দ্রুত বৃদ্ধি ঘটায়, পাতার সবুজ ক্লোরোফিল বৃদ্ধি করে এবং ফলন বাড়ায়।",
       "purposeEn": "Promotes rapid vegetative growth of leaves and tillers, enhances green chlorophyll and boosts harvest yield.",
@@ -707,7 +707,7 @@ module.exports = {
       "typeBn": "রাসায়নিক সার (ফসফরাস)",
       "typeEn": "Chemical Fertilizer (Phosphorus)",
       "targetCrops": "ধান, আলু, সরিষা, ডাল ও সকল শাকসবজি / Rice, Potato, Mustard, Pulses & Vegetables",
-      "image": "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Screenshot%202026-10-31%20012317.png",
+      "image": "https://i.postimg.cc/SxvgbDQW/Screenshot-2026-10-31-012317.png",
       "purpose": "গাছের শিকড়ের শক্তিশালী বিস্তার ঘটায়, গাছের কাণ্ড মজবুত করে এবং যথাসময়ে ফুল ও ফল পরিপক্ব হতে সহায়তা করে।",
       "purposeBn": "গাছের শিকড়ের শক্তিশালী বিস্তার ঘটায়, গাছের কাণ্ড মজবুত করে এবং যথাসময়ে ফুল ও ফল পরিপক্ব হতে সহায়তা করে।",
       "purposeEn": "Stimulates extensive root proliferation, strengthens plant stems against lodging, and promotes timely flowering and maturity.",
@@ -731,7 +731,7 @@ module.exports = {
       "typeBn": "যৌগিক সার (নাইট্রোজেন ও ফসফরাস)",
       "typeEn": "Complex Fertilizer (N:18%, P:46%)",
       "targetCrops": "গম, ভুট্টা, আলু, পেঁয়াজ, রসুন ও ধান / Wheat, Maize, Potato, Onion & Rice",
-      "image": "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Screenshot%202026-10-31%20012601.png",
+      "image": "https://i.postimg.cc/8z9m0cwf/Screenshot-2026-10-31-012601.png",
       "purpose": "একই সাথে নাইট্রোজেন ও ফসফরাস সরবরাহ করে শিকড়ের দ্রুত বৃদ্ধি ও চারার প্রাথমিক বিকাশ নিশ্চিত করে।",
       "purposeBn": "একই সাথে নাইট্রোজেন ও ফসফরাস সরবরাহ করে শিকড়ের দ্রুত বৃদ্ধি ও চারার প্রাথমিক বিকাশ নিশ্চিত করে।",
       "purposeEn": "Supplies both starter Nitrogen and Phosphorus together, ensuring rapid seedling establishment and vigorous early root growth.",
@@ -755,7 +755,7 @@ module.exports = {
       "typeBn": "রাসায়নিক সার (পটাশিয়াম)",
       "typeEn": "Chemical Fertilizer (Potassium)",
       "targetCrops": "ধান, আলু, কলা, আখ, ভুট্টা, ফলমূল ও সবজি / Rice, Potato, Banana, Maize & Fruits",
-      "image": "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Bangladesh%20MOP%20Fertilizer%20Sack%20Warehouse.png",
+      "image": "https://i.postimg.cc/6Q1SpB9F/mop.png",
       "purpose": "গাছের রোগ প্রতিরোধ ক্ষমতা বাড়ায়, গাছ হেলে পড়া রোধ করে, খরা ও ঠান্ডার সহনশীলতা বাড়ায় এবং দানার ওজন ও মিষ্টি স্বাদ বাড়ায়।",
       "purposeBn": "গাছের রোগ প্রতিরোধ ক্ষমতা বাড়ায়, গাছ হেলে পড়া রোধ করে, খরা ও ঠান্ডার সহনশীলতা বাড়ায় এবং দানার ওজন ও মিষ্টি স্বাদ বাড়ায়।",
       "purposeEn": "Enhances crop disease and pest resistance, prevents stem lodging, improves drought/cold tolerance, and increases grain boldness and fruit sweetness.",
@@ -779,7 +779,7 @@ module.exports = {
       "typeBn": "রাসায়নিক সার (সালফার ও ক্যালসিয়াম)",
       "typeEn": "Chemical Fertilizer (Secondary Nutrients)",
       "targetCrops": "সরিষা, চিনাবাদাম, সূর্যমুখী, ধান, ডাল ও পেঁয়াজ / Mustard, Groundnut, Rice & Pulses",
-      "image": "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Screenshot%202026-10-31%20012832.png",
+      "image": "https://i.postimg.cc/FHM0xqsG/Screenshot-2026-10-31-012832.png",
       "purpose": "তেলজাতীয় ফসলে তেলের পরিমাণ ও গন্ধ বাড়ায়, ডালের প্রোটিন বৃদ্ধি করে এবং ধানের কুশির সংখ্যা বাড়ায়।",
       "purposeBn": "তেলজাতীয় ফসলে তেলের পরিমাণ ও গন্ধ বাড়ায়, ডালের প্রোটিন বৃদ্ধি করে এবং ধানের কুশির সংখ্যা বাড়ায়।",
       "purposeEn": "Boosts oil percentage and pungency in oilseeds, increases pulse protein synthesis, and enhances effective tiller count in rice.",
@@ -803,7 +803,7 @@ module.exports = {
       "typeBn": "অণুখাদ্য সার (দস্তা ও সালফার)",
       "typeEn": "Micronutrient Fertilizer (Zinc & Sulphur)",
       "targetCrops": "ধান, ভুট্টা, গম, আলু, পেঁয়াজ ও সবজি / Rice, Maize, Wheat & Potato",
-      "image": "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/Screenshot%202026-10-31%20013525.png",
+      "image": "https://i.postimg.cc/15ggYHdH/Screenshot-2026-10-31-013525.png",
       "purpose": "পাতায় ক্লোরোফিল ও এনজাইম তৈরিতে সাহায্য করে। ধানের খয়রা (জং ধরা) রোগ ও কচি পাতা ছোট হয়ে যাওয়া রোধ করে।",
       "purposeBn": "পাতায় ক্লোরোফিল ও এনজাইম তৈরিতে সাহায্য করে। ধানের খয়রা (জং ধরা) রোগ ও কচি পাতা ছোট হয়ে যাওয়া রোধ করে।",
       "purposeEn": "Crucial for plant auxin hormones and chlorophyll synthesis. Prevents Khaira disease (rust spots) and leaf rosetting.",
@@ -818,249 +818,7 @@ module.exports = {
       "dosageEn": "1.5 - 2 kg per bigha basal or 5g/L foliar spray"
     }
   ],
-  "inputs": {
-    "fertilizers": [
-      {
-        "id": "fert_urea",
-        "name": "Urea / ইউরিয়া সার",
-        "nameBn": "ইউরিয়া সার (নাইট্রোজেন ৪৬%)",
-        "nameEn": "Urea Fertilizer (Nitrogen 46%)",
-        "category": "fertilizer",
-        "type": "Chemical Fertilizer / রাসায়নিক সার",
-        "typeBn": "রাসায়নিক সার (নাইট্রোজেন)",
-        "typeEn": "Chemical Fertilizer (Nitrogen)",
-        "targetCrops": "ধান, গম, ভুট্টা, আলু, সবজি ও সকল ফসল / Rice, Wheat, Maize, Potato & All Crops",
-        "image": "https://i.postimg.cc/bwmwyS4v/sar.jpg",
-        "purpose": "গাছের পাতা ও কাণ্ডের দ্রুত বৃদ্ধি ঘটায়, পাতার সবুজ ক্লোরোফিল বৃদ্ধি করে এবং ফলন বাড়ায়।",
-        "purposeBn": "গাছের পাতা ও কাণ্ডের দ্রুত বৃদ্ধি ঘটায়, পাতার সবুজ ক্লোরোফিল বৃদ্ধি করে এবং ফলন বাড়ায়।",
-        "purposeEn": "Promotes rapid vegetative growth of leaves and tillers, enhances green chlorophyll and boosts harvest yield.",
-        "usageMethod": "কীভাবে প্রয়োগ করবেন: কখনই একবারে সব ইউরিয়া দেবেন না। জমি তৈরির পর ফসলের জীবনকালে ২-৩ কিস্তিতে উপরিপ্রয়োগ করুন। সকালে শিশির ভেজা পাতায় ইউরিয়া দিলে পাতা পুড়ে যেতে পারে, তাই মাটি রসাল থাকা অবস্থায় বিকেলে ছিটান। প্রতি বিঘা জমিতে ফসলের ধরনভেদে ২৫-৩৫ কেজি ইউরিয়া প্রয়োগ করুন।",
-        "usageMethodBn": "কীভাবে প্রয়োগ করবেন: কখনই একবারে সব ইউরিয়া দেবেন না। জমি তৈরির পর ফসলের জীবনকালে ২-৩ কিস্তিতে উপরিপ্রয়োগ করুন। সকালে শিশির ভেজা পাতায় ইউরিয়া দিলে পাতা পুড়ে যেতে পারে, তাই মাটি রসাল থাকা অবস্থায় বিকেলে ছিটান। প্রতি বিঘা জমিতে ফসলের ধরনভেদে ২৫-৩৫ কেজি ইউরিয়া প্রয়োগ করুন।",
-        "usageMethodEn": "Apply in 2-3 equal splits during critical growth stages. Never broadcast on wet dew-covered leaves. Apply in late afternoon with adequate soil moisture. Typical rate: 25-35 kg per bigha.",
-        "precaution": "অতিরিক্ত ইউরিয়া দিলে গাছ নরম হয়ে পোকা ও রোগের আক্রমণ বাড়ে। জমিতে অতিরিক্ত পানি থাকা অবস্থায় ইউরিয়া দেবেন না।",
-        "precautionBn": "অতিরিক্ত ইউরিয়া দিলে গাছ নরম হয়ে পোকা ও রোগের আক্রমণ বাড়ে। জমিতে অতিরিক্ত পানি থাকা অবস্থায় ইউরিয়া দেবেন না।",
-        "precautionEn": "Excess urea softens plant tissues making crops vulnerable to stem borers and blast. Do not apply during heavy standing water run-off.",
-        "dosage": "২৫ - ৩৫ কেজি / বিঘা (২-৩ কিস্তিতে উপরিপ্রয়োগ)",
-        "dosageBn": "২৫ - ৩৫ কেজি / বিঘা (২-৩ কিস্তিতে উপরিপ্রয়োগ)",
-        "dosageEn": "25 - 35 kg per bigha (in 2-3 split top-dressings)"
-      },
-      {
-        "id": "fert_tsp",
-        "name": "TSP (Triple Super Phosphate) / টিএসপি সার",
-        "nameBn": "টিএসপি সার (ফসফরাস ৪৬%)",
-        "nameEn": "TSP (Triple Super Phosphate 46%)",
-        "category": "fertilizer",
-        "type": "Chemical Fertilizer / রাসায়নিক সার",
-        "typeBn": "রাসায়নিক সার (ফসফরাস)",
-        "typeEn": "Chemical Fertilizer (Phosphorus)",
-        "targetCrops": "ধান, আলু, সরিষা, ডাল ও সকল শাকসবজি / Rice, Potato, Mustard, Pulses & Vegetables",
-        "image": "https://i.postimg.cc/SxvgbDQW/Screenshot-2026-10-31-012317.png",
-        "purpose": "গাছের শিকড়ের শক্তিশালী বিস্তার ঘটায়, গাছের কাণ্ড মজবুত করে এবং যথাসময়ে ফুল ও ফল পরিপক্ব হতে সহায়তা করে।",
-        "purposeBn": "গাছের শিকড়ের শক্তিশালী বিস্তার ঘটায়, গাছের কাণ্ড মজবুত করে এবং যথাসময়ে ফুল ও ফল পরিপক্ব হতে সহায়তা করে।",
-        "purposeEn": "Stimulates extensive root proliferation, strengthens plant stems against lodging, and promotes timely flowering and maturity.",
-        "usageMethod": "কীভাবে প্রয়োগ করবেন: জমি তৈরির শেষ চাষের সময় পুরো মাত্রার টিএসপি সার মাটির সাথে ভালোভাবে মিশিয়ে দিতে হবে। মাটির উপরে ফেলে রাখলে এটি শিকড় পর্যন্ত পৌঁছায় না। প্রতি বিঘায় ফসলের ধরন অনুযায়ী ১৫-২৫ কেজি টিএসপি ব্যবহার করুন।",
-        "usageMethodBn": "কীভাবে প্রয়োগ করবেন: জমি তৈরির শেষ চাষের সময় পুরো মাত্রার টিএসপি সার মাটির সাথে ভালোভাবে মিশিয়ে দিতে হবে। মাটির উপরে ফেলে রাখলে এটি শিকড় পর্যন্ত পৌঁছায় না। প্রতি বিঘায় ফসলের ধরন অনুযায়ী ১৫-২৫ কেজি টিএসপি ব্যবহার করুন।",
-        "usageMethodEn": "Broadcast and incorporate the entire dose into the soil during final land preparation ploughing. Soil mixing is essential. Rate: 15-25 kg per bigha.",
-        "precaution": "টিএসপি ও দস্তা (জিংক) সার একসাথে মেশাবেন না, এতে রাসায়নিক বিক্রিয়ায় উভয় সার অকার্যকর হয়ে যায়।",
-        "precautionBn": "টিএসপি ও দস্তা (জিংক) সার একসাথে মেশাবেন না, এতে রাসায়নিক বিক্রিয়ায় উভয় সার অকার্যকর হয়ে যায়।",
-        "precautionEn": "Never mix TSP with Zinc Sulphate directly together; chemical fixation will render both nutrients insoluble.",
-        "dosage": "১৫ - ২৫ কেজি / বিঘা (জমি তৈরির শেষ চাষে)",
-        "dosageBn": "১৫ - ২৫ কেজি / বিঘা (জমি তৈরির শেষ চাষে)",
-        "dosageEn": "15 - 25 kg per bigha (At final land preparation)"
-      },
-      {
-        "id": "fert_dap",
-        "name": "DAP (Di-Ammonium Phosphate) / ডিএপি সার",
-        "nameBn": "ডিএপি সার (নাইট্রোজেন ১৮% ও ফসফরাস ৪৬%)",
-        "nameEn": "DAP (Di-Ammonium Phosphate - N:18%, P:46%)",
-        "category": "fertilizer",
-        "type": "Chemical Fertilizer / রাসায়নিক সার",
-        "typeBn": "যৌগিক সার (নাইট্রোজেন ও ফসফরাস)",
-        "typeEn": "Complex Fertilizer (N:18%, P:46%)",
-        "targetCrops": "গম, ভুট্টা, আলু, পেঁয়াজ, রসুন ও ধান / Wheat, Maize, Potato, Onion & Rice",
-        "image": "https://i.postimg.cc/8z9m0cwf/Screenshot-2026-10-31-012601.png",
-        "purpose": "একই সাথে নাইট্রোজেন ও ফসফরাস সরবরাহ করে শিকড়ের দ্রুত বৃদ্ধি ও চারার প্রাথমিক বিকাশ নিশ্চিত করে।",
-        "purposeBn": "একই সাথে নাইট্রোজেন ও ফসফরাস সরবরাহ করে শিকড়ের দ্রুত বৃদ্ধি ও চারার প্রাথমিক বিকাশ নিশ্চিত করে।",
-        "purposeEn": "Supplies both starter Nitrogen and Phosphorus together, ensuring rapid seedling establishment and vigorous early root growth.",
-        "usageMethod": "কীভাবে প্রয়োগ করবেন: জমি তৈরির শেষ চাষে দিতে হয়। ডিএপি সার ব্যবহার করলে জমি তৈরির সময় ইউরিয়া সার কম দিতে হয় (প্রতি কেজি ডিএপির কারণে ৪০০ গ্রাম ইউরিয়া কম লাগে)। বিঘায় ১৬-২০ কেজি প্রয়োগ করুন।",
-        "usageMethodBn": "কীভাবে প্রয়োগ করবেন: জমি তৈরির শেষ চাষে দিতে হয়। ডিএপি সার ব্যবহার করলে জমি তৈরির সময় ইউরিয়া সার কম দিতে হয় (প্রতি কেজি ডিএপির কারণে ৪০০ গ্রাম ইউরিয়া কম লাগে)। বিঘায় ১৬-২০ কেজি প্রয়োগ করুন।",
-        "usageMethodEn": "Broadcast during final land preparation. Reduce initial basal urea by 400g for every 1 kg of DAP applied. Dose: 16-22 kg per bigha.",
-        "precaution": "বীজের খুব কাছাকাছি সার দিলে বীজ অঙ্কুরোদগমে সমস্যা হতে পারে, মাটির সাথে ভালোভাবে মিশিয়ে দিন।",
-        "precautionBn": "বীজের খুব কাছাকাছি সার দিলে বীজ অঙ্কুরোদগমে সমস্যা হতে পারে, মাটির সাথে ভালোভাবে মিশিয়ে দিন।",
-        "precautionEn": "Do not place directly touching the seeds to prevent seedling osmotic scorch.",
-        "dosage": "১৬ - ২২ কেজি / বিঘা (জমি তৈরিতে)",
-        "dosageBn": "১৬ - ২২ কেজি / বিঘা (জমি তৈরিতে)",
-        "dosageEn": "16 - 22 kg per bigha (At basal preparation)"
-      },
-      {
-        "id": "fert_mop",
-        "name": "MOP (Muriate of Potash) / এমওপি (পটাশ) সার",
-        "nameBn": "এমওপি (পটাশ) সার (পটাশিয়াম ৬০%)",
-        "nameEn": "MOP (Muriate of Potash 60%)",
-        "category": "fertilizer",
-        "type": "Chemical Fertilizer / রাসায়নিক সার",
-        "typeBn": "রাসায়নিক সার (পটাশিয়াম)",
-        "typeEn": "Chemical Fertilizer (Potassium)",
-        "targetCrops": "ধান, আলু, কলা, আখ, ভুট্টা, ফলমূল ও সবজি / Rice, Potato, Banana, Maize & Fruits",
-        "image": "https://i.postimg.cc/6Q1SpB9F/mop.png",
-        "purpose": "গাছের রোগ প্রতিরোধ ক্ষমতা বাড়ায়, গাছ হেলে পড়া রোধ করে, খরা ও ঠান্ডার সহনশীলতা বাড়ায় এবং দানার ওজন ও মিষ্টি স্বাদ বাড়ায়।",
-        "purposeBn": "গাছের রোগ প্রতিরোধ ক্ষমতা বাড়ায়, গাছ হেলে পড়া রোধ করে, খরা ও ঠান্ডার সহনশীলতা বাড়ায় এবং দানার ওজন ও মিষ্টি স্বাদ বাড়ায়।",
-        "purposeEn": "Enhances crop disease and pest resistance, prevents stem lodging, improves drought/cold tolerance, and increases grain boldness and fruit sweetness.",
-        "usageMethod": "কীভাবে প্রয়োগ করবেন: অর্ধেক জমি তৈরির শেষ চাষে এবং বাকি অর্ধেক কাইচ থোড় বা ফুল আসার আগে ইউরিয়ার সাথে মিশিয়ে উপরিপ্রয়োগ করুন। বিঘায় ১৫-২৫ কেজি ব্যবহার করুন।",
-        "usageMethodBn": "কীভাবে প্রয়োগ করবেন: অর্ধেক জমি তৈরির শেষ চাষে এবং বাকি অর্ধেক কাইচ থোড় বা ফুল আসার আগে ইউরিয়ার সাথে মিশিয়ে উপরিপ্রয়োগ করুন। বিঘায় ১৫-২৫ কেজি ব্যবহার করুন।",
-        "usageMethodEn": "Apply 50% basal at final ploughing, and the remaining 50% top-dressed with urea at panicle initiation/flowering stage. Dose: 15-25 kg per bigha.",
-        "precaution": "পটাশ সারের ঘাটতি হলে পাতার কিনারা পুড়ে যাওয়ার মতো হলদে-বাদামি হয়ে যায়। জমিতে পটাশ কম দিলে ব্লাস্ট রোগের আক্রমণ বাড়ে।",
-        "precautionBn": "পটাশ সারের ঘাটতি হলে পাতার কিনারা পুড়ে যাওয়ার মতো হলদে-বাদামি হয়ে যায়। জমিতে পটাশ কম দিলে ব্লাস্ট রোগের আক্রমণ বাড়ে।",
-        "precautionEn": "Potash deficiency shows marginal leaf burning. Inadequate potash drastically increases rice blast vulnerability.",
-        "dosage": "১৫ - ২৫ কেজি / বিঘা (অর্ধেক তৈরিতে, বাকি কাইচ থোড়ে)",
-        "dosageBn": "১৫ - ২৫ কেজি / বিঘা (অর্ধেক তৈরিতে, বাকি কাইচ থোড়ে)",
-        "dosageEn": "15 - 25 kg per bigha (50% basal, 50% panicle stage)"
-      },
-      {
-        "id": "fert_gypsum",
-        "name": "Gypsum (Calcium & Sulphur) / জিপসাম (গন্ধক ও ক্যালসিয়াম সার)",
-        "nameBn": "জিপসাম সার (গন্ধক ১৮% ও ক্যালসিয়াম ২৩%)",
-        "nameEn": "Gypsum Fertilizer (Sulphur 18% & Calcium 23%)",
-        "category": "fertilizer",
-        "type": "Chemical Fertilizer / রাসায়নিক সার",
-        "typeBn": "রাসায়নিক সার (সালফার ও ক্যালসিয়াম)",
-        "typeEn": "Chemical Fertilizer (Secondary Nutrients)",
-        "targetCrops": "সরিষা, চিনাবাদাম, সূর্যমুখী, ধান, ডাল ও পেঁয়াজ / Mustard, Groundnut, Rice & Pulses",
-        "image": "https://i.postimg.cc/FHM0xqsG/Screenshot-2026-10-31-012832.png",
-        "purpose": "তেলজাতীয় ফসলে তেলের পরিমাণ ও গন্ধ বাড়ায়, ডালের প্রোটিন বৃদ্ধি করে এবং ধানের কুশির সংখ্যা বাড়ায়।",
-        "purposeBn": "তেলজাতীয় ফসলে তেলের পরিমাণ ও গন্ধ বাড়ায়, ডালের প্রোটিন বৃদ্ধি করে এবং ধানের কুশির সংখ্যা বাড়ায়।",
-        "purposeEn": "Boosts oil percentage and pungency in oilseeds, increases pulse protein synthesis, and enhances effective tiller count in rice.",
-        "usageMethod": "কীভাবে প্রয়োগ করবেন: জমি তৈরির শেষ চাষের সময় মাটির সাথে মিশিয়ে দিতে হয়। বিঘায় ১০-১৫ কেজি জিপসাম প্রয়োগ করুন। তেলজাতীয় ফসলে বিঘায় ১৫-১৮ কেজি দিন।",
-        "usageMethodBn": "কীভাবে প্রয়োগ করবেন: জমি তৈরির শেষ চাষের সময় মাটির সাথে মিশিয়ে দিতে হয়। বিঘায় ১০-১৫ কেজি জিপসাম প্রয়োগ করুন। তেলজাতীয় ফসলে বিঘায় ১৫-১৮ কেজি দিন।",
-        "usageMethodEn": "Broadcast and mix thoroughly with soil during final land preparation. Dose: 10-15 kg per bigha (15-18 kg for oilseeds).",
-        "precaution": "মাটিতে গন্ধকের অভাব হলে নতুন কচি পাতা হলদেটে হয়ে যায়, তখন ইউরিয়ার বদলে জিপসাম দেওয়া জরুরি।",
-        "precautionBn": "মাটিতে গন্ধকের অভাব হলে নতুন কচি পাতা হলদেটে হয়ে যায়, তখন ইউরিয়ার বদলে জিপসাম দেওয়া জরুরি।",
-        "precautionEn": "Sulphur deficiency causes upper young leaves to turn yellow first.",
-        "dosage": "১০ - ১৫ কেজি / বিঘা (জমি তৈরির শেষ চাষে)",
-        "dosageBn": "১০ - ১৫ কেজি / বিঘা (জমি তৈরির শেষ চাষে)",
-        "dosageEn": "10 - 15 kg per bigha (At final land preparation)"
-      },
-      {
-        "id": "fert_zinc",
-        "name": "Zinc Sulphate / জিংক সালফেট (দস্তা সার)",
-        "nameBn": "জিংক সালফেট / দস্তা সার (২১% বা ৩৬% দস্তা)",
-        "nameEn": "Zinc Sulphate (Heptahydrate 21% / Monohydrate 36%)",
-        "category": "fertilizer",
-        "type": "Micronutrient / অণুখাদ্য সার",
-        "typeBn": "অণুখাদ্য সার (দস্তা ও সালফার)",
-        "typeEn": "Micronutrient Fertilizer (Zinc & Sulphur)",
-        "targetCrops": "ধান, ভুট্টা, গম, আলু, পেঁয়াজ ও সবজি / Rice, Maize, Wheat & Potato",
-        "image": "https://i.postimg.cc/15ggYHdH/Screenshot-2026-10-31-013525.png",
-        "purpose": "পাতায় ক্লোরোফিল ও এনজাইম তৈরিতে সাহায্য করে। ধানের খয়রা (জং ধরা) রোগ ও কচি পাতা ছোট হয়ে যাওয়া রোধ করে।",
-        "purposeBn": "পাতায় ক্লোরোফিল ও এনজাইম তৈরিতে সাহায্য করে। ধানের খয়রা (জং ধরা) রোগ ও কচি পাতা ছোট হয়ে যাওয়া রোধ করে।",
-        "purposeEn": "Crucial for plant auxin hormones and chlorophyll synthesis. Prevents Khaira disease (rust spots) and leaf rosetting.",
-        "usageMethod": "কীভাবে প্রয়োগ করবেন: জমি তৈরির সময় বিঘায় ১.৫ থেকে ২ কেজি মনো বা হেপ্টা জিংক সালফেট দিন। জমিতে জিংকের লক্ষণ দেখা দিলে ১ লিটার পানিতে ৫ গ্রাম জিংক সালফেট + ২.৫ গ্রাম চুন গুলে পাতায় স্প্রে করুন।",
-        "usageMethodBn": "কীভাবে প্রয়োগ করবেন: জমি তৈরির সময় বিঘায় ১.৫ থেকে ২ কেজি মনো বা হেপ্টা জিংক সালফেট দিন। জমিতে জিংকের লক্ষণ দেখা দিলে ১ লিটার পানিতে ৫ গ্রাম জিংক সালফেট + ২.৫ গ্রাম চুন গুলে পাতায় স্প্রে করুন।",
-        "usageMethodEn": "Apply 1.5 - 2 kg per bigha at basal tilling. For foliar correction, spray 5g Zinc Sulphate + 2.5g slaked lime per liter of water.",
-        "precaution": "জিংক সার কোনো অবস্থাতেই টিএসপি বা ডিএপি সারের সাথে একসাথে জমিতে মেশাবেন না।",
-        "precautionBn": "জিংক সার কোনো অবস্থাতেই টিএসপি বা ডিএপি সারের সাথে একসাথে জমিতে মেশাবেন না।",
-        "precautionEn": "Never mix Zinc Sulphate with phosphate fertilizers (TSP/DAP) in the same slurry or furrow.",
-        "dosage": "১.৫ - ২ কেজি / বিঘা অথবা স্প্রেতে ৫ গ্রাম/লিটার",
-        "dosageBn": "১.৫ - ২ কেজি / বিঘা অথবা স্প্রেতে ৫ গ্রাম/লিটার",
-        "dosageEn": "1.5 - 2 kg per bigha basal or 5g/L foliar spray"
-      }       
-    ],
-    "soilHealth": {
-      "idealSoil": "উর্বর দোআঁশ ও পলি-দোআঁশ মাটি অধিকাংশ ফসলের জন্য আদর্শ। মাটির উপযুক্ত pH মান ৬.০ থেকে ৭.০।",
-      "acidicSoilGuide": "মাটির pH ৫.৫ এর নিচে নামলে তা অম্লীয় হয়। এতে ফসফরাস আটকে যায়। প্রতিকার: জমি তৈরির ৩-৪ সপ্তাহ আগে বিঘা প্রতি ২০-২৫ কেজি ডলোমাইট বা চুন প্রয়োগ করুন।",
-      "salineSoilGuide": "উপকূলীয় অঞ্চলে লবণাক্ততা কমাতে উঁচু বেড, মালচিং ও নিয়মিত মিষ্টি পানির সেচ নালা ব্যবস্থা রাখুন।",
-      "testingGuide": "উপজেলা কৃষি অফিসে বা মাটি পরীক্ষা কিট দিয়ে বছরে একবার মাটির স্বাস্থ্য ও pH পরীক্ষা করান।"
-    },
-    "certifiedSeedsGuide": [
-      {
-        "crop": "ধান",
-        "varieties": "ব্রি ধান২৮, ব্রি ধান২৯, ব্রি ধান৮৯, ব্রি ধান৯২, বাংলামতি",
-        "source": "বিএডিসি / ব্রি অনুমোদিত ডিলার"
-      },
-      {
-        "crop": "গম",
-        "varieties": "বারি গম ৩৩ (ব্লাস্ট প্রতিরোধী), বারি গম ২৮, বারি গম ৩০",
-        "source": "বিএডিসি / বারি"
-      },
-      {
-        "crop": "ভুট্টা",
-        "varieties": "বারি হাইব্রিড ভুট্টা ৯, এনকে-৪০, সুপার শাইন",
-        "source": "বিএডিসি / অনুমোদিত বীজ কোম্পানি"
-      },
-      {
-        "crop": "আলু",
-        "varieties": "ডায়মন্ট, কার্ডিনাল, অ্যাস্টেরিক্স (লাল আলু), বারি আলু-৭",
-        "source": "বিএডিসি সার্টিফাইড বীজ আলু"
-      },
-      {
-        "crop": "টমেটো",
-        "varieties": "বারি টমেটো ১৪ (বাহার), বিজলী প্লাস, গ্রীষ্মকালীন বারি টমেটো ৮",
-        "source": "বারি / ব্র্যাক সিড"
-      },
-      {
-        "crop": "বেগুন",
-        "varieties": "বারি বিটি বেগুন ২/৪ (পোকা প্রতিরোধী), কাজলা, উত্তরা",
-        "source": "বিএডিসি / বারি"
-      },
-      {
-        "crop": "সরিষা",
-        "varieties": "বারি সরিষা ১৪, বারি সরিষা ১৭, বারি সরিষা ১৮ (ক্যানোলা জাত)",
-        "source": "বিএডিসি"
-      },
-      {
-        "crop": "মরিচ",
-        "varieties": "বারি মরিচ ১, বিজলী প্লাস, বিন্দু, কামরাঙা",
-        "source": "বারি / স্থানীয় অনুমোদিত ডিলার"
-      },
-      {
-        "crop": "পাট",
-        "varieties": "বিজেআরআই তোষা পাট ৮ (রবি-১), ও-৯৮৯৭",
-        "source": "বিজেআরআই / বিএডিসি"
-      }
-    ],
-    "cropInputCalculatorPresets": {
-      "crop_rice": {
-        "name": "ধান / Rice",
-        "urea": 33,
-        "tsp": 18,
-        "mop": 22,
-        "gypsum": 10,
-        "zinc": 1.5
-      },
-      "crop_wheat": {
-        "name": "গম / Wheat",
-        "urea": 35,
-        "tsp": 20,
-        "mop": 20,
-        "gypsum": 12,
-        "zinc": 1.5
-      },
-      "crop_potato": {
-        "name": "আলু / Potato",
-        "urea": 40,
-        "tsp": 30,
-        "mop": 35,
-        "gypsum": 15,
-        "zinc": 2
-      },
-      "crop_maize": {
-        "name": "ভুট্টা / Maize",
-        "urea": 45,
-        "tsp": 25,
-        "mop": 25,
-        "gypsum": 15,
-        "zinc": 2
-      },
-      "crop_tomato": {
-        "name": "টমেটো / Tomato",
-        "urea": 35,
-        "tsp": 28,
-        "mop": 30,
-        "gypsum": 12,
-        "zinc": 1.5
-      }
-    }
-  },
+
   "seasonal": [
     {
       "id": "season_rabi",
@@ -1466,180 +1224,5 @@ module.exports = {
       "pestAlertEn": "Watch out for Rice Blast and Brown Planthopper. Spray Nativo (0.6g/L) preventively at early heading.",
       "tips": "চৈত্রের তীব্র তাপদাহ ও খরায় ফসলের গোড়ায় শুকনো খড় বা পাতার মালচিং দিন এবং নিয়মিত সকাল বা বিকেলে সেচ দিন।"
     },
-    {
-      "id": "cal_rice_boro",
-      "cropId": "crop_rice",
-      "name": "Boro Rice / বোরো ধান",
-      "name_bn": "বোরো ধান",
-      "name_en": "Boro Rice",
-      "season": "কার্তিক - বৈশাখ (Nov - May)",
-      "image": "https://6ad1ba642ff4c710e5e36b95.imgix.net/sandbox/pexels-abhinav-raj-84269-4057041.jpg",
-      "milestones": [
-        {
-          "phase": "বীজ বপন ও বীজতলা তৈরি",
-          "timing": "১৫ নভেম্বর - ১০ ডিসেম্বর (কার্তিক শেষ - অগ্রহায়ণ)",
-          "task": "বীজ শোধন করে বীজতলায় বীজ বপন এবং ঠান্ডায় রাতে পলিথিনে ঢাকা।"
-        },
-        {
-          "phase": "মূল জমিতে চারা রোপণ",
-          "timing": "২০ ডিসেম্বর - ২৫ জানুয়ারি (পৌষ - মাঘ)",
-          "task": "২৫-৩০ দিনের চারা মূল জমিতে ২০×১৫ সেমি দূরত্বে সারি করে রোপণ।"
-        },
-        {
-          "phase": "১ম ও ২য় সার প্রয়োগ ও সেচ",
-          "timing": "১৫ জানুয়ারি - ২০ ফেব্রুয়ারি (মাঘ - ফাল্গুন)",
-          "task": "কুশি আসার সময় ইউরিয়া টপড্রেসিং ও জমিতে ১-২ ইঞ্চি পানি নিশ্চিতকরণ।"
-        },
-        {
-          "phase": "আগাছা নিড়ানি ও রোগ তদারকি",
-          "timing": "১ ফেব্রুয়ারি - ১৫ মার্চ (ফাল্গুন - চৈত্র)",
-          "task": "আগাছা দমন এবং ব্লাস্ট ও মাজরা পোকা নিয়মিত পর্যবেক্ষণ।"
-        },
-        {
-          "phase": "ফসল কর্তন ও মাড়াই",
-          "timing": "১৫ এপ্রিল - ১০ মে (বৈশাখ)",
-          "task": "শীষের ৮০% সোনালী হলে ধান কেটে শুকিয়ে সংরক্ষণ।"
-        }
-      ]
-    },
-    {
-      "id": "cal_potato",
-      "cropId": "crop_potato",
-      "name": "Potato / আলু",
-      "name_bn": "আলু",
-      "name_en": "Potato",
-      "season": "আশ্বিন - মাঘ (Oct - Feb)",
-      "image": "https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&w=600&q=80",
-      "milestones": [
-        {
-          "phase": "জমি প্রস্তুতি ও বীজ শোধন",
-          "timing": "২০ অক্টোবর - ১৫ নভেম্বর (কার্তিক)",
-          "task": "গভীর চাষ, ডেলা ভাঙা এবং বীজ আলু ডায়মন্ট বা কার্ডিনাল অঙ্কুরিত করা।"
-        },
-        {
-          "phase": "বীজ আলু রোপণ ও বেড তৈরি",
-          "timing": "১ নভেম্বর - ৩০ নভেম্বর (কার্তিক - অগ্রহায়ণ)",
-          "task": "৬০ সেমি দূরত্বে সারিতে আলু বসিয়ে উঁচু ভেল্কি তৈরি।"
-        },
-        {
-          "phase": "প্রথম সেচ ও গোড়ায় মাটি তোলা",
-          "timing": "২৫ নভেম্বর - ২০ ডিসেম্বর (অগ্রহায়ণ - পৌষ)",
-          "task": "রোপণের ২৫-৩০ দিনে প্রথম সেচ ও ইউরিয়া দিয়ে গোড়ায় উঁচু মাটি দেওয়া।"
-        },
-        {
-          "phase": "নাবি ধসা রোগ পর্যবেক্ষণ ও স্প্রে",
-          "timing": "১৫ ডিসেম্বর - ২০ জানুয়ারি (পৌষ - মাঘ)",
-          "task": "কুয়াশায় ডাইথেন এম-৪৫ বা রিডোমিল গোল্ড আগাম স্প্রে।"
-        },
-        {
-          "phase": "ফসল উত্তোলন ও কিউরিং",
-          "timing": "২৫ জানুয়ারি - ২৫ ফেব্রুয়ারি (মাঘ - ফাল্গুন)",
-          "task": "তোলার ১০ দিন আগে গাছ কাটা এবং ছায়ায় ১০ দিন কিউরিং করা।"
-        }
-      ]
-    },
-    {
-      "id": "cal_wheat",
-      "cropId": "crop_wheat",
-      "name": "Wheat / গম",
-      "name_bn": "গম",
-      "name_en": "Wheat",
-      "season": "কার্তিক - ফাল্গুন (Nov - March)",
-      "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80",
-      "milestones": [
-        {
-          "phase": "জমি প্রস্তুতি ও বীজ বপন",
-          "timing": "১৫ নভেম্বর - ৩০ নভেম্বর (১-১৫ অগ্রহায়ণ)",
-          "task": "ঝুরঝুরে জমি তৈরি এবং বারি গম ৩৩ সারিতে ২০ সেমি ব্যবধানে বপন।"
-        },
-        {
-          "phase": "মুকুট শিকড় সেচ (১ম সেচ)",
-          "timing": "৫ ডিসেম্বর - ২০ ডিসেম্বর (পৌষের শুরু)",
-          "task": "বপনের ১৭-২১ দিনে প্রথম সেচ ও ইউরিয়ার শেষ কিস্তি প্রয়োগ।"
-        },
-        {
-          "phase": "২য় সেচ ও ফুল আসার পরিচর্যা",
-          "timing": "১০ জানুয়ারি - ২৫ জানুয়ারি (পৌষ শেষ)",
-          "task": "গাছ বের হওয়ার ৪৫-৫৫ দিনে ২য় সেচ এবং ইঁদুর ফাঁদ স্থাপন।"
-        },
-        {
-          "phase": "দানা বাঁধার সময় ৩য় সেচ",
-          "timing": "১ ফেব্রুয়ারি - ১৫ ফেব্রুয়ারি (ফাল্গুন শুরু)",
-          "task": "দানা পুষ্ট হওয়ার সময় মাটির রস বজায় রাখতে হালকা সেচ।"
-        },
-        {
-          "phase": "ফসল সংগ্রহ ও শুকানো",
-          "timing": "১০ মার্চ - ২৫ মার্চ (ফাল্গুন শেষ)",
-          "task": "গাছ হলদেটে হয়ে শুকিয়ে গেলে কেটে মাড়াই ও রোদে শুকানো।"
-        }
-      ]
-    },
-    {
-      "id": "cal_tomato",
-      "cropId": "crop_tomato",
-      "name": "Tomato / টমেটো",
-      "name_bn": "টমেটো",
-      "name_en": "Tomato",
-      "season": "আশ্বিন - ফাল্গুন (Oct - March)",
-      "image": "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80",
-      "milestones": [
-        {
-          "phase": "বীজতলায় চারা উৎপাদন",
-          "timing": "১ অক্টোবর - ২৫ অক্টোবর (আশ্বিন)",
-          "task": "উন্নত জাতের বীজতলায় বীজ বুনে সুস্থ সবল চারা তৈরি।"
-        },
-        {
-          "phase": "মূল জমিতে চারা রোপণ",
-          "timing": "২৫ অক্টোবর - ২০ নভেম্বর (কার্তিক)",
-          "task": "উঁচু বেডে ৬০×৪০ সেমি ব্যবধানে বিকেলে চারা রোপণ।"
-        },
-        {
-          "phase": "বাঁশের খুঁটি বাঁধা ও নিড়ানি",
-          "timing": "১৫ নভেম্বর - ১০ ডিসেম্বর (অগ্রহায়ণ)",
-          "task": "গাছে খুঁটি দেওয়া যাতে ফল মাটিতে না ঠেকে এবং ইউরিয়া দেওয়া।"
-        },
-        {
-          "phase": "ফুল আসার সময় বোরন স্প্রে",
-          "timing": "১০ ডিসেম্বর - ১৫ জানুয়ারি (পৌষ)",
-          "task": "ফল ফাটা রোধে সোলুবোর বোরন ১.৫ গ্রাম/লিটার স্প্রে।"
-        },
-        {
-          "phase": "টমেটো সংগ্রহ ও বাজারজাত",
-          "timing": "১ জানুয়ারি - ২৮ ফেব্রুয়ারি (মাঘ - ফাল্গুন)",
-          "task": "আধাপাকা ও পাকা টমেটো ধাপে ধাপে সংগ্রহ।"
-        }
-      ]
-    },
-    {
-      "id": "cal_mustard",
-      "cropId": "crop_mustard",
-      "name": "Mustard / সরিষা",
-      "name_bn": "সরিষা",
-      "name_en": "Mustard",
-      "season": "কার্তিক - মাঘ (Late Oct - Jan)",
-      "image": "https://images.unsplash.com/photo-1597916829826-02e5bb4a54e0?auto=format&fit=crop&w=600&q=80",
-      "milestones": [
-        {
-          "phase": "জমি প্রস্তুতি ও বীজ বপন",
-          "timing": "২০ অক্টোবর - ১৫ নভেম্বর (কার্তিক)",
-          "task": "আমনের পর জো অবস্থায় জমি চাষ দিয়ে বারি সরিষা ১৪/১৭ বপন।"
-        },
-        {
-          "phase": "হালকা সেচ ও আগাছা নিড়ানি",
-          "timing": "১০ নভেম্বর - ৩০ নভেম্বর (অগ্রহায়ণ)",
-          "task": "২০-২৫ দিনে প্রথম হালকা সেচ ও গাছ পাতলাকরণ।"
-        },
-        {
-          "phase": "ফুল আসার পরিচর্যা ও জাব দমন",
-          "timing": "১ ডিসেম্বর - ২৫ ডিসেম্বর (পৌষ)",
-          "task": "হলুদ আঠালো ফাঁদ স্থাপন এবং জাব পোকা পর্যবেক্ষণ।"
-        },
-        {
-          "phase": "ফসল কর্তন ও শুকানো",
-          "timing": "১৫ জানুয়ারি - ৩০ জানুয়ারি (মাঘ)",
-          "task": "ফল ৭৫-৮০% হলদেটে হলে সকালে কেটে রোদে শুকিয়ে মাড়াই।"
-        }
-      ]
-    }
   ]
 };
