@@ -1,24 +1,7 @@
 {
   "added": {
-    "crops": [
-      {
-        "name_bn": "jksncvsasvc ",
-        "name_en": "jcnv vb",
-        "scientificName": "cjbc b",
-        "type": "Cereal / দানাশস্য",
-        "growthDuration": "11111",
-        "optimalPH": "6.7",
-        "varieties": "jdjws",
-        "image": "",
-        "name": "jcnv vb / jksncvsasvc ",
-        "seedInfo": {
-          "popularVarieties": "jdjws"
-        },
-        "id": "custom_crops_1794993260708",
-        "isCustom": true,
-        "createdAt": "2026-11-18T09:14:20.708Z"
-      }
-    ]
+    "crops": []
   },
-  "deleted": []
+  "deleted": [
+  ]
 }
