@@ -1,5 +1,4 @@
 // AgriFriend Digital Agricultural Guides Database
-// Comprehensive Bilingual Bangladesh Agricultural Context (Fa
 module.exports = {
   "knowledgeCenters": [
     {
