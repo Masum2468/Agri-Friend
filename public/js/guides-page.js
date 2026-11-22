@@ -11,6 +11,58 @@ let guidesData = {
 let activeFilterTab = 'all';
 let searchQuery = '';
 
+// Month tips dictionary for 12 months calendar bilingual support
+const monthTipsMap = {
+  cal_month_baishakh: {
+    bn: "কালবৈশাখী ঝড় ও শিলাবৃষ্টির পূর্বাভাস পেলে পাকা বোরো ধান দেরি না করে দ্রুত ঘরে তুলুন।",
+    en: "Harvest mature Boro rice promptly when stormy weather or Kalbaishakhi hailstorm is forecast."
+  },
+  cal_month_jaishtha: {
+    bn: "বৃষ্টির পানি ধরে রাখতে আমন বীজতলার চারপাশের আইল উঁচু করে মাটি দিয়ে শক্ত করে বেঁধে রাখুন।",
+    en: "Elevate and reinforce nursery bunds with packed soil to harvest and store precious rainwater for Aman seedlings."
+  },
+  cal_month_ashar: {
+    bn: "বন্যার আশঙ্কা থাকলে উঁচু জায়গায় দাপোগ বা ভাসমান বীজতলা তৈরি করে অতিরিক্ত চারা প্রস্তুত রাখুন।",
+    en: "Prepare Dapog or floating seedbeds on highland patches in flood-prone zones as backup seedling reserve."
+  },
+  cal_month_shraban: {
+    bn: "ভারী বর্ষায় সবজির ক্ষেতে যেন কোনোভাবেই পানি জমে না থাকে, নালার মাধ্যমে দ্রুত পানি নিষ্কাশন নিশ্চিত করুন।",
+    en: "Ensure prompt field furrow drainage to prevent standing rainwater stagnation around vegetable roots."
+  },
+  cal_month_bhadra: {
+    bn: "আমন ধানে যেন খরা না লাগে, বৃষ্টি কম হলে সম্পূরক সেচ প্রদান করে জমিতে ২-৩ ইঞ্চি পানি ধরে রাখুন।",
+    en: "Provide supplemental irrigation if rainfall subsides; maintain 2-3 inches standing water during Aman booting."
+  },
+  cal_month_ashwin: {
+    bn: "রবি ফসলের জন্য প্রত্যয়িত উন্নত বীজ সংগ্রহ নিশ্চিত করুন। আগাম আলু ও সরিষা লাগালে বাজারমূল্য দ্বিগুণ পাওয়া যায়।",
+    en: "Secure certified foundation seeds for winter Rabi crops. Early potato and mustard fetch double market prices."
+  },
+  cal_month_kartik: {
+    bn: "সরিষা ও আলু লাগাতে দেরি করবেন না; কার্তিকের শেষ সপ্তাহের মধ্যে লাগালে ফলন সর্বোচ্চ হয়।",
+    en: "Do not delay planting mustard and potatoes; sowing before late Kartik delivers maximum yield."
+  },
+  cal_month_agrahayan: {
+    bn: "শীতের রাতে বোরো বীজতলা পলিথিন দিয়ে ঢেকে রাখুন যাতে কুয়াশা ও ঠান্ডায় চারা নষ্ট না হয়।",
+    en: "Cover Boro nurseries with polythene sheets overnight to prevent chilling and fog-induced seedling mortality."
+  },
+  cal_month_poush: {
+    bn: "শৈত্যপ্রবাহের সময় বোরো বীজতলায় রাতে পানি দিয়ে রাখুন এবং সকালে তা বের করে দিয়ে মিষ্টি রোদ পেতে দিন।",
+    en: "Hold water in Boro seedbeds overnight during cold waves and drain in the morning to allow warm sunlight penetration."
+  },
+  cal_month_magh: {
+    bn: "আলু উত্তোলনের ১০ দিন পূর্বে সেচ বন্ধ করুন এবং আলু তোলার পর ছায়াযুক্ত ঘরে ৭-১০ দিন কিউরিং (শুকানো) করে সংরক্ষণ করুন।",
+    en: "Stop irrigating 10 days before potato harvest. Cure harvested tubers in a cool, shaded room for 7-10 days."
+  },
+  cal_month_falgun: {
+    bn: "মাটির আর্দ্রতা কমে গেলে সেচ নিশ্চিত করুন, বিশেষ করে গম ও ভুট্টার দানা পুষ্ট হওয়ার সময় পানির অভাব হতে দেবেন না।",
+    en: "Do not allow soil moisture deficits during grain filling of wheat and maize; provide light, timely irrigations."
+  },
+  cal_month_chaitra: {
+    bn: "চৈত্রের তীব্র তাপদাহ ও খরায় ফসলের গোড়ায় শুকনো খড় বা পাতার মালচিং দিন এবং নিয়মিত সকাল বা বিকেলে সেচ দিন।",
+    en: "Apply straw mulching around crop roots amidst Chaitra heatwaves; irrigate in early mornings or late evenings."
+  }
+};
+
 // Load data from backend API
 async function loadGuidesData() {
   try {
@@ -80,7 +132,14 @@ function renderCropsPage() {
   const filtered = list.filter(crop => {
     if (activeFilterTab !== 'all') {
       const type = (crop.type || crop.typeBn || crop.typeEn || '').toLowerCase();
-      if (!type.includes(activeFilterTab.toLowerCase())) return false;
+      const tab = activeFilterTab.toLowerCase();
+      const matchesType = type.includes(tab) ||
+        (tab === 'cereal' && (type.includes('দানাশস্য') || type.includes('cereal'))) ||
+        (tab === 'tuber' && (type.includes('কন্দ') || type.includes('tuber'))) ||
+        (tab === 'vegetable' && (type.includes('সবজি') || type.includes('vegetable'))) ||
+        (tab === 'cash' && (type.includes('অর্থকরী') || type.includes('cash'))) ||
+        (tab === 'oilseed' && (type.includes('তেলবীজ') || type.includes('oilseed')));
+      if (!matchesType) return false;
     }
     if (q) {
       const name = (crop.name || crop.nameBn || crop.nameEn || '').toLowerCase();
@@ -153,7 +212,26 @@ function renderDiseasesPage() {
   const filtered = list.filter(d => {
     if (activeFilterTab !== 'all') {
       const crop = (d.crop || d.crop_bn || d.crop_en || '').toLowerCase();
-      if (!crop.includes(activeFilterTab.toLowerCase())) return false;
+      const tab = activeFilterTab.toLowerCase();
+      const matchMap = {
+        'ধান': ['ধান', 'rice'],
+        'rice': ['ধান', 'rice'],
+        'আলু': ['আলু', 'potato'],
+        'potato': ['আলু', 'potato'],
+        'টমেটো': ['টমেটো', 'tomato'],
+        'tomato': ['টমেটো', 'tomato'],
+        'বেগুন': ['বেগুন', 'brinjal', 'eggplant'],
+        'brinjal': ['বেগুন', 'brinjal', 'eggplant'],
+        'eggplant': ['বেগুন', 'brinjal', 'eggplant'],
+        'ভুট্টা': ['ভুট্টা', 'maize', 'corn'],
+        'maize': ['ভুট্টা', 'maize', 'corn'],
+        'corn': ['ভুট্টা', 'maize', 'corn'],
+        'মরিচ': ['মরিচ', 'chilli', 'chili', 'pepper'],
+        'chilli': ['মরিচ', 'chilli', 'chili', 'pepper']
+      };
+      const targets = matchMap[tab] || [tab];
+      const matched = targets.some(t => crop.includes(t));
+      if (!matched) return false;
     }
     if (q) {
       const name = (d.name || d.name_bn || d.name_en || '').toLowerCase();
@@ -176,11 +254,11 @@ function renderDiseasesPage() {
 
     const title = isEn ? (item.name_en || resolveBilingual(item.name)) : (item.name_bn || resolveBilingual(item.name));
     const crop = isEn ? (item.crop_en || resolveBilingual(item.crop)) : (item.crop_bn || resolveBilingual(item.crop));
-    const symptoms = isEn ? (item.symptoms_en || item.symptoms) : (item.symptoms_bn || item.symptoms);
-    const prevention = isEn ? (item.prevention_en || item.prevention) : (item.prevention_bn || item.prevention);
-    const pesticide = isEn ? (item.pesticide_en || item.pesticide) : (item.pesticide_bn || item.pesticide);
-    const organic = isEn ? (item.organicTreatment_en || item.organicTreatment) : (item.organicTreatment_bn || item.organicTreatment);
-    const notice = isEn ? (item.emergencyNoticeEn || item.emergencyNotice) : (item.emergencyNoticeBn || item.emergencyNotice);
+    const symptoms = resolveBilingual(isEn ? (item.symptoms_en || item.symptoms) : (item.symptoms_bn || item.symptoms));
+    const prevention = resolveBilingual(isEn ? (item.prevention_en || item.prevention) : (item.prevention_bn || item.prevention));
+    const pesticide = resolveBilingual(isEn ? (item.pesticide_en || item.pesticide) : (item.pesticide_bn || item.pesticide));
+    const organic = resolveBilingual(isEn ? (item.organicTreatment_en || item.organicTreatment) : (item.organicTreatment_bn || item.organicTreatment));
+    const notice = resolveBilingual(isEn ? (item.emergencyNoticeEn || item.emergencyNotice) : (item.emergencyNoticeBn || item.emergencyNotice));
 
     card.innerHTML = `
       <div class="guide-card-img-wrap">
@@ -241,13 +319,13 @@ function renderFertilizersPage() {
       const cat = (item.category || '').toLowerCase();
       const type = (item.type || item.typeBn || item.typeEn || '').toLowerCase();
       if (activeFilterTab === 'fertilizer') {
-        if (!(cat === 'fertilizer' || type.includes('fertilizer') || type.includes('সার'))) return false;
+        if (!(cat === 'fertilizer' || type.includes('fertilizer') || type.includes('সার') || type.includes('chemical'))) return false;
       } else if (activeFilterTab === 'pesticide') {
         if (!(cat === 'pesticide' || type.includes('pesticide') || type.includes('insecticide') || type.includes('কীটনাশক') || type.includes('বালাইনাশক'))) return false;
       } else if (activeFilterTab === 'fungicide') {
         if (!(cat === 'fungicide' || type.includes('fungicide') || type.includes('ছত্রাকনাশক'))) return false;
       } else if (activeFilterTab === 'organic') {
-        if (!(cat === 'organic' || type.includes('organic') || type.includes('জৈব'))) return false;
+        if (!(cat === 'organic' || type.includes('organic') || type.includes('জৈব') || type.includes('bio'))) return false;
       }
     }
     if (q) {
@@ -273,11 +351,11 @@ function renderFertilizersPage() {
 
     const title = isEn ? (item.nameEn || resolveBilingual(item.name)) : (item.nameBn || resolveBilingual(item.name));
     const type = isEn ? (item.typeEn || resolveBilingual(item.type)) : (item.typeBn || resolveBilingual(item.type));
-    const purpose = isEn ? (item.purposeEn || item.purpose) : (item.purposeBn || item.purpose);
-    const usage = isEn ? (item.usageMethodEn || item.usageMethod) : (item.usageMethodBn || item.usageMethod);
-    const precaution = isEn ? (item.precautionEn || item.precaution) : (item.precautionBn || item.precaution);
-    const dosage = isEn ? (item.dosageEn || item.dosage) : (item.dosageBn || item.dosage);
-    const targetCrops = resolveBilingual(item.targetCrops || 'All Crops');
+    const purpose = resolveBilingual(isEn ? (item.purposeEn || item.purpose) : (item.purposeBn || item.purpose));
+    const usage = resolveBilingual(isEn ? (item.usageMethodEn || item.usageMethod) : (item.usageMethodBn || item.usageMethod));
+    const precaution = resolveBilingual(isEn ? (item.precautionEn || item.precaution) : (item.precautionBn || item.precaution));
+    const dosage = resolveBilingual(isEn ? (item.dosageEn || item.dosage) : (item.dosageBn || item.dosage));
+    const targetCrops = resolveBilingual(item.targetCrops || (isEn ? 'All Crops' : 'সকল ফসল'));
 
     // Category styling
     let badgeClass = 'card-badge-top';
@@ -337,7 +415,20 @@ function renderSeasonalPage() {
   const filtered = list.filter(item => {
     if (activeFilterTab !== 'all') {
       const season = (item.season || item.season_bn || item.season_en || '').toLowerCase();
-      if (!season.includes(activeFilterTab.toLowerCase())) return false;
+      const tab = activeFilterTab.toLowerCase();
+      const seasonMap = {
+        'রবি': ['রবি', 'rabi'],
+        'rabi': ['রবি', 'rabi'],
+        'খরিপ-১': ['খরিপ-১', 'খরিপ ১', 'kharif-1', 'kharif 1'],
+        'kharif-1': ['খরিপ-১', 'খরিপ ১', 'kharif-1', 'kharif 1'],
+        'খরিপ-২': ['খরিপ-২', 'খরিপ ২', 'kharif-2', 'kharif 2'],
+        'kharif-2': ['খরিপ-২', 'খরিপ ২', 'kharif-2', 'kharif 2'],
+        'দুর্যোগ': ['দুর্যোগ', 'disaster', 'flood', 'drought', 'storm'],
+        'disaster': ['দুর্যোগ', 'disaster', 'flood', 'drought', 'storm']
+      };
+      const targets = seasonMap[tab] || [tab];
+      const matched = targets.some(t => season.includes(t));
+      if (!matched) return false;
     }
     if (q) {
       const title = (item.title || item.title_bn || item.title_en || '').toLowerCase();
@@ -358,10 +449,10 @@ function renderSeasonalPage() {
 
     const title = isEn ? (item.title_en || resolveBilingual(item.title)) : (item.title_bn || resolveBilingual(item.title));
     const season = isEn ? (item.season_en || resolveBilingual(item.season)) : (item.season_bn || resolveBilingual(item.season));
-    const period = isEn ? (item.period_en || resolveBilingual(item.period)) : (item.period_bn || resolveBilingual(item.period));
-    const crops = isEn ? (item.crops_en || resolveBilingual(item.crops)) : (item.crops_bn || resolveBilingual(item.crops));
-    const desc = isEn ? (item.description_en || item.description) : (item.description_bn || item.description);
-    const prep = isEn ? (item.preparation || item.prep_bn) : (item.prep_bn || item.preparation);
+    const period = resolveBilingual(isEn ? (item.period_en || item.period) : (item.period_bn || item.period));
+    const crops = resolveBilingual(isEn ? (item.crops_en || item.crops) : (item.crops_bn || item.crops));
+    const desc = resolveBilingual(isEn ? (item.description_en || item.description) : (item.description_bn || item.description));
+    const prep = resolveBilingual(isEn ? (item.prep_en || item.preparation_en || item.preparation || item.prep_bn) : (item.prep_bn || item.preparation));
 
     card.innerHTML = `
       <div class="guide-card-img-wrap">
@@ -410,7 +501,36 @@ function renderCalendarPage() {
         if (!item.milestones) return false;
       } else {
         const m = (item.month || item.month_bn || item.month_en || '').toLowerCase();
-        if (!m.includes(activeFilterTab.toLowerCase())) return false;
+        const tab = activeFilterTab.toLowerCase();
+        const monthMap = {
+          'বৈশাখ': ['বৈশাখ', 'baishakh'],
+          'baishakh': ['বৈশাখ', 'baishakh'],
+          'জ্যৈষ্ঠ': ['জ্যৈষ্ঠ', 'jaishtha'],
+          'jaishtha': ['জ্যৈষ্ঠ', 'jaishtha'],
+          'আষাঢ়': ['আষাঢ়', 'ashar'],
+          'ashar': ['আষাঢ়', 'ashar'],
+          'শ্রাবণ': ['শ্রাবণ', 'shraban', 'shrabon'],
+          'shraban': ['শ্রাবণ', 'shraban', 'shrabon'],
+          'ভাদ্র': ['ভাদ্র', 'bhadra', 'bhadro'],
+          'bhadra': ['ভাদ্র', 'bhadra', 'bhadro'],
+          'আশ্বিন': ['আশ্বিন', 'ashwin'],
+          'ashwin': ['আশ্বিন', 'ashwin'],
+          'কার্তিক': ['কার্তিক', 'kartik'],
+          'kartik': ['কার্তিক', 'kartik'],
+          'অগ্রহায়ণ': ['অগ্রহায়ণ', 'agrahayan', 'ogrohayon'],
+          'agrahayan': ['অগ্রহায়ণ', 'agrahayan', 'ogrohayon'],
+          'পৌষ': ['পৌষ', 'poush'],
+          'poush': ['পৌষ', 'poush'],
+          'মাঘ': ['মাঘ', 'magh'],
+          'magh': ['মাঘ', 'magh'],
+          'ফাল্গুন': ['ফাল্গুন', 'falgun'],
+          'falgun': ['ফাল্গুন', 'falgun'],
+          'চৈত্র': ['চৈত্র', 'chaitra', 'choitro'],
+          'chaitra': ['চৈত্র', 'chaitra', 'choitro']
+        };
+        const targets = monthMap[tab] || [tab];
+        const matched = targets.some(t => m.includes(t));
+        if (!matched) return false;
       }
     }
     if (q) {
@@ -436,10 +556,17 @@ function renderCalendarPage() {
       const month = isEn ? (item.month_en || resolveBilingual(item.month)) : (item.month_bn || resolveBilingual(item.month));
       const engMonth = isEn ? (item.englishMonthsEn || item.englishMonths) : (item.englishMonths || item.englishMonthsEn);
       const season = isEn ? (item.season_en || resolveBilingual(item.season)) : (item.season_bn || resolveBilingual(item.season));
-      const crops = isEn ? (item.crops_en || item.crops) : (item.crops_bn || item.crops);
-      const tasks = isEn ? (item.tasks_en || item.tasks) : (item.tasks_bn || item.tasks);
-      const pestAlert = isEn ? (item.pestAlertEn || item.pestAlert) : (item.pestAlertBn || item.pestAlert);
-      const tips = item.tips || '';
+      const crops = resolveBilingual(isEn ? (item.crops_en || item.crops) : (item.crops_bn || item.crops));
+      const tasks = resolveBilingual(isEn ? (item.tasks_en || item.tasks) : (item.tasks_bn || item.tasks));
+      const pestAlert = resolveBilingual(isEn ? (item.pestAlertEn || item.pestAlert) : (item.pestAlertBn || item.pestAlert));
+      
+      // Determine tips using monthTipsMap fallback or item property
+      let tips = '';
+      if (monthTipsMap[item.id]) {
+        tips = isEn ? monthTipsMap[item.id].en : monthTipsMap[item.id].bn;
+      } else {
+        tips = isEn ? (item.tipsEn || resolveBilingual(item.tips)) : (item.tipsBn || item.tips || '');
+      }
 
       card.innerHTML = `
         <div class="calendar-card-header">
@@ -482,16 +609,16 @@ function renderCalendarPage() {
       const title = isEn ? (item.name_en || resolveBilingual(item.name)) : (item.name_bn || resolveBilingual(item.name));
       const milestonesHTML = (item.milestones || []).map((m, idx) => `
         <div style="margin-bottom: 10px; padding-left: 12px; border-left: 2px solid #10b981;">
-          <div style="font-weight: 700; color: #065f46; font-size: 0.95rem;">${idx + 1}. ${m.phase}</div>
-          <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 2px;"><i class="fa-regular fa-clock"></i> ${m.timing}</div>
-          <div style="font-size: 0.88rem; color: #1e293b;">${m.task}</div>
+          <div style="font-weight: 700; color: #065f46; font-size: 0.95rem;">${idx + 1}. ${resolveBilingual(m.phase)}</div>
+          <div style="font-size: 0.85rem; color: #64748b; margin-bottom: 2px;"><i class="fa-regular fa-clock"></i> ${resolveBilingual(m.timing)}</div>
+          <div style="font-size: 0.88rem; color: #1e293b;">${resolveBilingual(m.task)}</div>
         </div>
       `).join('');
 
       card.innerHTML = `
         <div class="guide-card-img-wrap">
           <img src="${item.image || 'https://images.unsplash.com/photo-1586201375761-83865001e31c?w=600'}" alt="${title}" loading="lazy">
-          <div class="card-badge-top">${item.season || 'মৌসুম'}</div>
+          <div class="card-badge-top">${resolveBilingual(item.season) || (isEn ? 'Season' : 'মৌসুম')}</div>
         </div>
         <div class="guide-card-content">
           <h3 style="color: #047857; margin-bottom: 12px;"><i class="fa-solid fa-timeline"></i> ${title}</h3>
@@ -554,6 +681,19 @@ function calculateFertilizer() {
   const isEn = getLang() === 'en';
   const bigha = parseFloat(sizeInput.value) || 1;
   const crop = cropSelect.value;
+
+  // Sync crop select options
+  const cropLabels = {
+    rice: { bn: 'ধান (Rice)', en: 'Rice (ধান)' },
+    wheat: { bn: 'গম (Wheat)', en: 'Wheat (গম)' },
+    potato: { bn: 'আলু (Potato)', en: 'Potato (আলু)' },
+    maize: { bn: 'ভুট্টা (Maize)', en: 'Maize (ভুট্টা)' },
+    tomato: { bn: 'টমেটো (Tomato)', en: 'Tomato (টমেটো)' }
+  };
+  Object.keys(cropLabels).forEach(cKey => {
+    const opt = cropSelect.querySelector(`option[value="${cKey}"]`);
+    if (opt) opt.textContent = isEn ? cropLabels[cKey].en : cropLabels[cKey].bn;
+  });
 
   const rates = {
     rice: { urea: 33, tsp: 18, mop: 22, gypsum: 10, zinc: 1.5 },
@@ -621,5 +761,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error('URL params error:', err);
   }
 
+  calculateFertilizer();
   loadGuidesData();
 });

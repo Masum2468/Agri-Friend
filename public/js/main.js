@@ -447,6 +447,7 @@ function renderCenterSelectorPills() {
   if (!container) return;
   container.innerHTML = '';
 
+  const isEn = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en') || localStorage.getItem('language') === 'en';
   const centers = guidesData.knowledgeCenters || [];
   centers.forEach(c => {
     const cleanId = (c.id || '').replace('center-', '');
@@ -454,7 +455,8 @@ function renderCenterSelectorPills() {
     const btn = document.createElement('button');
     btn.className = `kh-pill-btn ${isSelected ? 'active' : ''}`;
     btn.id = `kh-pill-${cleanId}`;
-    btn.innerHTML = `<i class="fa-solid ${c.icon || 'fa-folder'}"></i> ${c.title || c.titleFull}`;
+    const pTitle = isEn ? (c.titleEn || c.title) : (c.title || c.titleFull);
+    btn.innerHTML = `<i class="fa-solid ${c.icon || 'fa-folder'}"></i> ${pTitle}`;
     btn.onclick = () => selectKnowledgeCenter(cleanId, false);
     container.appendChild(btn);
   });
@@ -475,13 +477,14 @@ function selectKnowledgeCenter(centerId, scroll = true) {
   if (pill) pill.classList.add('active');
 
   // Update header text
+  const isEn = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en') || localStorage.getItem('language') === 'en';
   const center = (guidesData.knowledgeCenters || []).find(c => (c.id || '').replace('center-', '') === cleanId);
   const heading = document.getElementById('kh-workspace-heading');
   const desc = document.getElementById('kh-workspace-desc');
 
   if (center) {
-    if (heading) heading.innerHTML = `<i class="fa-solid ${center.icon || 'fa-circle-info'}"></i> ${center.titleFull || center.title}`;
-    if (desc) desc.innerText = center.tagline || center.subtitle || '';
+    if (heading) heading.innerHTML = `<i class="fa-solid ${center.icon || 'fa-circle-info'}"></i> ${isEn ? (center.titleEn || center.titleFull) : (center.titleFull || center.title)}`;
+    if (desc) desc.innerText = isEn ? (center.taglineEn || center.subtitleEn || center.tagline) : (center.tagline || center.subtitle || '');
   }
 
   // Render specific center content
@@ -680,7 +683,7 @@ function openDiseaseDetail(encodedData) {
   window.currentOpenDiseaseData = encodedData;
 
   const d = JSON.parse(decodeURIComponent(encodedData));
-  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
 
   const catalogView = document.getElementById('catalog-browser-view');
   const detailView = document.getElementById('detail-view');
@@ -1198,12 +1201,13 @@ function checkUrlParams() {
 
 function formatLocalizedText(text) {
   if (!text || typeof text !== 'string') return text || '';
-  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  if (window.translateText) return window.translateText(text);
+  const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
   if (text.includes('/')) {
     const parts = text.split('/');
-    return isBn ? parts[1].trim() : parts[0].trim();
+    return isBn ? parts[parts.length - 1].trim() : parts[0].trim();
   }
-  return window.translateText ? window.translateText(text) : text;
+  return text;
 }
 
 function renderGuides(filterQuery = '') {
@@ -1213,7 +1217,7 @@ function renderGuides(filterQuery = '') {
   
   const query = filterQuery.toLowerCase();
   const t = window.translateText || (x => x);
-  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
 
   if (activeTab === 'crops') {
     const currentList = guidesData.crops || [];
@@ -1469,7 +1473,7 @@ function openCropDetail(cropId, defaultSubTab = 'diseases', updateHistory = true
     history.pushState(null, '', `?tab=${defaultSubTab}&crop=${cropId}`);
   }
 
-  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
   const cropName = formatLocalizedText(crop.name);
   const cropDiseases = getDiseasesForCrop(cropId);
 
@@ -1548,7 +1552,7 @@ function switchCropSubTab(subTabName, cropId) {
   const activeBtn = Array.from(buttons).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(subTabName));
   if (activeBtn) activeBtn.classList.add('active');
 
-  const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+  const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
   const cropName = formatLocalizedText(crop.name);
   const cropDiseases = getDiseasesForCrop(cropId);
 
@@ -2075,7 +2079,7 @@ function clearImagePreview() {
 
 function openListingModal() {
   if (!currentUser) {
-    const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+    const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
     const alertMsg = isBn
       ? 'মার্কেটপ্লেসে পোস্ট করতে শুধুমাত্র অনুমোদিত (লগইন করা) ব্যবহারকারী যুক্ত হতে পারেন। অনুগ্রহ করে প্রথমে সাইন ইন করুন।'
       : 'Only authorized (signed in) users can add marketplace listings. Please sign in first.';
@@ -2101,7 +2105,7 @@ async function handleCreateListing(e) {
   e.preventDefault();
   
   if (!currentUser) {
-    const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+    const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
     alert(isBn ? 'লিস্টিং পোস্ট করার জন্য আপনার অ্যাকাউন্ট লগইন থাকা আবশ্যক।' : 'You must be signed in to add a listing.');
     window.location.href = '/login';
     return;
@@ -2141,7 +2145,7 @@ async function handleCreateListing(e) {
       // alert(isBn ? 'আপনার মার্কেটপ্লেস লিস্টিং সফলভাবে যুক্ত হয়েছে!' : 'Your marketplace listing was posted successfully!');
     } else {
       const errData = await res.json().catch(() => ({}));
-      const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+      const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
       if (res.status === 401) {
         alert(isBn ? 'অননুমোদিত অনুরোধ। লিস্টিং যোগ করতে অনুগ্রহ করে লগইন করুন।' : 'Unauthorized. Please sign in to post a listing.');
         window.location.href = '/login';
@@ -2156,7 +2160,7 @@ async function handleCreateListing(e) {
 
 async function handleDeleteListing(id) {
   if (!currentUser) {
-    const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+    const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
     alert(isBn ? 'লিস্টিং মুছে ফেলতে আপনি অনুমোদিত নন। অনুগ্রহ করে সাইন ইন করুন।' : 'You are not authorized to delete this listing. Please sign in.');
     window.location.href = '/login';
     return;
@@ -2177,7 +2181,7 @@ async function handleDeleteListing(id) {
       // alert(isBn ? 'লিস্টিং সফলভাবে মুছে ফেলা হয়েছে।' : 'Listing deleted successfully.');
     } else {
       const errData = await res.json().catch(() => ({}));
-      const isBn = (localStorage.getItem('language') || 'en') === 'bn';
+      const isBn = (window.getCurrentLanguage ? window.getCurrentLanguage() === 'bn' : (localStorage.getItem('language') || 'bn') === 'bn');
       if (res.status === 403 || res.status === 401) {
         alert(isBn ? 'অনুমতি নেই: শুধুমাত্র লিস্টিং প্রদানকারী অনুমোদিত কৃষক বা অ্যাডমিন এই পোস্ট মুছে ফেলতে পারবেন।' : 'Unauthorized: Only the creator of this listing or an admin can delete it.');
       } else {

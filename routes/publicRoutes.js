@@ -4,7 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const stream = require('stream');
 const multer = require('multer');
-const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const guides = require('../data/guides');
 const guideStore = require('../models/guideStore');
@@ -633,20 +632,6 @@ router.get('/marketplace/image/:id', async (req, res) => {
 router.get('/marketplace/images/:id', (req, res) => {
   res.redirect(301, `/api/public/marketplace/image/${req.params.id}`);
 });
-
-// Optional Auth Middleware for marketplace creation
-const optionalAuth = (req, res, next) => {
-  const token = req.cookies && req.cookies.token;
-  if (token) {
-    try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'supersecretagrikeychangeinprod');
-      req.user = decoded;
-    } catch (err) {
-      // Continue without user
-    }
-  }
-  next();
-};
 
 // Middleware to handle both JSON and multipart/form-data seamlessly
 const handleUpload = (req, res, next) => {

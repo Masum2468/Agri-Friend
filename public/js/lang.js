@@ -96,7 +96,7 @@
       diseases_page_desc: "Crop disease symptoms, organic remedies, and approved chemical pesticide dosages per spray tank.",
       fert_page_title: "Fertilizers & Crop Inputs Guide",
       fert_page_desc: "Balanced fertilizer dosing, application methods, safety precautions, and pesticide guidelines.",
-      seasonal_page_title: "Snpm steasonal Advisory & Disaster Preparation",
+      seasonal_page_title: "Seasonal Advisory & Disaster Preparation",
       seasonal_page_desc: "Optimal crops for Rabi, Kharif-1, Kharif-2 seasons and proactive disaster management.",
       cal_page_title: "Crop Calendar & Farm Task Timeline",
       cal_page_desc: "12-month guide for sowing, planting, irrigation, fertilizing, pest control, and harvesting.",
@@ -130,6 +130,25 @@
       filter_kharif2: "Kharif-2 Season",
       filter_disaster: "Disaster Preparation",
       filter_crop_milestones: "Crop Timelines",
+      month_boishakh: "Baishakh",
+      month_jaishtha: "Jaishtha",
+      month_ashar: "Ashar",
+      month_shrabon: "Shrabon",
+      month_bhadro: "Bhadro",
+      month_ashwin: "Ashwin",
+      month_kartik: "Kartik",
+      month_ogrohayon: "Agrahayan",
+      month_poush: "Poush",
+      month_magh: "Magh",
+      month_falgun: "Falgun",
+      month_choitro: "Chaitra",
+
+      // Calculator Select Options
+      opt_rice: "Rice (ধান)",
+      opt_wheat: "Wheat (গম)",
+      opt_potato: "Potato (আলু)",
+      opt_maize: "Maize (ভুট্টা)",
+      opt_tomato: "Tomato (টমেটো)",
 
       // Search Placeholders
       search_crops_placeholder: "Search crop name (e.g. Rice, Wheat, Potato)...",
@@ -499,6 +518,13 @@
       month_magh: "মাঘ",
       month_falgun: "ফাল্গুন",
       month_choitro: "চৈত্র",
+
+      // Calculator Select Options
+      opt_rice: "ধান (Rice)",
+      opt_wheat: "গম (Wheat)",
+      opt_potato: "আলু (Potato)",
+      opt_maize: "ভুট্টা (Maize)",
+      opt_tomato: "টমেটো (Tomato)",
 
 
       // Search Placeholders
@@ -874,16 +900,33 @@
     return lookupPhrase(trimmed, 'en') || trimmed;
   };
 
-  // Intelligent text translator for bilingual format like "English / বাংলা"
+  // Helper to detect Bengali Unicode characters (\u0980-\u09FF)
+  function containsBengali(str) {
+    return /[\u0980-\u09FF]/.test(str || '');
+  }
+
+  // Intelligent text translator for bilingual format like "English / বাংলা" or "বাংলা / English"
   window.translateText = function(text) {
     if (!text || typeof text !== 'string') return text;
     const currentLang = window.getCurrentLanguage();
     const trimmed = text.trim();
 
-    if (trimmed.includes(' / ')) {
-      const parts = trimmed.split(' / ');
+    if (trimmed.includes('/')) {
+      const parts = trimmed.split('/');
       if (parts.length >= 2) {
-        return currentLang === 'en' ? parts[0].trim() : parts[parts.length - 1].trim();
+        const p1 = parts[0].trim();
+        const p2 = parts[1].trim();
+        const p1HasBn = containsBengali(p1);
+        const p2HasBn = containsBengali(p2);
+
+        if (p1HasBn && !p2HasBn) {
+          return currentLang === 'en' ? p2 : p1;
+        } else if (!p1HasBn && p2HasBn) {
+          return currentLang === 'en' ? p1 : p2;
+        } else {
+          // If neither or both contain Bengali, assume standard English / Bengali ordering
+          return currentLang === 'en' ? p1 : p2;
+        }
       }
     }
 

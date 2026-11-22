@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const dbManager = require('../models/dbManager');
-const { protect } =require('../middleware/auth');
+const { protect } = require('../middleware/auth');
 
 // Protect all dashboard routes
 router.use(protect);
