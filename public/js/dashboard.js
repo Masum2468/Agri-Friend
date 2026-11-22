@@ -309,7 +309,7 @@ function renderOverviewTables() {
         <td>${new Date(f.date).toLocaleDateString()}</td>
         <td>${catLabel}</td>
         <td><span class="type-${f.type.toLowerCase()}">${typeLabel}</span></td>
-        <td class="type-${f.type.toLowerCase()}">${f.type === 'Income' ? '+' : '-'}$${parseFloat(f.amount).toFixed(2)}</td>
+        <td class="type-${f.type.toLowerCase()}">${f.type === 'Income' ? '+' : '-'}${parseFloat(f.amount).toFixed(2)} Tk</td>
         <td style="font-size:0.85rem; color:var(--text-light); max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${f.description || '-'}</td>
       `;
       finBody.appendChild(tr);
@@ -450,7 +450,7 @@ function renderFinanceTable() {
       <td>${new Date(f.date).toLocaleDateString()}</td>
       <td><span class="type-${f.type.toLowerCase()}">${typeLabel}</span></td>
       <td>${catLabel}</td>
-      <td class="type-${f.type.toLowerCase()}">${f.type === 'Income' ? '+' : '-'}$${parseFloat(f.amount).toFixed(2)}</td>
+      <td class="type-${f.type.toLowerCase()}">${f.type === 'Income' ? '+' : '-'}${parseFloat(f.amount).toFixed(2)} Taka</td>
       <td style="font-size:0.85rem; color:var(--text-light);">${f.description || '-'}</td>
       <td>
         <button class="btn btn-outline" style="border-color:#c92a2a; color:#c92a2a; padding:6px 12px; font-size:0.8rem;" onclick="deleteFinance('${f._id}')"><i class="fa-solid fa-trash"></i> ${deleteBtn}</button>
@@ -510,7 +510,7 @@ function renderHarvestAndSalesTables() {
         <td>${cName}</td>
         <td>${s.buyerName}</td>
         <td>${s.quantity} ${harvest ? harvest.unit : t('units')}</td>
-        <td style="font-weight:700; color:var(--primary-light);">$${parseFloat(s.revenue).toFixed(2)}</td>
+        <td style="font-weight:700; color:var(--primary-light);">${parseFloat(s.revenue).toFixed(2)} Tk</td>
         <td style="font-size:0.85rem; color:var(--text-light); max-width:180px;">${s.notes || '-'}</td>
         <td>
           <button class="btn btn-outline" style="border-color:#c92a2a; color:#c92a2a; padding:6px 12px; font-size:0.8rem;" onclick="deleteSale('${s._id}')"><i class="fa-solid fa-trash"></i> ${t('Delete')}</button>
@@ -1016,14 +1016,14 @@ async function loadReportsCharts() {
         labels: ['Cash Flow Summaries'],
         datasets: [
           {
-            label: 'Total Revenue ($)',
+            label: 'Total Revenue (Taka)',
             data: [data.financials.totalIncome],
             backgroundColor: '#2d6a4f',
             borderWidth: 0,
             borderRadius: 6
           },
           {
-            label: 'Total Expenses ($)',
+            label: 'Total Expenses (Taka)',
             data: [data.financials.totalExpenses],
             backgroundColor: '#c92a2a',
             borderWidth: 0,
